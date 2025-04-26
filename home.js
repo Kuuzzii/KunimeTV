@@ -14,7 +14,7 @@ async function fetchAndDisplay(animeList) {
     const animeItem = document.createElement('div');
     animeItem.className = 'anime-item';
     animeItem.innerHTML = `
-      <a href="${anime.url}" target="_blank" rel="noopener noreferrer" title="${anime.title}">
+     <a href="anime.html?id=${anime.mal_id}" ...>
         <img src="${anime.images.jpg.image_url}" alt="${anime.title}" />
       </a>
       <div class="info">
