@@ -114,10 +114,30 @@ const API_KEY = 'a1e72fd93ed59f56e6332813b9f8dcae';
       const tvShows = await fetchTrending('tv');
       const anime = await fetchTrendingAnime();
 
-      displayBanner(movies[Math.floor(Math.random() * movies.length)]);
-      displayList(movies, 'movies-list');
-      displayList(tvShows, 'tvshows-list');
-      displayList(anime, 'anime-list');
-    }
+     function displayBanner(item) {
+  const banner = document.getElementById('banner');
+  const title = document.getElementById('banner-title');
+  const description = document.getElementById('banner-description');
+
+  banner.style.backgroundImage = `url(${item.cover})`;
+  title.textContent = item.title;
+  description.textContent = item.synopsis?.slice(0, 180) + '...' || "No description available";
+
+  currentItem = item; // For the "Watch Now" button
+}
+
+async function init() {
+  const kitsuAnime = await fetchKitsuTrendingAnime();
+  const randomAnime = kitsuAnime[Math.floor(Math.random() * kitsuAnime.length)];
+  displayBanner(randomAnime);
+}
+
+    id: item.id,
+    title: item.attributes.titles.en_jp || item.attributes.titles.en || item.attributes.canonicalTitle,
+    poster: item.attributes.posterImage.large,
+    cover: item.attributes.coverImage?.original || item.attributes.posterImage.original,
+    synopsis: item.attributes.synopsis
+  }));
+}
 
     init();
