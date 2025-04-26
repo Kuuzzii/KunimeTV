@@ -26,19 +26,19 @@
       border-radius: 5px;
       margin-top: 1rem;
     }
-    #movies-list, #tvshows-list, #anime-list {
+    #movies-list, #tvshows-list, #anime-list, #new-releases-list {
       display: flex;
       overflow-x: auto;
       gap: 10px;
       padding: 1rem 0;
     }
-    #movies-list img, #tvshows-list img, #anime-list img {
+    #movies-list img, #tvshows-list img, #anime-list img, #new-releases-list img {
       height: 200px;
       cursor: pointer;
       border-radius: 8px;
       transition: transform 0.2s ease;
     }
-    #movies-list img:hover, #tvshows-list img:hover, #anime-list img:hover {
+    #movies-list img:hover, #tvshows-list img:hover, #anime-list img:hover, #new-releases-list img:hover {
       transform: scale(1.1);
     }
   </style>
@@ -70,7 +70,12 @@
   <div id="banner-watch-btn"></div>
 </section>
 
-<!-- Only containers without headings -->
+<!-- New Releases section -->
+<section>
+  <div id="new-releases-list"></div>
+</section>
+
+<!-- Only content containers (no headings) -->
 <section>
   <div id="movies-list"></div>
 </section>
