@@ -6,81 +6,62 @@
   <title>KunimeTV - Movies & TV Streaming</title>
   <link rel="stylesheet" href="home.css" />
   <link rel="stylesheet" href="anime.css" />
-  <style>
-    #banner {
-      height: 400px;
-      color: white;
-      background-size: cover;
-      background-position: center;
-      padding: 2rem;
-      position: relative;
-    }
-    #banner-watch-btn button {
-      background-color: #e50914;
-      border: none;
-      color: white;
-      padding: 0.75rem 1.25rem;
-      font-size: 1rem;
-      cursor: pointer;
-      border-radius: 5px;
-      margin-top: 1rem;
-    }
-    #movies-list, #tvshows-list, #anime-list, #new-releases-list {
-      display: flex;
-      overflow-x: auto;
-      gap: 10px;
-      padding: 1rem 0;
-    }
-    #movies-list img, #tvshows-list img, #anime-list img, #new-releases-list img {
-      height: 200px;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: transform 0.2s ease;
-    }
-    #movies-list img:hover, #tvshows-list img:hover, #anime-list img:hover, #new-releases-list img:hover {
-      transform: scale(1.1);
-    }
-  </style>
 </head>
 <body>
 <header>
   <div class="logo">
-    <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KunimeTV Logo" />
+    <img
+      src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg"
+      alt="KunimeTV Logo"
+    />
     KunimeTV
   </div>
   <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search movies, TV shows, anime..." autocomplete="off" />
-    <button onclick="performSearch()" title="Search">
-      🔍
-    </button>
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search movies, TV shows, anime..."
+      autocomplete="off"
+    />
+    <button onclick="performSearch()" title="Search">🔍</button>
   </div>
   <nav>
-    <a href="#" class="active" onclick="loadTrending('movie', event); setActiveNav(this); return false;">Movies</a>
-    <a href="#" onclick="loadTrending('tv', event); setActiveNav(this); return false;">TV Shows</a>
-    <a href="#" onclick="loadNewReleases(event); setActiveNav(this); return false;">New</a>
+    <a
+      href="#"
+      class="active"
+      onclick="loadTrending('movie', event); setActiveNav(this); return false;"
+      >Movies</a
+    >
+    <a
+      href="#"
+      onclick="loadTrending('tv', event); setActiveNav(this); return false;"
+      >TV Shows</a
+    >
+    <a href="#" onclick="loadNewReleases(event); setActiveNav(this); return false;"
+      >New</a
+    >
   </nav>
 </header>
 
 <div id="results" class="anime-list" style="margin-top: 30px; padding: 0 20px;"></div>
 
-<section id="banner">
-  <h1 id="banner-title"></h1>
-  <p id="banner-description"></p>
-  <div id="banner-watch-btn"></div>
-</section>
+<!-- Removed banner section -->
 
+<!-- New Releases -->
 <section>
-  <div id="new-releases-list"></div>
+  <div id="new-releases-list" class="anime-list"></div>
 </section>
-
+<!-- Movies -->
 <section>
-  <div id="movies-list"></div>
+  <div id="movies-list" class="anime-list"></div>
 </section>
+<!-- TV Shows -->
 <section>
-  <div id="tvshows-list"></div>
+  <div id="tvshows-list" class="anime-list"></div>
 </section>
+<!-- Anime (trending Japanese animation) -->
 <section>
-  <div id="anime-list"></div>
+  <div id="anime-list" class="anime-list"></div>
 </section>
 
 <script src="home.js"></script>
