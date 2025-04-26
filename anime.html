@@ -51,11 +51,11 @@
   </div>
 
   <script>
-    // Get 'id' from URL query string
-    function getQueryParam(param) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
-    }
+ // Get 'id' from URL query string
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
 
 async function fetchAnimeDetails(id) {
   const detail = document.getElementById('detail');
@@ -88,6 +88,13 @@ async function fetchAnimeDetails(id) {
     detail.textContent = 'Error loading anime details.';
     console.error(err);
   }
+}
+
+const id = getQueryParam('id');
+if (id) {
+  fetchAnimeDetails(id);
+} else {
+  document.getElementById('detail').textContent = "No anime ID provided in URL.";
 }
 
     const id = getQueryParam('id');
