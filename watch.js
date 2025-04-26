@@ -6,7 +6,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const movieId = urlParams.get('id');
 const type = urlParams.get('type'); // 'movie' or 'tv'
 
-let currentServer = 'vidsrc.cc';
+let currentServer = '';  // No server selected initially
 
 const backdrop = document.getElementById('movie-backdrop');
 const poster = document.getElementById('movie-poster');
@@ -18,7 +18,7 @@ const overviewEl = document.getElementById('movie-overview');
 const videoIframe = document.getElementById('movie-video');
 const playBtn = document.getElementById('play-btn');
 const serverSelect = document.getElementById('server-select');
-const backBtn = document.querySelector('.back-button');
+const backBtn = document.getElementById('back-btn');
 
 async function fetchDetails() {
   try {
@@ -32,16 +32,12 @@ async function fetchDetails() {
     overviewEl.textContent = data.overview || 'No description available.';
     releaseDateEl.textContent = new Date(data.release_date || data.first_air_date).toLocaleDateString();
 
-    // Runtime (movie: runtime, tv: episode_run_time[0])
     if (type === 'movie') {
-      runtimeEl.textContent = `${data.runtime} min`;
+      runtimeEl.textContent = data.runtime ? `${data.runtime} min` : '';
     } else {
-      runtimeEl.textContent = data.episode_run_time && data.episode_run_time.length > 0
-        ? `${data.episode_run_time[0]} min per episode`
-        : '';
+      runtimeEl.textContent = data.episode_run_time && data.episode_run_time.length > 0 ? `${data.episode_run_time[0]} min per episode` : '';
     }
 
-    // Genres
     genresEl.innerHTML = '';
     data.genres.forEach(genre => {
       const span = document.createElement('span');
@@ -57,8 +53,45 @@ async function fetchDetails() {
 }
 
 function updateVideoSrc() {
+  // Remove existing overlay message if any
+  const existingMsg = document.getElementById('choose-server-msg');
+  if (existingMsg) {
+    existingMsg.remove();
+  }
+
+  // If no server selected, show overlay message
+  if (!currentServer) {
+    videoIframe.src = 'about:blank';
+
+    const msg = document.createElement('div');
+    msg.id = 'choose-server-msg';
+    msg.style.position = 'absolute';
+    msg.style.top = 0;
+    msg.style.left = 0;
+    msg.style.width = '100%';
+    msg.style.height = '100%';
+    msg.style.display = 'flex';
+    msg.style.alignItems = 'center';
+    msg.style.justifyContent = 'center';
+    msg.style.color = '#fff';
+    msg.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+    msg.style.fontSize = '1.4rem';
+    msg.style.zIndex = '10';
+    msg.textContent = '⚠️ Please choose a server first';
+
+    const container = document.querySelector('.video-container');
+    container.style.position = 'relative';
+    container.appendChild(msg);
+
+    playBtn.disabled = true;
+    return;
+  }
+
+  // Server selected; hide overlay and load embed
+  playBtn.disabled = false;
+
   let embedURL = '';
-  switch(currentServer){
+  switch (currentServer) {
     case 'vidsrc.cc':
       embedURL = `https://vidsrc.cc/v2/embed/${type}/${movieId}`;
       break;
@@ -71,34 +104,30 @@ function updateVideoSrc() {
     default:
       embedURL = `https://vidsrc.cc/v2/embed/${type}/${movieId}`;
   }
+
   videoIframe.src = embedURL;
 }
 
-function init() {
-  fetchDetails();
-  updateVideoSrc();
-  playBtn.disabled = false;
-}
-
-// Play button scrolls to video
 playBtn.addEventListener('click', () => {
-  document.querySelector('.video-container').scrollIntoView({behavior: 'smooth'});
+  if (!currentServer) {
+    alert('Please choose a streaming server first.');
+    return;
+  }
+  document.querySelector('.video-container').scrollIntoView({ behavior: 'smooth' });
 });
 
-// Server selection logic
 serverSelect.addEventListener('change', (e) => {
   currentServer = e.target.value;
   updateVideoSrc();
 });
 
-// Back button logic
 backBtn.addEventListener('click', () => {
   window.history.back();
 });
 
-// Start
 if (!movieId || !type) {
   alert('Invalid movie or TV show ID');
 } else {
-  init();
+  fetchDetails();
+  updateVideoSrc();
 }
