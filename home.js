@@ -3,20 +3,19 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/original';
 
 const resultsDiv = document.getElementById('results');
+
 const navLinks = [
   document.getElementById('nav-movies'),
   document.getElementById('nav-tvshows'),
   document.getElementById('nav-new'),
 ];
 
-// Pagination state holders
+// Pagination states for each section
 const pagination = {
   movies: { currentPage: 1, totalPages: 1 },
   tvshows: { currentPage: 1, totalPages: 1 },
   newReleases: { currentPage: 1, totalPages: 1 },
 };
-
-let currentItem = null;
 
 function setActiveNav(selectedLink) {
   navLinks.forEach(link => link.classList.remove('active'));
@@ -45,7 +44,7 @@ function displayList(items, containerId) {
   items.forEach(item => {
     if (item.poster_path) {
       const type = item.media_type
-        ? item.media_type === 'movie' ? 'movie' : 'tv'
+        ? (item.media_type === 'movie' ? 'movie' : 'tv')
         : containerId.includes('movies') ? 'movie' : 'tv';
       container.appendChild(createItemCard(item, type));
     }
@@ -73,8 +72,8 @@ async function fetchTrendingAnime() {
   return data.results.filter(item => item.original_language === 'ja' && item.genre_ids.includes(16));
 }
 
-function clearOtherLists(listIds) {
-  listIds.forEach(id => {
+function clearOtherLists(ids) {
+  ids.forEach(id => {
     const el = document.getElementById(id);
     if (el) el.innerHTML = '';
   });
@@ -82,31 +81,31 @@ function clearOtherLists(listIds) {
 
 function updatePaginationControls(section) {
   const pages = pagination[section];
-  const paginationControls = {
+  const controls = {
     movies: document.getElementById('movies-pagination'),
     tvshows: document.getElementById('tvshows-pagination'),
     'new-releases': document.getElementById('new-releases-pagination'),
   };
-
-  Object.keys(paginationControls).forEach(key => {
-    if (key === section) {
-      paginationControls[key].style.display = 'block';
-      paginationControls[key].querySelector('span').textContent = pages.currentPage;
-      paginationControls[key].querySelector('button#' + key + '-prev-page').disabled = pages.currentPage <= 1;
-      paginationControls[key].querySelector('button#' + key + '-next-page').disabled = pages.currentPage >= pages.totalPages;
+  Object.keys(controls).forEach(id => {
+    if (id === section) {
+      controls[id].style.display = 'block';
+      controls[id].querySelector('span').textContent = pages.currentPage;
+      controls[id].querySelector('button#' + id + '-prev-page').disabled = pages.currentPage <= 1;
+      controls[id].querySelector('button#' + id + '-next-page').disabled = pages.currentPage >= pages.totalPages;
     } else {
-      paginationControls[key].style.display = 'none';
+      controls[id].style.display = 'none';
     }
   });
 }
 
+// Loaders for each category
 async function loadMoviesPage(page = 1) {
   resultsDiv.innerHTML = '';
   const data = await fetchMovies(page);
   pagination.movies.currentPage = data.page;
   pagination.movies.totalPages = data.total_pages;
   displayList(data.results, 'movies-list');
-  clearOtherLists(['tvshows-list', 'anime-list', 'new-releases-list']);
+  clearOtherLists(['tvshows-list', 'new-releases-list', 'anime-list']);
   updatePaginationControls('movies');
 }
 
@@ -116,7 +115,7 @@ async function loadTVShowsPage(page = 1) {
   pagination.tvshows.currentPage = data.page;
   pagination.tvshows.totalPages = data.total_pages;
   displayList(data.results, 'tvshows-list');
-  clearOtherLists(['movies-list', 'anime-list', 'new-releases-list']);
+  clearOtherLists(['movies-list', 'new-releases-list', 'anime-list']);
   updatePaginationControls('tvshows');
 }
 
@@ -135,13 +134,14 @@ async function loadAnime() {
   const anime = await fetchTrendingAnime();
   displayList(anime, 'anime-list');
   clearOtherLists(['movies-list', 'tvshows-list', 'new-releases-list']);
-  // Hide pagination, no pagination for anime here
+  // Hide paginations when showing anime
   ['movies-pagination', 'tvshows-pagination', 'new-releases-pagination'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
 }
 
+// Navigation event bindings
 navLinks[0].addEventListener('click', e => {
   e.preventDefault();
   loadMoviesPage(1);
@@ -182,6 +182,7 @@ document.getElementById('new-next-page').addEventListener('click', () => {
   if (pagination.newReleases.currentPage < pagination.newReleases.totalPages) loadNewReleasesPage(pagination.newReleases.currentPage + 1);
 });
 
+// Search functionality
 document.getElementById('searchBtn').addEventListener('click', performSearch);
 document.getElementById('searchInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') performSearch();
@@ -192,7 +193,7 @@ async function performSearch() {
   resultsDiv.innerHTML = '';
   if (!query) {
     resultsDiv.innerHTML = '<p>Please enter a search term.</p>';
-    hideAllPaginations();
+    hideAllPagination();
     return;
   }
   try {
@@ -200,25 +201,25 @@ async function performSearch() {
     const data = await res.json();
     if (!data.results.length) {
       resultsDiv.innerHTML = '<p>No results found.</p>';
-      hideAllPaginations();
+      hideAllPagination();
       return;
     }
     displayList(data.results, 'results');
-    hideAllPaginations();
+    hideAllPagination();
   } catch {
     resultsDiv.innerHTML = '<p>Error fetching search results.</p>';
-    hideAllPaginations();
+    hideAllPagination();
   }
 }
 
-function hideAllPaginations() {
+function hideAllPagination() {
   ['movies-pagination', 'tvshows-pagination', 'new-releases-pagination'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
 }
 
-// Initial load: show movies by default
+// INITIAL LOAD: Load movies by default when page opens
 window.onload = () => {
   loadMoviesPage(1);
   setActiveNav(navLinks[0]);
