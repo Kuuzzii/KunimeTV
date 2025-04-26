@@ -1,11 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>KunimeTV</title>
   <link rel="stylesheet" href="home.css" />
   <link rel="stylesheet" href="anime.css" />
+  <style>
+    /* Small example styles for banner and lists */
+    #banner {
+      height: 400px;
+      color: white;
+      background-size: cover;
+      background-position: center;
+      padding: 2rem;
+      position: relative;
+    }
+    #banner-watch-btn button {
+      background-color: #e50914;
+      border: none;
+      color: white;
+      padding: 0.75rem 1.25rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 1rem;
+    }
+    #movies-list, #tvshows-list, #anime-list {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      padding: 1rem 0;
+    }
+    #movies-list img, #tvshows-list img, #anime-list img {
+      height: 200px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+    }
+    #movies-list img:hover, #tvshows-list img:hover, #anime-list img:hover {
+      transform: scale(1.1);
+    }
+  </style>
 </head>
 <body>
 <header>
@@ -13,23 +49,89 @@
     <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KunimeTV Logo" />
     KunimeTV
   </div>
+
+  <!-- Search bar -->
   <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search for anime..." autocomplete="off" />
-    <button onclick="searchAnime()" title="Search">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="M10 17l5-5-5-5v10z"/>
+    <input type="text" id="search-bar" placeholder="Search movies, shows, anime..." autocomplete="off" />
+    <button onclick="performSearch()" title="Search">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="24" height="24">
+        <path d="M21 20l-6-6m0 0a7 7 0 1 0-7-7 7 7 0 0 0 7 7z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
   </div>
+
+  <!-- Navigation -->
   <nav>
-    <a href="#" class="active" onclick="loadAnime(event)">Anime</a>
-    <a href="#" onclick="loadPopular(event)">Popular</a>
-    <a href="#" onclick="load18Plus(event)">18+</a>
+    <a href="#" class="active" onclick="init(); setActiveNav(this); return false;">Trending Movies</a>
+    <a href="#" onclick="loadTVShows(); setActiveNav(this); return false;">Trending TV Shows</a>
+    <a href="#" onclick="loadAnimeList(); setActiveNav(this); return false;">Trending Anime</a>
   </nav>
 </header>
-<main>
-  <div id="results" class="anime-list"></div>
-</main>
+
+<!-- Banner -->
+<section id="banner">
+  <h1 id="banner-title"></h1>
+  <p id="banner-description"></p>
+  <div id="banner-watch-btn"></div>
+</section>
+
+<!-- Search results -->
+<section id="search-results" style="display:none; padding: 1rem;"></section>
+
+<!-- Trending lists -->
+<section>
+  <h2>Movies</h2>
+  <div id="movies-list"></div>
+</section>
+<section>
+  <h2>TV Shows</h2>
+  <div id="tvshows-list"></div>
+</section>
+<section>
+  <h2>Anime</h2>
+  <div id="anime-list"></div>
+</section>
+
+<script>
+// Make setActive for nav items
+function setActiveNav(selectedLink) {
+  const navs = document.querySelectorAll('nav a');
+  navs.forEach(link => link.classList.remove('active'));
+  if (selectedLink) selectedLink.classList.add('active');
+}
+
+// Functions for nav buttons
+async function init() {
+  setActiveNav(document.querySelector("nav a:first-child"));
+  const movies = await fetchTrending('movie');
+  const tvShows = await fetchTrending('tv');
+  const anime = await fetchTrendingAnime();
+
+  displayBanner(movies[Math.floor(Math.random() * movies.length)]);
+  displayList(movies, 'movies-list');
+  displayList(tvShows, 'tvshows-list');
+  displayList(anime, 'anime-list');
+
+  document.getElementById('search-results').style.display = 'none';
+}
+
+async function loadTVShows() {
+  const tvShows = await fetchTrending('tv');
+  displayList(tvShows, 'tvshows-list');
+  document.getElementById('search-results').style.display = 'none';
+}
+
+async function loadAnimeList() {
+  const anime = await fetchTrendingAnime();
+  displayList(anime, 'anime-list');
+  document.getElementById('search-results').style.display = 'none';
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  init();
+});
+</script>
+
 <script src="home.js"></script>
 </body>
 </html>
