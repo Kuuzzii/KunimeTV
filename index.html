@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,7 +7,6 @@
   <link rel="stylesheet" href="home.css" />
   <link rel="stylesheet" href="anime.css" />
 </head>
-
 <body>
   <header>
     <div class="logo">
@@ -20,49 +18,47 @@
       <button id="searchBtn" title="Search">🔍</button>
     </div>
     <nav>
-      <a href="#" class="active" onclick="loadTrending('movie', event); setActiveNav(this); return false;">Movies</a>
-      <a href="#" onclick="loadTrending('tv', event); setActiveNav(this); return false;">TV Shows</a>
-      <a href="#" onclick="loadNewReleases(event); setActiveNav(this); return false;">New</a>
+      <a href="#" id="nav-movies" class="active">Movies</a>
+      <a href="#" id="nav-tvshows">TV Shows</a>
+      <a href="#" id="nav-new">New</a>
     </nav>
   </header>
 
-  <div id="results" class="anime-list" style="margin-top: 30px; padding: 0 20px;"></div>
+  <main>
+    <div id="results" class="anime-list" style="margin-top: 30px; padding: 0 20px;"></div>
 
-  <!-- Removed Banner -->
+    <section>
+      <div id="new-releases-list" class="anime-list"></div>
+      <div id="new-releases-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
+        <button id="new-prev-page">Previous</button>
+        <span id="new-current-page">1</span>
+        <button id="new-next-page">Next</button>
+      </div>
+    </section>
 
-  <section>
-    <div id="new-releases-list" class="anime-list"></div>
-    <div id="new-releases-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
-      <button id="new-prev-page">Previous</button>
-      <span id="new-current-page">1</span>
-      <button id="new-next-page">Next</button>
-    </div>
-  </section>
+    <section>
+      <div id="movies-list" class="anime-list"></div>
+      <div id="movies-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
+        <button id="movies-prev-page">Previous</button>
+        <span id="movies-current-page">1</span>
+        <button id="movies-next-page">Next</button>
+      </div>
+    </section>
 
-  <section>
-    <div id="movies-list" class="anime-list"></div>
-    <div id="movies-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
-      <button id="movies-prev-page">Previous</button>
-      <span id="movies-current-page">1</span>
-      <button id="movies-next-page">Next</button>
-    </div>
-  </section>
+    <section>
+      <div id="tvshows-list" class="anime-list"></div>
+      <div id="tvshows-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
+        <button id="tvshows-prev-page">Previous</button>
+        <span id="tvshows-current-page">1</span>
+        <button id="tvshows-next-page">Next</button>
+      </div>
+    </section>
 
-  <section>
-    <div id="tvshows-list" class="anime-list"></div>
-    <div id="tvshows-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
-      <button id="tvshows-prev-page">Previous</button>
-      <span id="tvshows-current-page">1</span>
-      <button id="tvshows-next-page">Next</button>
-    </div>
-  </section>
-
-  <section>
-    <div id="anime-list" class="anime-list"></div>
-    <!-- No pagination for anime, or add if desired -->
-  </section>
+    <section>
+      <div id="anime-list" class="anime-list"></div>
+    </section>
+  </main>
 
   <script src="home.js" defer></script>
 </body>
-
 </html>
