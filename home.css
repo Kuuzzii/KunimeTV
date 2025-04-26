@@ -1,6 +1,46 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: Arial, sans-serif; background: #111; color: #fff; }
 
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-center {
+  flex: 1;
+  text-align: center;
+}
+
+.site-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: red;
+  letter-spacing: 1px;
+}
+
+.site-name .k {
+  font-size: 32px;
+  color: red;
+  font-weight: 900;
+}
+
+.site-name .rest {
+  color: red;
+  font-weight: 500;
+}
+
+.site-name .tv {
+  margin-left: 5px;
+  color: red;
+  font-weight: bold;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
     .navbar {
       display: flex; justify-content: space-between; align-items: center;
       padding: 10px; background: #222;
