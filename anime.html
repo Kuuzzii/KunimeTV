@@ -66,20 +66,24 @@
         const data = await response.json();
         const anime = data.data;
 
-        detail.innerHTML = `
-          <h1>${anime.title}</h1>
-          <img src="${anime.images.jpg.large_image_url || anime.images.jpg.image_url}" alt="${anime.title}" />
-          <p>${anime.synopsis || 'No synopsis available.'}</p>
-          <div class="tags">
-            ${anime.genres.map(g => `<span class="tag">${g.name}</span>`).join(' ')}
-          </div>
-          <div class="stats">
-            <strong>Episodes:</strong> ${anime.episodes ?? 'N/A'}<br />
-            <strong>Year:</strong> ${anime.year ?? 'N/A'}<br />
-            <strong>Score:</strong> ${anime.score ?? 'N/A'}/10<br />
-            <strong>Status:</strong> ${anime.status ?? 'N/A'}
-          </div>
-          <div class="clear"></div>
+      detailDiv.innerHTML = `
+  <div class="detail-header">
+    <img src="${anime.images.jpg.large_image_url || anime.images.jpg.image_url}" alt="${anime.title}" />
+    <div class="detail-info">
+      <h1>${anime.title}</h1>
+      <p>${anime.synopsis || 'No synopsis available.'}</p>
+      <div class="tags">
+        ${anime.genres.map(g => `<span class="tag">${g.name}</span>`).join(' ')}
+      </div>
+      <div class="stats">
+        <strong>Episodes:</strong> ${anime.episodes ?? 'N/A'}<br />
+        <strong>Year:</strong> ${anime.year ?? 'N/A'}<br />
+        <strong>Score:</strong> ${anime.score ?? 'N/A'}/10<br />
+        <strong>Status:</strong> ${anime.status ?? 'N/A'}
+      </div>
+    </div>
+  </div>
+`;
         `;
       } catch (err) {
         detail.textContent = 'Error loading anime details.';
