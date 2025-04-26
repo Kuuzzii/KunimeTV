@@ -8,8 +8,9 @@ const nextBtn = document.getElementById('next-page');
 const currentPageSpan = document.getElementById('current-page');
 
 let currentPage = 1;
+let totalPages = 1;  // Will update after fetch
 
-// Get page from URL query string
+// Get page from URL query string on load
 const urlParams = new URLSearchParams(window.location.search);
 const pageParam = parseInt(urlParams.get('page'));
 if (pageParam && pageParam > 0) currentPage = pageParam;
@@ -17,7 +18,7 @@ if (pageParam && pageParam > 0) currentPage = pageParam;
 async function fetchTVShows(page = 1) {
   const res = await fetch(`${BASE_URL}/trending/tv/week?api_key=${API_KEY}&page=${page}`);
   const data = await res.json();
-  return { results: data.results, page: data.page, total_pages: data.total_pages };
+  return data;
 }
 
 function createTVShowCard(item) {
@@ -35,9 +36,9 @@ function createTVShowCard(item) {
   return div;
 }
 
-function displayTVShows(list) {
+function displayTVShows(items) {
   resultsDiv.innerHTML = '';
-  list.forEach(item => {
+  items.forEach(item => {
     if (item.poster_path) {
       resultsDiv.appendChild(createTVShowCard(item));
     }
@@ -45,13 +46,26 @@ function displayTVShows(list) {
 }
 
 async function loadTVShowsPage(page = 1) {
-  const data = await fetchTVShows(page);
-  displayTVShows(data.results);
-  currentPage = data.page;
-  currentPageSpan.textContent = currentPage;
-  prevBtn.disabled = currentPage <= 1;
-  nextBtn.disabled = currentPage >= data.total_pages;
-  history.replaceState(null, '', `tvshows.html?page=${currentPage}`);
+  try {
+    const data = await fetchTVShows(page);
+    displayTVShows(data.results);
+    currentPage = data.page;
+    totalPages = data.total_pages;
+    currentPageSpan.textContent = currentPage;
+    prevBtn.disabled = currentPage <= 1;
+    nextBtn.disabled = currentPage >= totalPages;
+    // Push page to URL without reload
+    history.replaceState(null, '', `tvshows.html?page=${currentPage}`);
+    // Make sure buttons are visible (in case hidden due to search)
+    prevBtn.style.display = 'inline-block';
+    nextBtn.style.display = 'inline-block';
+  } catch (error) {
+    resultsDiv.innerHTML = '<p>Failed to load TV shows.</p>';
+    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+    currentPageSpan.textContent = '';
+    console.error('Error loading TV shows:', error);
+  }
 }
 
 prevBtn.addEventListener('click', () => {
@@ -59,7 +73,7 @@ prevBtn.addEventListener('click', () => {
 });
 
 nextBtn.addEventListener('click', () => {
-  loadTVShowsPage(currentPage + 1);
+  if (currentPage < totalPages) loadTVShowsPage(currentPage + 1);
 });
 
 async function performSearch() {
@@ -77,18 +91,26 @@ async function performSearch() {
       return;
     }
     displayTVShows(data.results);
+    // Hide pagination controls on search result page
     prevBtn.style.display = 'none';
     nextBtn.style.display = 'none';
     currentPageSpan.textContent = '';
-  } catch {
+  } catch (error) {
     resultsDiv.innerHTML = '<p>Error fetching search results.</p>';
+    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+    currentPageSpan.textContent = '';
+    console.error('Error searching TV shows:', error);
   }
 }
 
+// Wire up search button click if you have one with id 'searchBtn'
+// Or use enter key event on input
 document.getElementById('searchInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') performSearch();
 });
 
+// Load page on window load
 window.onload = () => {
   loadTVShowsPage(currentPage);
 };
