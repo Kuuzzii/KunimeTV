@@ -1,0 +1,139 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background-color: #111;
+  color: #eee;
+  font-family: Arial, sans-serif;
+}
+a {
+  color: #eee;
+  text-decoration: none;
+}
+a:hover {
+  color: #e60057;
+  text-decoration: underline;
+}
+/* Header */
+header {
+  background-color: #121212;
+  display: flex;
+  align-items: center;
+  padding: 15px 30px;
+  border-bottom: 2px solid #e60057;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  min-height: 70px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+  user-select: none;
+  font-weight: bold;
+  font-size: 28px;
+  color: #e60057;
+}
+.logo img {
+  height: 45px;
+  width: 45px;
+  margin-right: 12px;
+}
+/* Search Bar */
+.search-container {
+  position: relative;
+  flex-grow: 1;
+  max-width: 450px;
+}
+.search-container input[type="text"] {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 2px solid #e60057;
+  border-radius: 4px 0 0 4px;
+  background-color: transparent;
+  color: #eee;
+  outline: none;
+}
+.search-container input[type="text"]::placeholder {
+  color: #999;
+}
+.search-container button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: none;
+  background-color: #e60057;
+  height: 100%;
+  width: 40px;
+  cursor: pointer;
+  border-radius: 0 4px 4px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color 0.3s ease;
+}
+.search-container button:hover {
+  background-color: #b00443;
+}
+.search-container button svg {
+  fill: white;
+  width: 18px;
+  height: 18px;
+}
+/* Nav menu */
+nav {
+  margin-left: 40px;
+  display: flex;
+  gap: 25px;
+  font-size: 16px;
+  user-select: none;
+}
+nav a {
+  text-transform: capitalize;
+  white-space: nowrap;
+  padding: 6px 8px;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+nav a.active {
+  font-weight: bold;
+  color: #e60057;
+  text-decoration: underline;
+}
+/* Anime list content styles */
+.anime-list {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
+  gap: 20px;
+  padding: 0 20px 40px;
+}
+.anime-item {
+  background-color: #222;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px #e60057aa;
+  transition: transform 0.2s ease;
+}
+.anime-item:hover {
+  transform: scale(1.05);
+}
+.anime-item img {
+  width: 100%;
+  display: block;
+}
+.anime-item .info {
+  padding: 10px;
+}
+.anime-item .title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.anime-item .score {
+  color: #fbc02d;
+}
