@@ -6,6 +6,87 @@
   <title>KunimeTV - Movies & TV Streaming</title>
   <link rel="stylesheet" href="home.css" />
   <link rel="stylesheet" href="anime.css" />
+  <style>
+    /* Reset and your existing styles here */
+    /* Pagination arrows and search styling */
+    .search-container button {
+      border: 2px solid #e60000;
+      background-color: transparent;
+      color: #e60000;
+      font-size: 22px;
+      font-weight: bold;
+      width: 50px;
+      height: 40px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .search-container button:hover {
+      background-color: #e60000;
+      color: #fff;
+    }
+
+    .pagination-controls button {
+      border: 2px solid #e60000;
+      background-color: transparent;
+      color: #e60000;
+      font-size: 0;
+      width: 50px;
+      height: 50px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 0 10px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pagination-controls button:hover:not(:disabled) {
+      background-color: #e60000;
+      color: #fff;
+    }
+    .pagination-controls button:disabled {
+      border-color: #aaa;
+      color: #aaa;
+      cursor: not-allowed;
+    }
+
+    #movies-prev-page::before,
+    #tvshows-prev-page::before,
+    #new-prev-page::before {
+      content: '←';
+      font-size: 24px;
+      color: inherit;
+    }
+    #movies-next-page::before,
+    #tvshows-next-page::before,
+    #new-next-page::before {
+      content: '→';
+      font-size: 24px;
+      color: inherit;
+    }
+
+    /* Lists grid: 4 columns */
+    #movies-list, #tvshows-list, #anime-list, #new-releases-list {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      padding: 1rem 20px;
+    }
+
+    /* Cards full width and styling */
+    #movies-list img, #tvshows-list img, #anime-list img, #new-releases-list img {
+      width: 100% !important;
+      height: auto !important;
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+    #movies-list img:hover, #tvshows-list img:hover,
+    #anime-list img:hover, #new-releases-list img:hover {
+      transform: scale(1.05);
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -30,27 +111,27 @@
     <section>
       <div id="new-releases-list" class="anime-list"></div>
       <div id="new-releases-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
-        <button id="new-prev-page">Previous</button>
+        <button id="new-prev-page"></button>
         <span id="new-current-page">1</span>
-        <button id="new-next-page">Next</button>
+        <button id="new-next-page"></button>
       </div>
     </section>
 
     <section>
       <div id="movies-list" class="anime-list"></div>
       <div id="movies-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
-        <button id="movies-prev-page">Previous</button>
+        <button id="movies-prev-page"></button>
         <span id="movies-current-page">1</span>
-        <button id="movies-next-page">Next</button>
+        <button id="movies-next-page"></button>
       </div>
     </section>
 
     <section>
       <div id="tvshows-list" class="anime-list"></div>
       <div id="tvshows-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
-        <button id="tvshows-prev-page">Previous</button>
+        <button id="tvshows-prev-page"></button>
         <span id="tvshows-current-page">1</span>
-        <button id="tvshows-next-page">Next</button>
+        <button id="tvshows-next-page"></button>
       </div>
     </section>
 
