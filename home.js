@@ -136,7 +136,9 @@ async function loadTrendingAnime(event) {
   clearOtherLists(['movies-list', 'tvshows-list', 'new-releases-list']);
 }
 
-async function loadNewReleases() {
+async function loadNewReleases(event) {
+  resultsDiv.innerHTML = '';
+  setActiveNav(event ? event.currentTarget : null);
   const newReleases = await fetchNewReleases();
   displayList(newReleases, 'new-releases-list');
   clearOtherLists(['movies-list', 'tvshows-list', 'anime-list']);
@@ -151,7 +153,7 @@ function clearOtherLists(ids) {
 
 navLinks[0].addEventListener('click', e => loadTrending('movie', e));
 navLinks[1].addEventListener('click', e => loadTrending('tv', e));
-navLinks[2].addEventListener('click', e => loadTrendingAnime(e));
+navLinks[2].addEventListener('click', e => loadNewReleases(e));
 
 document.getElementById('searchInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') performSearch();
