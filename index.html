@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>KunimeTV</title>
+  <title>KunimeTV - Movies & TV Streaming</title>
   <link rel="stylesheet" href="home.css" />
   <link rel="stylesheet" href="anime.css" />
   <style>
-    /* Your existing styles here (include the banner and lists styles you had) */
+    /* Banner and list styling (use your existing styles or keep below) */
     #banner {
       height: 400px;
       color: white;
@@ -26,19 +26,19 @@
       border-radius: 5px;
       margin-top: 1rem;
     }
-    #movies-list, #tvshows-list, #anime-list {
+    #movies-list, #tvshows-list, #anime-list, #popular-list, #adult-list {
       display: flex;
       overflow-x: auto;
       gap: 10px;
       padding: 1rem 0;
     }
-    #movies-list img, #tvshows-list img, #anime-list img {
+    #movies-list img, #tvshows-list img, #anime-list img, #popular-list img, #adult-list img {
       height: 200px;
       cursor: pointer;
       border-radius: 8px;
       transition: transform 0.2s ease;
     }
-    #movies-list img:hover, #tvshows-list img:hover, #anime-list img:hover {
+    #movies-list img:hover, #tvshows-list img:hover, #anime-list img:hover, #popular-list img:hover, #adult-list img:hover {
       transform: scale(1.1);
     }
   </style>
@@ -49,44 +49,49 @@
     <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KunimeTV Logo" />
     KunimeTV
   </div>
-  <!-- Search bar -->
   <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search movies, shows, anime..." autocomplete="off" />
-    <button onclick="search()" title="Search">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="24" height="24">
-        <path d="M21 20l-6-6m0 0a7 7 0 1 0-7-7 7 7 0 0 0 7 7z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <input type="text" id="searchInput" placeholder="Search movies, TV shows, anime..." autocomplete="off" />
+    <button onclick="performSearch()" title="Search">
+      🔍
     </button>
   </div>
-  <!-- Navigation -->
   <nav>
-    <a href="#" class="active">Anime</a>
-    <a href="#">Popular</a>
-    <a href="#">18+</a>
+    <a href="#" class="active" onclick="loadTrending('movie'); setActiveNav(this); return false;">Trending Movies</a>
+    <a href="#" onclick="loadTrending('tv'); setActiveNav(this); return false;">Trending TV Shows</a>
+    <a href="#" onclick="loadTrendingAnime(); setActiveNav(this); return false;">Trending Anime</a>
+    <a href="#" onclick="loadPopular(); setActiveNav(this); return false;">Popular</a>
+    <a href="#" onclick="loadAdult(); setActiveNav(this); return false;">18+</a>
   </nav>
 </header>
-<!-- Search results -->
+
 <div id="results" class="anime-list" style="margin-top: 30px; padding: 0 20px;"></div>
 
-<!-- Banner -->
 <section id="banner">
   <h1 id="banner-title"></h1>
   <p id="banner-description"></p>
   <div id="banner-watch-btn"></div>
 </section>
 
-<!-- Trending lists -->
+<!-- Different lists for various content -->
 <section>
-  <h2>Movies</h2>
+  <h2>Trending Movies</h2>
   <div id="movies-list"></div>
 </section>
 <section>
-  <h2>TV Shows</h2>
+  <h2>Trending TV Shows</h2>
   <div id="tvshows-list"></div>
 </section>
 <section>
-  <h2>Anime</h2>
+  <h2>Trending Anime</h2>
   <div id="anime-list"></div>
+</section>
+<section>
+  <h2>Popular Movies</h2>
+  <div id="popular-list"></div>
+</section>
+<section>
+  <h2>18+ Movies</h2>
+  <div id="adult-list"></div>
 </section>
 
 <script src="home.js"></script>
