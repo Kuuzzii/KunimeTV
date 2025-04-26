@@ -7,34 +7,29 @@ const navLinks = document.querySelectorAll('nav a');
 
 let currentItem = null;
 
-// Helper: set active nav link styles
 function setActiveNav(selectedLink) {
   navLinks.forEach(link => link.classList.remove('active'));
   if (selectedLink) selectedLink.classList.add('active');
 }
 
-// Fetch trending movie or TV shows
 async function fetchTrending(type) {
   const res = await fetch(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
   const data = await res.json();
   return data.results;
 }
 
-// Fetch trending anime by filtering Japanese animation from trending TV shows
 async function fetchTrendingAnime() {
   const res = await fetch(`${BASE_URL}/trending/tv/week?api_key=${API_KEY}`);
   const data = await res.json();
   return data.results.filter(item => item.original_language === 'ja' && item.genre_ids.includes(16));
 }
 
-// Fetch now playing movies (New Releases)
 async function fetchNewReleases() {
   const res = await fetch(`${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`);
   const data = await res.json();
   return data.results;
 }
 
-// Fetch streaming providers for given id and type
 async function fetchStreamingProviders(id, type) {
   try {
     const res = await fetch(`${BASE_URL}/${type}/${id}/watch/providers?api_key=${API_KEY}`);
@@ -45,7 +40,6 @@ async function fetchStreamingProviders(id, type) {
   }
 }
 
-// Create movie/tv card DOM element
 function createItemCard(item) {
   const type = (item.media_type === 'movie' || item.media_type === undefined) ? 'movie' : 'tv';
   const div = document.createElement('div');
@@ -62,7 +56,6 @@ function createItemCard(item) {
   return div;
 }
 
-// Display list of items in the container by id
 function displayList(items, containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -74,7 +67,6 @@ function displayList(items, containerId) {
   });
 }
 
-// Display banner with featured item and streaming info
 async function displayBanner(item) {
   if (!item) return;
   currentItem = item;
@@ -92,7 +84,6 @@ async function displayBanner(item) {
   }
 }
 
-// Redirect to watch page for currentItem
 function goToMoviePage() {
   if (!currentItem) return alert('No movie/show selected');
   const id = currentItem.id;
@@ -100,7 +91,6 @@ function goToMoviePage() {
   window.location.href = `watch.html?id=${id}&type=${type}`;
 }
 
-// Search TMDb multi endpoint for movies, tv, anime
 async function performSearch() {
   const query = document.getElementById('searchInput').value.trim();
   resultsDiv.innerHTML = '';
@@ -123,8 +113,7 @@ async function performSearch() {
   }
 }
 
-// Load trending movies or TV shows
-async function loadTrending(type) {
+async function loadTrending(type, event) {
   resultsDiv.innerHTML = '';
   setActiveNav(event ? event.currentTarget : null);
   const items = await fetchTrending(type);
@@ -138,8 +127,7 @@ async function loadTrending(type) {
   }
 }
 
-// Load trending anime
-async function loadTrendingAnime() {
+async function loadTrendingAnime(event) {
   resultsDiv.innerHTML = '';
   setActiveNav(event ? event.currentTarget : null);
   const anime = await fetchTrendingAnime();
@@ -148,14 +136,12 @@ async function loadTrendingAnime() {
   clearOtherLists(['movies-list', 'tvshows-list', 'new-releases-list']);
 }
 
-// Load new releases
 async function loadNewReleases() {
   const newReleases = await fetchNewReleases();
   displayList(newReleases, 'new-releases-list');
   clearOtherLists(['movies-list', 'tvshows-list', 'anime-list']);
 }
 
-// Clear content of specified container IDs
 function clearOtherLists(ids) {
   ids.forEach(id => {
     const container = document.getElementById(id);
@@ -163,16 +149,14 @@ function clearOtherLists(ids) {
   });
 }
 
-// Setup nav event listeners
-navLinks[0].addEventListener('click', loadTrending.bind(null, 'movie'));
-navLinks[1].addEventListener('click', loadTrending.bind(null, 'tv'));
-navLinks[2].addEventListener('click', loadTrendingAnime);
+navLinks[0].addEventListener('click', e => loadTrending('movie', e));
+navLinks[1].addEventListener('click', e => loadTrending('tv', e));
+navLinks[2].addEventListener('click', e => loadTrendingAnime(e));
 
 document.getElementById('searchInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') performSearch();
 });
 
-// Initial page load: show movies trending and new releases
 window.onload = () => {
   loadTrending('movie');
   loadNewReleases();
