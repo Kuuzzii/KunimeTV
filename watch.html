@@ -13,11 +13,11 @@
       <img src="kunime-logo.png" alt="KuNime Logo" />
       <span>KuNime</span>
     </div>
-    <button class="back-button" id="back-btn" type="button">&#8592; Back</button>
+    <button id="back-btn" type="button" class="back-button">&#8592; Back</button>
   </header>
 
   <main class="movie-container">
-    <div class="movie-backdrop" id="movie-backdrop">
+    <div id="movie-backdrop" class="movie-backdrop">
       <div class="movie-details">
         <div class="movie-poster">
           <img id="movie-poster" src="" alt="Movie Poster" />
@@ -31,7 +31,7 @@
           <div id="movie-genres" class="movie-genres"></div>
           <p id="movie-overview"></p>
           <div class="movie-actions">
-            <button class="action-btn play-btn" id="play-btn" type="button">&#9658; Play</button>
+            <button id="play-btn" type="button" class="action-btn play-btn">&#9658; Play</button>
             <select id="server-select" class="action-btn" aria-label="Select Streaming Server">
               <option value="vidsrc.cc">Vidsrc.cc</option>
               <option value="vidsrc.me">Vidsrc.me</option>
@@ -43,7 +43,7 @@
     </div>
 
     <div class="video-container">
-      <iframe id="movie-video" frameborder="0" allowfullscreen loading="lazy" title="Video player"></iframe>
+      <iframe id="movie-video" frameborder="0" allowfullscreen loading="lazy" title="Streaming Video Player"></iframe>
     </div>
   </main>
 </body>
