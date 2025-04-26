@@ -67,6 +67,59 @@
       padding: 10px;
     }
 
+.banner {
+  position: relative;
+  height: 60vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+}
+
+.banner::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.banner-content {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-top: 100px;
+  text-align: center;
+}
+
+.banner-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: red;
+}
+
+.banner-content p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.watch-btn {
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.watch-btn:hover {
+  background-color: #ff4444;
+}
+
     .row {
       margin: 20px;
     }
