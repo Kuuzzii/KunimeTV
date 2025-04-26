@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AnimePahe Style Header</title>
+<style>
+  body {
+    margin: 0;
+    background-color: #111; /* dark background to match website */
+    font-family: Arial, sans-serif;
+    color: white;
+  }
+  header {
+    background-color: #111;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    height: 50px;
+  }
+  .logo {
+    font-weight: bold;
+    font-size: 24px;
+    color: white;
+    margin-right: 40px;
+    user-select: none;
+  }
+  .logo .highlight {
+    color: #e60057; /* pink color for "pahe" */
+  }
+  nav {
+    display: flex;
+    flex-grow: 1;
+  }
+  nav a {
+    text-decoration: none;
+    color: white;
+    margin-right: 25px;
+    font-size: 14px;
+    text-transform: lowercase;
+    transition: color 0.3s;
+  }
+  nav a:hover {
+    color: #e60057;
+  }
+  .search-box {
+    position: relative;
+  }
+  .search-box input[type="search"] {
+    background: #eee;
+    border: none;
+    border-radius: 3px;
+    padding: 6px 30px 6px 10px;
+    font-size: 14px;
+    outline: none;
+  }
+  .search-box svg {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    fill: #999;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Kunime<span class="highlight">TV</span></div>
+  <nav>
+    <a href="#">home</a>
+    <a href="#">anime</a>
+    <a href="#">send me a coffee</a>
+  </nav>
+  <div class="search-box">
+    <input type="search" placeholder="Search" />
+    <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+      <path d="M15.5 14h-.79l-.28-.27a6.471 6.471 0 001.48-5.34C15.38 6.59 13.34 5 11 5S6.62 6.59 6.62 8.39c0 1.8 2.04 3.39 4.38 3.39 1.61 0 3.03-.86 3.8-2.16l.27.28v.79l4.25 4.25c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L15.5 14zm-4.5 0C9.12 14 7 11.88 7 9.39S9.12 4.78 11 4.78s4 2.12 4 4.61-2.12 4.61-4 4.61z"></path>
+    </svg>
+  </div>
+</header>
+
+</body>
+</html>
