@@ -25,41 +25,42 @@
     }
     /* Header */
     header {
-      background-color: #121212; /* dark black */
+      background-color: #121212;
       display: flex;
       align-items: center;
-      padding: 5px 20px;
-      border-bottom: 2px solid #e60057; /* pink border line */
+      padding: 15px 30px;
+      border-bottom: 2px solid #e60057;
       position: sticky;
       top: 0;
       z-index: 1000;
+      min-height: 70px;
     }
     .logo {
       display: flex;
       align-items: center;
-      margin-right: 20px;
+      margin-right: 30px;
       user-select: none;
       font-weight: bold;
-      font-size: 22px;
-      color: #e60057; /* your brand pink */
+      font-size: 28px;
+      color: #e60057;
     }
     .logo img {
-      height: 30px;
-      width: 30px;
-      margin-right: 8px;
+      height: 45px;
+      width: 45px;
+      margin-right: 12px;
     }
     /* Search Bar */
     .search-container {
       position: relative;
       flex-grow: 1;
-      max-width: 400px;
+      max-width: 450px;
     }
     .search-container input[type="text"] {
       width: 100%;
-      padding: 6px 10px;
-      font-size: 14px;
+      padding: 10px 15px;
+      font-size: 16px;
       border: 2px solid #e60057;
-      border-radius: 2px 0 0 2px;
+      border-radius: 4px 0 0 4px;
       background-color: transparent;
       color: #eee;
       outline: none;
@@ -74,9 +75,9 @@
       border: none;
       background-color: #e60057;
       height: 100%;
-      width: 32px;
+      width: 40px;
       cursor: pointer;
-      border-radius: 0 2px 2px 0;
+      border-radius: 0 4px 4px 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -88,27 +89,32 @@
     }
     .search-container button svg {
       fill: white;
-      width: 14px;
-      height: 14px;
+      width: 18px;
+      height: 18px;
     }
     /* Nav menu */
     nav {
-      margin-left: 25px;
+      margin-left: 40px;
       display: flex;
-      gap: 20px;
-      font-size: 14px;
+      gap: 25px;
+      font-size: 16px;
       user-select: none;
     }
     nav a {
       text-transform: capitalize;
       white-space: nowrap;
+      padding: 6px 8px;
+      transition: color 0.3s ease;
     }
-    nav a.active {
+    nav a.active,
+    nav a:hover {
       font-weight: bold;
       color: #e60057;
       text-decoration: underline;
+      cursor: pointer;
     }
-    /* Content styles from previous example */
+
+    /* Anime list content styles */
     .anime-list {
       margin-top: 30px;
       display: grid;
