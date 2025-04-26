@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Watch - KunimeTV</title>
+  <link rel="stylesheet" href="watch.css" />
+  <script defer src="watch.js"></script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KunimeTV Logo" />
+      KunimeTV
+    </div>
+    <button class="back-button" id="back-btn">&#8592; Back</button>
+  </header>
+
+  <main class="movie-container">
+    <div class="movie-backdrop" id="movie-backdrop">
+      <div class="movie-details">
+        <div class="movie-poster">
+          <img id="movie-poster" src="" alt="Poster" />
+        </div>
+        <div class="movie-info">
+          <h1 id="movie-title"></h1>
+          <p class="movie-meta">
+            <span id="movie-release-date"></span> • <span id="movie-runtime"></span>
+          </p>
+          <div id="movie-genres" class="movie-genres"></div>
+          <p id="movie-overview"></p>
+          <div class="movie-actions">
+            <button class="action-btn play-btn" id="play-btn">&#9658; Play</button>
+            <select id="server-select" class="action-btn">
+              <option value="vidsrc.cc">Vidsrc.cc</option>
+              <option value="vidsrc.me">Vidsrc.me</option>
+              <option value="videasy.net">Videasy.net</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-container">
+      <iframe id="movie-video" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </main>
+</body>
+</html>
