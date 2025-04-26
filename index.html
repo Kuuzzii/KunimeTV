@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="home.css" />
   <link rel="stylesheet" href="anime.css" />
   <style>
-    /* Banner and list styling (your existing or keep below) */
     #banner {
       height: 400px;
       color: white;
@@ -56,9 +55,9 @@
     </button>
   </div>
   <nav>
-    <a href="#" class="active" onclick="loadTrending('movie'); setActiveNav(this); return false;">Movies</a>
-    <a href="#" onclick="loadTrending('tv'); setActiveNav(this); return false;">TV Shows</a>
-    <a href="#" onclick="loadTrendingAnime(); setActiveNav(this); return false;">Anime</a>
+    <a href="#" class="active" onclick="loadTrending('movie', event); setActiveNav(this); return false;">Movies</a>
+    <a href="#" onclick="loadTrending('tv', event); setActiveNav(this); return false;">TV Shows</a>
+    <a href="#" onclick="loadTrendingAnime(event); setActiveNav(this); return false;">Anime</a>
   </nav>
 </header>
 
@@ -70,12 +69,10 @@
   <div id="banner-watch-btn"></div>
 </section>
 
-<!-- New Releases section -->
 <section>
   <div id="new-releases-list"></div>
 </section>
 
-<!-- Only content containers (no headings) -->
 <section>
   <div id="movies-list"></div>
 </section>
