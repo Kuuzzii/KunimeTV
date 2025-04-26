@@ -172,12 +172,10 @@
 <script>
   const resultsDiv = document.getElementById('results');
   const navLinks = document.querySelectorAll('nav a');
-
   function setActiveLink(clickedLink) {
     navLinks.forEach(link => link.classList.remove('active'));
     if(clickedLink) clickedLink.classList.add('active');
   }
-
   async function fetchAndDisplay(animeList) {
     resultsDiv.innerHTML = '';
     if (animeList.length === 0) {
@@ -199,7 +197,6 @@
       resultsDiv.appendChild(animeItem);
     }
   }
-
   async function loadAnime(event) {
     if(event) event.preventDefault();
     setActiveLink(event ? event.currentTarget : navLinks[0]);
@@ -207,7 +204,6 @@
     const json = await response.json();
     await fetchAndDisplay(json.data);
   }
-
   async function loadPopular(event) {
     if(event) event.preventDefault();
     setActiveLink(event.currentTarget);
@@ -215,7 +211,6 @@
     const json = await response.json();
     await fetchAndDisplay(json.data);
   }
-
   async function load18Plus(event) {
     if(event) event.preventDefault();
     setActiveLink(event.currentTarget);
@@ -224,7 +219,6 @@
     const json = await response.json();
     await fetchAndDisplay(json.data);
   }
-
   async function searchAnime() {
     const query = document.getElementById('searchInput').value.trim();
     if (!query) {
@@ -236,7 +230,6 @@
     const json = await response.json();
     await fetchAndDisplay(json.data);
   }
-
   // Load the Anime list by default on page load
   window.addEventListener('DOMContentLoaded', () => {
     loadAnime(null);
