@@ -1,11 +1,9 @@
 const resultsDiv = document.getElementById('results');
 const navLinks = document.querySelectorAll('nav a');
-
 function setActiveLink(clickedLink) {
   navLinks.forEach(link => link.classList.remove('active'));
-  clickedLink.classList.add('active');
+  if(clickedLink) clickedLink.classList.add('active');
 }
-
 async function fetchAndDisplay(animeList) {
   resultsDiv.innerHTML = '';
   if (animeList.length === 0) {
@@ -27,23 +25,13 @@ async function fetchAndDisplay(animeList) {
     resultsDiv.appendChild(animeItem);
   }
 }
-
-async function loadHome(event) {
-  if(event) event.preventDefault();
-  setActiveLink(event ? event.currentTarget : navLinks[0]);
-  const response = await fetch('https://api.jikan.moe/v4/seasons/now?sfw=true&limit=12');
-  const json = await response.json();
-  await fetchAndDisplay(json.data);
-}
-
 async function loadAnime(event) {
   if(event) event.preventDefault();
-  setActiveLink(event.currentTarget);
+  setActiveLink(event ? event.currentTarget : navLinks[0]);
   const response = await fetch('https://api.jikan.moe/v4/top/anime?filter=airing&sfw=true&limit=12');
   const json = await response.json();
   await fetchAndDisplay(json.data);
 }
-
 async function loadPopular(event) {
   if(event) event.preventDefault();
   setActiveLink(event.currentTarget);
@@ -51,8 +39,25 @@ async function loadPopular(event) {
   const json = await response.json();
   await fetchAndDisplay(json.data);
 }
-
-async function loadAdult(event) {
+async function load18Plus(event) {
   if(event) event.preventDefault();
   setActiveLink(event.currentTarget);
-  const response = await fetch('https://api.jikan.m
+  const response = await fetch('https://api.jikan.moe/v4/anime?genres=12&sfw=false&limit=12');
+  const json = await response.json();
+  await fetchAndDisplay(json.data);
+}
+async function searchAnime() {
+  const query = document.getElementById('searchInput').value.trim();
+  if (!query) {
+    alert("Please enter a search term");
+    return;
+  }
+  setActiveLink(null);
+  const response = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=12`);
+  const json = await response.json();
+  await fetchAndDisplay(json.data);
+}
+// Load the Anime list by default on page load
+window.addEventListener('DOMContentLoaded', () => {
+  loadAnime(null);
+});
