@@ -30,23 +30,13 @@ async function fetchNewReleases() {
   return data.results;
 }
 
-async function fetchStreamingProviders(id, type) {
-  try {
-    const res = await fetch(`${BASE_URL}/${type}/${id}/watch/providers?api_key=${API_KEY}`);
-    const data = await res.json();
-    return data.results?.US || {};
-  } catch {
-    return {};
-  }
-}
-
 function createItemCard(item) {
-  const type = (item.media_type === 'movie' || item.media_type === undefined) ? 'movie' : 'tv';
+  const type = item.media_type === 'movie' || item.media_type === undefined ? 'movie' : 'tv';
   const div = document.createElement('div');
   div.className = 'anime-item';
   div.innerHTML = `
     <a href="watch.html?id=${item.id}&type=${type}">
-      <img src="${IMG_URL + item.poster_path}" alt="${item.title || item.name}" />
+      <img src="${IMG_URL}${item.poster_path}" alt="${item.title || item.name}" />
     </a>
     <div class="info">
       <div class="title">${item.title || item.name}</div>
@@ -65,30 +55,6 @@ function displayList(items, containerId) {
       container.appendChild(createItemCard(item));
     }
   });
-}
-
-async function displayBanner(item) {
-  if (!item) return;
-  currentItem = item;
-  document.getElementById('banner').style.backgroundImage = `url(${IMG_URL}${item.backdrop_path})`;
-  document.getElementById('banner-title').textContent = item.title || item.name;
-  document.getElementById('banner-description').textContent = item.overview || 'No description available.';
-  const type = (item.media_type === 'movie' || item.media_type === undefined) ? 'movie' : 'tv';
-  const providers = await fetchStreamingProviders(item.id, type);
-  const watchBtnContainer = document.getElementById('banner-watch-btn');
-  if (providers.flatrate && providers.flatrate.length > 0) {
-    const providersNames = providers.flatrate.map(p => p.provider_name).join(', ');
-    watchBtnContainer.innerHTML = `<button class="play-btn" onclick="goToMoviePage()">Watch Now (${providersNames})</button>`;
-  } else {
-    watchBtnContainer.innerHTML = '';
-  }
-}
-
-function goToMoviePage() {
-  if (!currentItem) return alert('No movie/show selected');
-  const id = currentItem.id;
-  const type = (currentItem.media_type === 'movie' || currentItem.media_type === undefined) ? 'movie' : 'tv';
-  window.location.href = `watch.html?id=${id}&type=${type}`;
 }
 
 async function performSearch() {
@@ -117,21 +83,14 @@ async function loadTrending(type, event) {
   resultsDiv.innerHTML = '';
   setActiveNav(event ? event.currentTarget : null);
   const items = await fetchTrending(type);
-  displayBanner(items[Math.floor(Math.random() * items.length)]);
-  if (type === 'movie') {
-    displayList(items, 'movies-list');
-    clearOtherLists(['tvshows-list', 'anime-list', 'new-releases-list']);
-  } else if (type === 'tv') {
-    displayList(items, 'tvshows-list');
-    clearOtherLists(['movies-list', 'anime-list', 'new-releases-list']);
-  }
+  displayList(items, type === 'movie' ? 'movies-list' : 'tvshows-list');
+  clearOtherLists([type === 'movie' ? 'tvshows-list' : 'movies-list', 'anime-list', 'new-releases-list']);
 }
 
 async function loadTrendingAnime(event) {
   resultsDiv.innerHTML = '';
   setActiveNav(event ? event.currentTarget : null);
   const anime = await fetchTrendingAnime();
-  displayBanner(anime[Math.floor(Math.random() * anime.length)]);
   displayList(anime, 'anime-list');
   clearOtherLists(['movies-list', 'tvshows-list', 'new-releases-list']);
 }
