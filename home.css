@@ -248,6 +248,7 @@
     }
 
 /* MOBILE DISPLAY START */
+/* MOBILE DISPLAY START */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: row;
@@ -272,7 +273,7 @@
   .banner {
       height: 30vh;
   }
-    
+
   .modal-body {
     align-items: center;
   }
@@ -335,6 +336,19 @@
   }
 }
 /* MOBILE DISPLAY END */
+
+/* Add the media queries for larger screens after mobile styles */
+@media (min-width: 768px) {
+  .banner {
+    height: 500px;  /* Increase height for larger screens */
+  }
+}
+
+@media (min-width: 1024px) {
+  .banner {
+    height: 600px;  /* Even larger height for desktop screens */
+  }
+}
 
 .footer {
   background: #222;
