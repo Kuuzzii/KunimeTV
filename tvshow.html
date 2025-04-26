@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TV Shows - KunimeTV</title>
+  <link rel="stylesheet" href="home.css" />
+  <link rel="stylesheet" href="anime.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KunimeTV Logo" />
+      KunimeTV
+    </div>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search TV shows..." autocomplete="off" />
+      <button onclick="performSearch()" title="Search">🔍</button>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="movies.html">Movies</a>
+      <a href="tvshows.html" class="active">TV Shows</a>
+    </nav>
+  </header>
+
+  <main>
+    <div id="results" class="anime-list" style="margin-top: 30px; padding: 0 20px;"></div>
+
+    <div id="pagination-controls" style="padding: 20px; text-align: center;">
+      <button id="prev-page">Previous</button>
+      <span id="current-page">1</span>
+      <button id="next-page">Next</button>
+    </div>
+  </main>
+
+  <script src="tvshows.js"></script>
+</body>
+</html>
