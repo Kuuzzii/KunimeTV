@@ -1,9 +1,10 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <link rel="icon" type="image/png" href="faviconK.ico" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Kunime - Watch Free Movies, Anime & TV Shows</title>
+  <title>Kunime - Watch Free Movies, Anime & TV Shows</title>
   <link rel="stylesheet" href="css/home.css">
   <link rel="preload" href="css/home.css" as="style">
   <link rel="preload" href="js/home.js" as="script">
@@ -32,61 +33,32 @@
   </div>
 </div>
 
-
-  <div class="banner" id="banner">
+<!-- Banner Section -->
+<div class="banner" id="banner">
   <div class="banner-content">
     <h1 id="banner-title"></h1>
     <p id="banner-description"></p>
   </div>
 </div>
 
+<!-- Trending Movies, TV Shows, and Anime Sections (Already in your HTML) -->
 
-
-
-  <div class="row">
-    <h2>Trending Movies</h2>
-    <div class="list" id="movies-list"></div>
-  </div>
-
-  <div class="row">
-    <h2>Trending TV Shows</h2>
-    <div class="list" id="tvshows-list"></div>
-  </div>
-
-  <div class="row">
-    <h2>Trending Anime</h2>
-    <div class="list" id="anime-list"></div>
-  </div>
-
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()" style="color: red;">&times;</span>
-      <div class="modal-body">
-  <img id="modal-image" src="" alt="" />
-  <div class="modal-text">
-    <h2 id="modal-title"></h2>
-    <div class="stars" id="modal-rating"></div>
-    <p id="modal-description"></p>
-  </div>
+<div class="row">
+  <h2>Trending Movies</h2>
+  <div class="list" id="movies-list"></div>
 </div>
-      
-      <div class="server-selector">
-        <label for="server">Change Server:</label>
-        <select id="server" onchange="changeServer()">
-          <option value="vidsrc.cc">Vidsrc.cc</option>
-          <option value="vidsrc.me">Vidsrc.me</option>
-          <option value="player.videasy.net">Player.Videasy.net</option>
-        </select>
-      </div>
-      <iframe id="modal-video" width="100%" height="315" frameborder="0" allowfullscreen></iframe>
-    </div>
-  </div>
 
-  <div class="search-modal" id="search-modal">
-    <span class="close" onclick="closeSearchModal()" style="color: red;">&times;</span>
-    <input type="text" id="search-input" placeholder="Search for a movie or show..." oninput="searchTMDB()" />
-    <div class="results" id="search-results"></div>
-  </div>
+<div class="row">
+  <h2>Trending TV Shows</h2>
+  <div class="list" id="tvshows-list"></div>
+</div>
+
+<div class="row">
+  <h2>Trending Anime</h2>
+  <div class="list" id="anime-list"></div>
+</div>
+
+<!-- Modal Section (Already in your HTML) -->
 
 <footer class="footer">
   <div class="footer-content">
@@ -99,5 +71,106 @@
   </div>
 </footer>
 
-  
+<!-- Place the following JavaScript either directly in this file or in home.js -->
+<script>
+const animeData = [
+  {
+    id: 1,
+    title: "One Piece",
+    poster: "https://media.kitsu.app/anime/poster_images/12/large.jpg",
+    cover: "https://wallpapercave.com/wp/wp9995111.jpg",
+    synopsis: "Gol D. Roger, the Pirate King, was the strongest and most infamous pirate to sail the Grand Line. His capture and death by the World Government revealed the existence of the greatest treasure, One Piece, sparking the Grand Age of Pirates. Monkey D. Luffy, a 17-year-old boy, sets out to find One Piece, driven by a desire for adventure rather than riches. Following in the footsteps of his hero, Luffy and his crew journey across the Grand Line, facing wild adventures, uncovering dark secrets, and battling powerful enemies to claim the ultimate treasure."
+  },
+  {
+    id: 2,
+    title: "Attack On Titan",
+    poster: "https://media.kitsu.app/anime/poster_images/7442/large.jpg",
+    cover: "https://i.imgur.com/lrdpRqc.png",
+    synopsis: "Centuries ago, humanity was nearly wiped out by monstrous titans, forcing the survivors to hide behind massive walls. The titans' hunger for human flesh seems driven by pleasure, not hunger. After a century of peace, that calm is shattered when a colossal titan breaches the outer wall, reigniting the battle for survival. Eren Yeager, having witnessed the death of loved ones at the hands of the titans, joins the elite Survey Corps to eradicate them."
+  },
+  {
+    id: 3,
+    title: "Naruto",
+    poster: "https://media.kitsu.app/anime/11/poster_image/large-5e901605066f7f2727f49d01859bbfe4.jpeg",
+    cover: "https://i.redd.it/lna6iw05i4hy.jpg",
+    synopsis: "Naruto Uzumaki is a young ninja who seeks recognition from his peers and dreams of becoming the Hokage, the village leader. His journey to achieving his goal leads him to forge strong bonds of friendship, face deadly challenges, and discover the truth about his mysterious past."
+  },
+  {
+    id: 4,
+    title: "My Hero Academia",
+    poster: "https://media.kitsu.app/anime/poster_images/11469/large.jpg",
+    cover: "https://wallpapers.com/images/file/my-hero-academia-ipad-gnirzeeafueve157.jpg",
+    synopsis: "In a world where nearly everyone has superpowers known as 'Quirks,' Izuku Midoriya is born without one. Despite this, he still dreams of becoming a hero. His life changes when he inherits the powerful Quirk of the world's greatest hero, All Might, and attends U.A. High School to learn how to be a hero."
+  },
+  {
+    id: 5,
+    title: "Demon Slayer",
+    poster: "https://media.kitsu.app/anime/poster_images/41370/large.jpg",
+    cover: "https://m.media-amazon.com/images/S/pv-target-images/995a641667506ed2c6d36ab9f7f8c7b32c5caa5aa2734c2291be23bc6b26dcf9.jpg",
+    synopsis: "Tanjiro Kamado, a kind-hearted boy, becomes a demon slayer to avenge his family and save his sister Nezuko, who has been turned into a demon. As he joins the Demon Slayer Corps, Tanjiro faces powerful demons and uncovers dark secrets about his own family."
+  },
+  {
+    id: 6,
+    title: "Death Note",
+    poster: "https://media.kitsu.app/anime/poster_images/1376/large.jpg",
+    cover: "https://zippyimage.com/images/2021/12/26/9af8779d68d76d9dd4e20b61ac820aea.md.png",
+    synopsis: "Light Yagami, a high school student, discovers a mysterious notebook known as the 'Death Note,' which allows its user to kill anyone whose name is written in it. As Light uses the Death Note to create a new world ruled by his vision of justice, he faces off against the brilliant detective L."
+  },
+  {
+    id: 7,
+    title: "Solo Leveling",
+    poster: "https://media.kitsu.app/anime/46231/poster_image/large-cdadff31f42490b9f48a035939a01a92.jpeg",
+    cover: "https://i.redd.it/4hkl1dpx6lt41.jpg",
+    synopsis: "They say whatever doesn’t kill you makes you stronger, but that’s not the case for the world’s weakest hunter Sung Jinwoo. After being brutally slaughtered by monsters in a high-ranking dungeon, Jinwoo came back with the System, a program only he could see, that’s leveling him up in every way. Now, he’s inspired to discover the secrets behind his powers and the dungeon that spawned them.."
+  },
+  {
+    id: 8,
+    title: "One Punch Man",
+    poster: "https://media.kitsu.app/anime/poster_images/10740/large.jpg",
+    cover: "https://www.themoviedb.org/t/p/original/wMCgVAT8di5fMKR3XfNwmROpJt.jpg",
+    synopsis: "Saitama, a man who has trained so hard that he has become overwhelmingly powerful, can defeat any opponent with a single punch. But this leaves him bored and searching for a real challenge. As he joins the Hero Association, Saitama faces enemies, both human and monstrous, that threaten the world."
+  },
+  {
+    id: 9,
+    title: "Tokyo Ghoul",
+    poster: "https://media.kitsu.app/anime/poster_images/8271/large.jpg",
+    cover: "https://th.bing.com/th/id/OIP.5vhN6DAHO-Fs-oKinfniYgAAAA?cb=iwc1&rs=1&pid=ImgDetMain",
+    synopsis: "Ken Kaneki is a university student who is transformed into a half-ghoul after a near-fatal encounter with one. As he struggles to balance his human life and his new ghoul identity, Ken is forced to fight to survive in a world filled with dangerous creatures who hunt humans."
+  },
+  {
+    id: 10,
+    title: "https://media.kitsu.app/anime/poster_images/13209/large.jpg",
+    poster: "https://media.kitsu.app/anime/poster_images/3476/large.jpg",
+    cover: "https://www.animenachrichten.de/wp-content/uploads/2017/08/black-clover-banner.jpg",
+    synopsis: "In a world where magic is everything, Asta and Yuno are both found abandoned at a church on the same day. While Yuno is gifted with exceptional magical powers, Asta is the only one in this world without any. At the age of fifteen, both receive grimoires, magic books that amplify their holder's magic. Asta's is a rare Grimoire of Anti-Magic that negates and repels his opponent's spells. Being opposite but good rivals, Yuno and Asta are ready for the hardest of challenges to achieve their common dream: to be the Wizard King. Giving up is never an option!"
+  },
+  {
+    id: 11,
+    title: "Neon Genesis Evangelion",
+    poster: "https://media.kitsu.app/anime/poster_images/15/large.jpg",
+    cover: "https://i.imgur.com/Np1OkYZ.jpg",
+    synopsis: "Shinji Ikari is recruited by the organization NERV to pilot a giant bio-mechanical robot to fight against monstrous beings known as Angels. As Shinji battles these creatures, he must also confront his own emotional struggles and the complex relationships within NERV."
+  }
+];
+
+function displayBanner(item) {
+  const banner = document.getElementById('banner');
+  const title = document.getElementById('banner-title');
+  const description = document.getElementById('banner-description');
+
+  banner.style.backgroundImage = `url(${item.cover})`;
+  title.textContent = item.title;
+  description.textContent = item.synopsis?.slice(0, 180) + '...' || "No description available";
+}
+
+function init() {
+  const randomAnime = animeData[Math.floor(Math.random() * animeData.length)];
+  displayBanner(randomAnime);
+}
+
+init();
+
+</script>
+
 </body>
+</html>
