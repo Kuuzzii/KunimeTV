@@ -7,27 +7,34 @@ const navLinks = document.querySelectorAll('nav a');
 
 let currentItem = null;
 
-// Helper to set active nav link
+// Helper: set active nav link styles
 function setActiveNav(selectedLink) {
   navLinks.forEach(link => link.classList.remove('active'));
   if (selectedLink) selectedLink.classList.add('active');
 }
 
-// Fetch trending movies or TV
+// Fetch trending movie or TV shows
 async function fetchTrending(type) {
   const res = await fetch(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
   const data = await res.json();
   return data.results;
 }
 
-// Fetch trending anime by filtering Japanese animation from trending tv
+// Fetch trending anime by filtering Japanese animation from trending TV shows
 async function fetchTrendingAnime() {
   const res = await fetch(`${BASE_URL}/trending/tv/week?api_key=${API_KEY}`);
   const data = await res.json();
   return data.results.filter(item => item.original_language === 'ja' && item.genre_ids.includes(16));
 }
 
-// Fetch streaming providers
+// Fetch now playing movies (New Releases)
+async function fetchNewReleases() {
+  const res = await fetch(`${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`);
+  const data = await res.json();
+  return data.results;
+}
+
+// Fetch streaming providers for given id and type
 async function fetchStreamingProviders(id, type) {
   try {
     const res = await fetch(`${BASE_URL}/${type}/${id}/watch/providers?api_key=${API_KEY}`);
@@ -38,7 +45,7 @@ async function fetchStreamingProviders(id, type) {
   }
 }
 
-// Create card for movie or TV show
+// Create movie/tv card DOM element
 function createItemCard(item) {
   const type = (item.media_type === 'movie' || item.media_type === undefined) ? 'movie' : 'tv';
   const div = document.createElement('div');
@@ -55,7 +62,7 @@ function createItemCard(item) {
   return div;
 }
 
-// Display list of items in container
+// Display list of items in the container by id
 function displayList(items, containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -67,7 +74,7 @@ function displayList(items, containerId) {
   });
 }
 
-// Display banner with selected featured item & streaming info
+// Display banner with featured item and streaming info
 async function displayBanner(item) {
   if (!item) return;
   currentItem = item;
@@ -85,7 +92,7 @@ async function displayBanner(item) {
   }
 }
 
-// Redirect to watch page with id and type query parameters
+// Redirect to watch page for currentItem
 function goToMoviePage() {
   if (!currentItem) return alert('No movie/show selected');
   const id = currentItem.id;
@@ -93,7 +100,7 @@ function goToMoviePage() {
   window.location.href = `watch.html?id=${id}&type=${type}`;
 }
 
-// Perform search using TMDb multi-search endpoint
+// Search TMDb multi endpoint for movies, tv, anime
 async function performSearch() {
   const query = document.getElementById('searchInput').value.trim();
   resultsDiv.innerHTML = '';
@@ -116,7 +123,7 @@ async function performSearch() {
   }
 }
 
-// Load trending movies - display banner & list; clear others
+// Load trending movies or TV shows
 async function loadTrending(type) {
   resultsDiv.innerHTML = '';
   setActiveNav(event ? event.currentTarget : null);
@@ -124,24 +131,31 @@ async function loadTrending(type) {
   displayBanner(items[Math.floor(Math.random() * items.length)]);
   if (type === 'movie') {
     displayList(items, 'movies-list');
-    clearOtherLists(['tvshows-list', 'anime-list']);
+    clearOtherLists(['tvshows-list', 'anime-list', 'new-releases-list']);
   } else if (type === 'tv') {
     displayList(items, 'tvshows-list');
-    clearOtherLists(['movies-list', 'anime-list']);
+    clearOtherLists(['movies-list', 'anime-list', 'new-releases-list']);
   }
 }
 
-// Load trending anime only
+// Load trending anime
 async function loadTrendingAnime() {
   resultsDiv.innerHTML = '';
   setActiveNav(event ? event.currentTarget : null);
   const anime = await fetchTrendingAnime();
   displayBanner(anime[Math.floor(Math.random() * anime.length)]);
   displayList(anime, 'anime-list');
-  clearOtherLists(['movies-list', 'tvshows-list']);
+  clearOtherLists(['movies-list', 'tvshows-list', 'new-releases-list']);
 }
 
-// Helper to clear other containers' content to avoid showing mixed lists
+// Load new releases
+async function loadNewReleases() {
+  const newReleases = await fetchNewReleases();
+  displayList(newReleases, 'new-releases-list');
+  clearOtherLists(['movies-list', 'tvshows-list', 'anime-list']);
+}
+
+// Clear content of specified container IDs
 function clearOtherLists(ids) {
   ids.forEach(id => {
     const container = document.getElementById(id);
@@ -149,7 +163,7 @@ function clearOtherLists(ids) {
   });
 }
 
-// Attach event listeners to nav links (already done dynamically)
+// Setup nav event listeners
 navLinks[0].addEventListener('click', loadTrending.bind(null, 'movie'));
 navLinks[1].addEventListener('click', loadTrending.bind(null, 'tv'));
 navLinks[2].addEventListener('click', loadTrendingAnime);
@@ -158,8 +172,9 @@ document.getElementById('searchInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') performSearch();
 });
 
-// On page load show movies trending by default
+// Initial page load: show movies trending and new releases
 window.onload = () => {
   loadTrending('movie');
+  loadNewReleases();
   setActiveNav(navLinks[0]);
 };
