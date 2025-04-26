@@ -1,87 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>KunimeTV header</title>
-<style>
-  body {
-    margin: 0;
-    background-color: #111; /* dark background to match website */
-    font-family: Arial, sans-serif;
-    color: white;
-  }
-  header {
-    background-color: #111;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    height: 50px;
-  }
-  .logo {
-    font-weight: bold;
-    font-size: 24px;
-    color: white;
-    margin-right: 40px;
-    user-select: none;
-  }
-  .logo .highlight {
-    color: #e60057; /* pink color for "pahe" */
-  }
-  nav {
-    display: flex;
-    flex-grow: 1;
-  }
-  nav a {
-    text-decoration: none;
-    color: white;
-    margin-right: 25px;
-    font-size: 14px;
-    text-transform: lowercase;
-    transition: color 0.3s;
-  }
-  nav a:hover {
-    color: #e60057;
-  }
-  .search-box {
-    position: relative;
-  }
-  .search-box input[type="search"] {
-    background: #eee;
-    border: none;
-    border-radius: 3px;
-    padding: 6px 30px 6px 10px;
-    font-size: 14px;
-    outline: none;
-  }
-  .search-box svg {
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
-    fill: #999;
-    pointer-events: none;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Anime Search with Jikan API</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      padding: 20px;
+    }
+    input[type="text"] {
+      padding: 8px;
+      font-size: 16px;
+      width: 300px;
+      border-radius: 4px;
+      border: none;
+    }
+    button {
+      padding: 8px 15px;
+      font-size: 16px;
+      border: none;
+      background-color: #e60057;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    button:hover {
+      background-color: #b00443;
+    }
+    .anime-list {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
+      gap: 20px;
+    }
+    .anime-item {
+      background-color: #222;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px #e60057aa;
+    }
+    .anime-item img {
+      width: 100%;
+      display: block;
+    }
+    .anime-item .info {
+      padding: 10px;
+    }
+    .anime-item .title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .anime-item .score {
+      color: #fbc02d;
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">Kunime<span class="highlight">TV</span></div>
-  <nav>
-    <a href="#">home</a>
-    <a href="#">anime</a>
-    <a href="#">send me a coffee</a>
-  </nav>
-  <div class="search-box">
-    <input type="search" placeholder="Search" />
-    <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-      <path d="M15.5 14h-.79l-.28-.27a6.471 6.471 0 001.48-5.34C15.38 6.59 13.34 5 11 5S6.62 6.59 6.62 8.39c0 1.8 2.04 3.39 4.38 3.39 1.61 0 3.03-.86 3.8-2.16l.27.28v.79l4.25 4.25c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L15.5 14zm-4.5 0C9.12 14 7 11.88 7 9.39S9.12 4.78 11 4.78s4 2.12 4 4.61-2.12 4.61-4 4.61z"></path>
-    </svg>
-  </div>
-</header>
+  <h1>Search Anime (Jikan API)</h1>
+
+  <input type="text" id="searchInput" placeholder="Enter anime title..." />
+  <button onclick="searchAnime()">Search</button>
+
+  <div id="results" class="anime-list"></div>
+
+  <script>
+    async function searchAnime() {
+      const query = document.getElementById('searchInput').value.trim();
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = '';
+
+      if (!query) {
+        alert("Please enter a search term");
+        return;
+      }
+
+      try {
+        const response = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=12`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        const animes = data.data;
+
+        if (animes.length === 0) {
+          resultsDiv.innerHTML = '<p>No results found.</p>';
+          return;
+        }
+
+        for (const anime of animes) {
+          const animeItem = document.createElement('div');
+          animeItem.className = 'anime-item';
+
+          animeItem.innerHTML = `
+            <a href="${anime.url}" target="_blank" rel="noopener noreferrer">
+              <img src="${anime.images.jpg.image_url}" alt="${anime.title}" />
+            </a>
+            <div class="info">
+              <div class="title">${anime.title}</div>
+              <div class="score">⭐ ${anime.score ?? 'N/A'}</div>
+            </div>
+          `;
+
+          resultsDiv.appendChild(animeItem);
+        }
+      } catch (error) {
+        console.error('Error fetching anime:', error);
+        resultsDiv.innerHTML = '<p>Error fetching data. Please try again later.</p>';
+      }
+    }
+  </script>
 
 </body>
 </html>
