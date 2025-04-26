@@ -20,7 +20,7 @@
       text-decoration: none;
     }
     a:hover {
-      color: #e60057; /* pink hover color */
+      color: #e60057;
       text-decoration: underline;
     }
     /* Header */
@@ -105,15 +105,13 @@
       white-space: nowrap;
       padding: 6px 8px;
       transition: color 0.3s ease;
+      cursor: pointer;
     }
-    nav a.active,
-    nav a:hover {
+    nav a.active {
       font-weight: bold;
       color: #e60057;
       text-decoration: underline;
-      cursor: pointer;
     }
-
     /* Anime list content styles */
     .anime-list {
       margin-top: 30px;
@@ -163,54 +161,99 @@
     </button>
   </div>
   <nav>
-    <a href="#" class="active">New</a>
-    <a href="#">Anime</a>
-    <a href="#">Popular</a>
-    <a href="#">Random</a>
+    <a href="#" class="active" onclick="loadHome(event)">Home</a>
+    <a href="#" onclick="loadAnime(event)">Anime</a>
+    <a href="#" onclick="loadPopular(event)">Popular</a>
+    <a href="#" onclick="load18Plus(event)">18+</a>
   </nav>
 </header>
 <main>
   <div id="results" class="anime-list"></div>
 </main>
 <script>
+  const resultsDiv = document.getElementById('results');
+  const navLinks = document.querySelectorAll('nav a');
+
+  function setActiveLink(clickedLink) {
+    navLinks.forEach(link => link.classList.remove('active'));
+    clickedLink.classList.add('active');
+  }
+
+  async function fetchAndDisplay(animeList) {
+    resultsDiv.innerHTML = '';
+    if (animeList.length === 0) {
+      resultsDiv.innerHTML = '<p style="color:#eee;">No results found.</p>';
+      return;
+    }
+    for (const anime of animeList) {
+      const animeItem = document.createElement('div');
+      animeItem.className = 'anime-item';
+      animeItem.innerHTML = `
+        <a href="${anime.url}" target="_blank" rel="noopener noreferrer" title="${anime.title}">
+          <img src="${anime.images.jpg.image_url}" alt="${anime.title}" />
+        </a>
+        <div class="info">
+          <div class="title">${anime.title}</div>
+          <div class="score">⭐ ${anime.score ?? 'N/A'}</div>
+        </div>
+      `;
+      resultsDiv.appendChild(animeItem);
+    }
+  }
+
+  async function loadHome(event) {
+    event.preventDefault();
+    setActiveLink(event.currentTarget);
+    const response = await fetch('https://api.jikan.moe/v4/seasons/now?sfw=true&limit=12');
+    const json = await response.json();
+    await fetchAndDisplay(json.data);
+  }
+
+  async function loadAnime(event) {
+    event.preventDefault();
+    setActiveLink(event.currentTarget);
+    const response = await fetch('https://api.jikan.moe/v4/top/anime?filter=airing&sfw=true&limit=12');
+    const json = await response.json();
+    await fetchAndDisplay(json.data);
+  }
+
+  async function loadPopular(event) {
+    event.preventDefault();
+    setActiveLink(event.currentTarget);
+    const response = await fetch('https://api.jikan.moe/v4/top/anime?filter=bypopularity&sfw=true&limit=12');
+    const json = await response.json();
+    await fetchAndDisplay(json.data);
+  }
+
+  async function load18Plus(event) {
+    event.preventDefault();
+    setActiveLink(event.currentTarget);
+    // Get top anime without sfw filter (includes adult)
+    const response = await fetch('https://api.jikan.moe/v4/top/anime?filter=bypopularity&limit=24');
+    const json = await response.json();
+    // Filter to only include adult (genre mal_id 12 is Hentai)
+    const adultAnimes = json.data.filter(anime =>
+      anime.genres.some(genre => genre.mal_id === 12)
+    );
+    await fetchAndDisplay(adultAnimes.length ? adultAnimes : json.data);
+  }
+
   async function searchAnime() {
     const query = document.getElementById('searchInput').value.trim();
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = '';
     if (!query) {
       alert("Please enter a search term");
       return;
     }
-    try {
-      const response = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=12`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      const animes = data.data;
-      if (animes.length === 0) {
-        resultsDiv.innerHTML = '<p style="color:#eee;">No results found.</p>';
-        return;
-      }
-      for (const anime of animes) {
-        const animeItem = document.createElement('div');
-        animeItem.className = 'anime-item';
-        animeItem.innerHTML = `
-          <a href="${anime.url}" target="_blank" rel="noopener noreferrer" title="${anime.title}">
-            <img src="${anime.images.jpg.image_url}" alt="${anime.title}" />
-          </a>
-          <div class="info">
-            <div class="title">${anime.title}</div>
-            <div class="score">⭐ ${anime.score ?? 'N/A'}</div>
-          </div>
-        `;
-        resultsDiv.appendChild(animeItem);
-      }
-    } catch (error) {
-      console.error('Error fetching anime:', error);
-      resultsDiv.innerHTML = '<p style="color:#e60057;">Error fetching data. Please try again later.</p>';
-    }
+    setActiveLink(null);
+    const response = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=12`);
+    const json = await response.json();
+    await fetchAndDisplay(json.data);
   }
+
+  // Load home content on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    loadHome({currentTarget: navLinks[0], preventDefault: () => {}});
+  });
 </script>
 </body>
 </html>
