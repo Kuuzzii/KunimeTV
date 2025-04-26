@@ -23,7 +23,6 @@
       color: #e60057; /* pink hover color */
       text-decoration: underline;
     }
-
     /* Header */
     header {
       background-color: #121212; /* dark black */
@@ -49,7 +48,6 @@
       width: 30px;
       margin-right: 8px;
     }
-
     /* Search Bar */
     .search-container {
       position: relative;
@@ -93,7 +91,6 @@
       width: 14px;
       height: 14px;
     }
-
     /* Nav menu */
     nav {
       margin-left: 25px;
@@ -111,7 +108,6 @@
       color: #e60057;
       text-decoration: underline;
     }
-
     /* Content styles from previous example */
     .anime-list {
       margin-top: 30px;
@@ -147,14 +143,11 @@
   </style>
 </head>
 <body>
-
 <header>
   <div class="logo">
-    <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" />
-    <!-- Replace with your logo text or image -->
-    YourSite
+    <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KunimeTV Logo" />
+    KunimeTV
   </div>
-
   <div class="search-container">
     <input type="text" id="searchInput" placeholder="Search for anime..." autocomplete="off" />
     <button onclick="searchAnime()" title="Search">
@@ -163,7 +156,6 @@
       </svg>
     </button>
   </div>
-
   <nav>
     <a href="#" class="active">New</a>
     <a href="#">Anime</a>
@@ -171,22 +163,18 @@
     <a href="#">Random</a>
   </nav>
 </header>
-
 <main>
   <div id="results" class="anime-list"></div>
 </main>
-
 <script>
   async function searchAnime() {
     const query = document.getElementById('searchInput').value.trim();
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = '';
-
     if (!query) {
       alert("Please enter a search term");
       return;
     }
-
     try {
       const response = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=12`);
       if (!response.ok) {
@@ -194,16 +182,13 @@
       }
       const data = await response.json();
       const animes = data.data;
-
       if (animes.length === 0) {
         resultsDiv.innerHTML = '<p style="color:#eee;">No results found.</p>';
         return;
       }
-
       for (const anime of animes) {
         const animeItem = document.createElement('div');
         animeItem.className = 'anime-item';
-
         animeItem.innerHTML = `
           <a href="${anime.url}" target="_blank" rel="noopener noreferrer" title="${anime.title}">
             <img src="${anime.images.jpg.image_url}" alt="${anime.title}" />
@@ -213,7 +198,6 @@
             <div class="score">⭐ ${anime.score ?? 'N/A'}</div>
           </div>
         `;
-
         resultsDiv.appendChild(animeItem);
       }
     } catch (error) {
@@ -222,6 +206,5 @@
     }
   }
 </script>
-
 </body>
 </html>
