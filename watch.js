@@ -6,6 +6,53 @@ const urlParams = new URLSearchParams(window.location.search);
 const movieId = urlParams.get('id');
 const type = urlParams.get('type'); // 'movie' or 'tv'
 
+let currentServerIndex = 0;
+
+const backdrop = document.getElementById('movie-backdrop');
+const poster = document.getElementById('movie-poster');
+const titleEl = document.getElementById('movie-title');
+const releaseDateEl = document.getElementById('movie-release-date');
+const runtimeEl = document.getElementById('movie-runtime');
+const genresEl = document.getElementById('movie-genres');
+const overviewEl = document.getElementById('movie-overview');
+const videoIframe = document.getElementById('movie-video');
+const playBtn = document.getElementById('play-btn');
+const serverSelect = document.getElementById('server-select');
+const backBtn = document.getElementById('back-btn');
+
+const servers = [];
+
+if (type === 'movie') {
+    servers.push(
+        { name: 'Vidsrc', url: `https://vidsrc.me/embed/${movieId}` },
+        { name: 'Fsapi', url: `https://fsapi.xyz/movie/${movieId}` },
+        { name: 'Curtstream', url: `https://curtstream.com/movies/imdb/${movieId}` },
+        { name: 'Moviewp', url: `https://moviewp.com/se.php?video_id=${movieId}` },
+        { name: 'ApiMDB', url: `https://v2.apimdb.net/e/movie/${movieId}` },
+        { name: 'Gomo', url: `https://gomo.to/movie/${movieId}` },
+        { name: 'VidCloud', url: `https://vidcloud.stream/${movieId}.html` },
+    );
+} else if (type === 'tv') {
+    const season = urlParams.get('season') || 1;
+    const episode = urlParams.get('episode') || 1;
+    servers.push(
+        { name: 'Fsapi TV', url: `https://fsapi.xyz/tv-imdb/${movieId}-${season}-${episode}` },
+        { name: 'Moviewp TV', url: `https://moviewp.com/se.php?video_id=${movieId}&tmdb=1&s=${season}&e=${episode}` },
+        { name: 'ApiMDB TV', url: `https://v2.apimdb.net/e/tmdb/tv/${movieId}/${season}/${episode}/` },
+        { name: 'GDrivePlayer', url: `https://databasegdriveplayer.co/player.php?type=series&tmdb=${movieId}&season=${season}&episode=${episode}` },
+        { name: 'Curtstream TV', url: `https://curtstream.com/series/tmdb/${movieId}/season/${season}/episode/${episode}/` },
+    );
+}
+
+// Populate server dropdown
+servers.forEach((server, index) => {
+    const option = document.createElement('option');
+    option.value = index;
+    option.textContent = server.name;
+    serverSelect.appendChild(option);
+});
+
+
 let currentServer = '';  // No server selected initially
 
 const backdrop = document.getElementById('movie-backdrop');
