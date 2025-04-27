@@ -325,6 +325,95 @@
       background: rgba(229, 9, 20, 0.9);
       color: white;
     }
+
+    /* FAQ Section */
+    #faq-section {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto 80px;
+      padding: 0 20px;
+      user-select: none;
+      color: white;
+    }
+    #faq-section h2 {
+      color: #e50914;
+      font-weight: 700;
+      margin-bottom: 24px;
+      user-select: text;
+      font-size: 1.8rem;
+    }
+    .faq-item {
+      border-top: 1px solid #444;
+    }
+    body.light-mode #faq-section {
+      color: #222;
+    }
+    body.light-mode #faq-section h2 {
+      color: #b3000a;
+    }
+
+    /* Accordion button - question */
+    .faq-question {
+      background: transparent;
+      color: inherit;
+      width: 100%;
+      text-align: left;
+      padding: 18px 16px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    .faq-question:hover,
+    .faq-question:focus {
+      background-color: rgba(229, 9, 20, 0.15);
+    }
+    body.light-mode .faq-question:hover,
+    body.light-mode .faq-question:focus {
+      background-color: rgba(179, 0, 10, 0.15);
+    }
+
+    /* Plus/Minus icon */
+    .faq-icon {
+      font-weight: 900;
+      font-size: 1.6rem;
+      color: #e50914;
+      user-select: none;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+      width: 24px;
+      text-align: center;
+    }
+    body.light-mode .faq-icon {
+      color: #b3000a;
+    }
+    .faq-question[aria-expanded="true"] .faq-icon {
+      transform: rotate(45deg);
+    }
+    /* Accordion answer */
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 16px;
+      color: #ccc;
+      font-size: 1rem;
+      line-height: 1.5;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .faq-answer[aria-hidden="false"] {
+      padding-top: 12px;
+      padding-bottom: 18px;
+      max-height: 500px; /* enough to show content */
+    }
+    body.light-mode .faq-answer {
+      color: #444;
+    }
   </style>
 </head>
 <body>
@@ -333,8 +422,9 @@
       <img
         src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg"
         alt="KunimeTV Logo"
-        class="logo
-              <span class="website-name">KunimeTV</span>
+        class="logo"
+      />
+      <span class="website-name">KunimeTV</span>
     </div>
     <!-- Dark/Light Mode Toggle Switch -->
     <label class="toggle-switch" aria-label="Toggle dark/light mode">
@@ -381,10 +471,50 @@
         <button id="trending-next" class="trending-arrow" aria-label="Scroll right">&#8250;</button>
       </div>
     </section>
-        <!-- FAQ Section Placeholder -->
-    <section id="faq-section" style="max-width: 1100px; margin: 40px auto; padding: 0 20px; color: white;">
+
+    <!-- FAQ Section -->
+    <section id="faq-section" aria-label="Frequently Asked Questions">
       <h2>Frequently Asked Questions</h2>
-      <p style="color: #888;">[FAQ content will go here]</p>
+      
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq1" id="faq1-btn">
+          What is KunimeTV?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq1" role="region" aria-labelledby="faq1-btn" aria-hidden="true">
+          KunimeTV is an online platform to watch unlimited movies and TV shows from various sources.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq2" id="faq2-btn">
+          How can I watch movies on KunimeTV?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq2" role="region" aria-labelledby="faq2-btn" aria-hidden="true">
+          Simply click on “Watch Now” to access our content library, or select a movie from the trending section.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq3" id="faq3-btn">
+          Is KunimeTV free?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq3" role="region" aria-labelledby="faq3-btn" aria-hidden="true">
+          KunimeTV offers both free access and premium content options. Some content may require a subscription.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq4" id="faq4-btn">
+          What devices support KunimeTV?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq4" role="region" aria-labelledby="faq4-btn" aria-hidden="true">
+          You can watch KunimeTV on most modern devices, including desktops, laptops, smartphones, tablets, and smart TVs.
+        </div>
+      </div>
     </section>
   </main>
   <script>
@@ -474,6 +604,49 @@
     });
 
     window.addEventListener('DOMContentLoaded', loadTrendingMovies);
+
+    // FAQ Accordion logic
+    const faqItems = document.querySelectorAll('.faq-question');
+    faqItems.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        // Close all other items
+        faqItems.forEach((otherBtn) => {
+          if (otherBtn !== btn) {
+            otherBtn.setAttribute('aria-expanded', 'false');
+            const answerId = otherBtn.getAttribute('aria-controls');
+            const answerEl = document.getElementById(answerId);
+            if (answerEl) {
+              answerEl.setAttribute('aria-hidden', 'true');
+            }
+          }
+        });
+
+        if (!expanded) {
+          btn.setAttribute('aria-expanded', 'true');
+          const answerId = btn.getAttribute('aria-controls');
+          const answerEl = document.getElementById(answerId);
+          if (answerEl) {
+            answerEl.setAttribute('aria-hidden', 'false');
+          }
+        } else {
+          btn.setAttribute('aria-expanded', 'false');
+          const answerId = btn.getAttribute('aria-controls');
+          const answerEl = document.getElementById(answerId);
+          if (answerEl) {
+            answerEl.setAttribute('aria-hidden', 'true');
+          }
+        }
+      });
+
+      // Enable toggle by enter or space keyboard keys on the button
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          btn.click();
+        }
+      });
+    });
   </script>
 </body>
 </html>
