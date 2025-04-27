@@ -134,23 +134,16 @@ function updateVideoSrc() {
     return;
   }
 
-  // Server selected; hide overlay and load embed
-  playBtn.disabled = false;
+ // Server selected; hide overlay and load embed
+playBtn.disabled = false;
 
-  let embedURL = '';
-  switch (currentServer) {
-    case 'vidsrc.cc':
-      embedURL = `https://vidsrc.cc/v2/embed/${type}/${movieId}`;
-      break;
-    case 'vidsrc.me':
-      embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${movieId}`;
-      break;
-    case 'videasy.net':
-      embedURL = `https://player.videasy.net/${type}/${movieId}`;
-      break;
-    default:
-      embedURL = `https://vidsrc.cc/v2/embed/${type}/${movieId}`;
-  }
+const selectedServer = servers[currentServer];
+if (selectedServer) {
+    videoIframe.src = selectedServer.url;
+} else {
+    videoIframe.src = 'about:blank'; // fallback if somehow invalid
+}
+
 
   videoIframe.src = embedURL;
 }
