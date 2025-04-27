@@ -52,21 +52,6 @@ servers.forEach((server, index) => {
     serverSelect.appendChild(option);
 });
 
-
-let currentServer = '';  // No server selected initially
-
-const backdrop = document.getElementById('movie-backdrop');
-const poster = document.getElementById('movie-poster');
-const titleEl = document.getElementById('movie-title');
-const releaseDateEl = document.getElementById('movie-release-date');
-const runtimeEl = document.getElementById('movie-runtime');
-const genresEl = document.getElementById('movie-genres');
-const overviewEl = document.getElementById('movie-overview');
-const videoIframe = document.getElementById('movie-video');
-const playBtn = document.getElementById('play-btn');
-const serverSelect = document.getElementById('server-select');
-const backBtn = document.getElementById('back-btn');
-
 async function fetchDetails() {
   try {
     const res = await fetch(`${BASE_URL}/${type}/${movieId}?api_key=${API_KEY}`);
@@ -137,15 +122,13 @@ function updateVideoSrc() {
  // Server selected; hide overlay and load embed
 playBtn.disabled = false;
 
-const selectedServer = servers[currentServer];
+const selectedServer = servers[currentServerIndex];
 if (selectedServer) {
     videoIframe.src = selectedServer.url;
 } else {
     videoIframe.src = 'about:blank'; // fallback if somehow invalid
 }
 
-
-  videoIframe.src = embedURL;
 }
 
 playBtn.addEventListener('click', () => {
