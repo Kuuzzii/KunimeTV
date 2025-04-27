@@ -157,7 +157,7 @@ playBtn.addEventListener('click', () => {
 });
 
 serverSelect.addEventListener('change', (e) => {
-  currentServer = e.target.value;
+  currentServerIndex = e.target.value;
   updateVideoSrc();
 });
 
