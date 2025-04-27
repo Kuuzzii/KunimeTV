@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KunimeTV - Welcome</title>
+  <link rel="stylesheet" href="landing.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo-container">
+      <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KunimeTV Logo" class="logo" />
+      <span class="website-name">KunimeTV</span>
+    </div>
+  </header>
+  <main class="main-content">
+    <h1 class="header-placeholder">[Header Placeholder]</h1>
+    <div class="buttons-container">
+      <button class="btn watch-btn" type="button">Watch Now</button>
+      <button class="btn coffee-btn" type="button">Buy me a coffee? ☕</button>
+    </div>
+  </main>
+  <script>
+    document.querySelector('.watch-btn').addEventListener('click', () => {
+      window.location.href = 'main.html'; // redirect to main homepage
+    });
+    document.querySelector('.coffee-btn').addEventListener('click', () => {
+      window.open('https://buymeacoffee.com/yourprofile', '_blank');
+    });
+  </script>
+</body>
+</html>
