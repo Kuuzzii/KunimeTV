@@ -33,7 +33,7 @@ body {
   font-size: 24px;
   color: #e50914; /* Netflix-like red */
 }
-/* Main content */
+/* Main content  - center everything */
 .main-content {
   flex: 1;
   display: flex;
@@ -47,7 +47,7 @@ body {
   font-size: 2.5rem;
   margin-bottom: 40px;
 }
-/* Buttons container */
+/* Buttons side by side */
 .buttons-container {
   display: flex;
   gap: 20px;
@@ -70,7 +70,7 @@ body {
 .watch-btn:hover {
   background-color: #f6121d;
 }
-/* Coffee button styling */
+/* Send me a coffee button styling */
 .coffee-btn {
   background-color: #444;
   color: white;
