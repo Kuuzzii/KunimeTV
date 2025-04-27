@@ -5,7 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Watch - KuNime</title>
   <link rel="stylesheet" href="watch.css" />
-  <script defer src="watch.js"></script>
+  <!-- Moved JS inline for this example so you can easily see code -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const movieId = urlParams.get('id');
+      const mediaType = urlParams.get('type');
+      const episode = urlParams.get('episode'); // may be null
+
+      // Elements
+      const backBtn = document.getElementById('back-btn');
+      const playBtn = document.getElementById('play-btn');
+      const serverSelect = document.getElementById('server-select');
+      const episodeBtn = document.getElementById('episode-btn');
+
+      // TODO: Load movie/tv show data based on movieId and mediaType (not shown here)
+
+      backBtn.addEventListener('click', () => {
+        window.history.back();
+      });
+
+      playBtn.addEventListener('click', () => {
+        // Play button logic here
+        // Use selected server and other parameters
+        // Example redirection or player update:
+        alert(`Play clicked!\nID: ${movieId}\nType: ${mediaType}\nServer: ${serverSelect.value}${episode ? `\nEpisode: ${episode}` : ''}`);
+      });
+
+      episodeBtn.addEventListener('click', () => {
+        let epNum = prompt('Enter episode number:', episode || '1');
+        if (epNum) {
+          epNum = epNum.trim();
+          if (/^\d+$/.test(epNum) && parseInt(epNum) > 0) {
+            // Construct new URL with episode parameter
+            const baseUrl = window.location.pathname;
+            const searchParams = new URLSearchParams(window.location.search);
+            searchParams.set('episode', epNum);
+            // Redirect to same page but with updated episode
+            window.location.href = `${baseUrl}?${searchParams.toString()}`;
+          } else {
+            alert('Please enter a valid positive number for the episode.');
+          }
+        }
+      });
+    });
+  </script>
 </head>
 <body>
   <header class="navbar">
@@ -37,6 +81,7 @@
               <option value="vidsrc.me">Vidsrc.me</option>
               <option value="videasy.net">Videasy.net</option>
             </select>
+            <button id="episode-btn" class="action-btn" type="button" aria-label="Select Episode">Episode</button>
           </div>
         </div>
       </div>
