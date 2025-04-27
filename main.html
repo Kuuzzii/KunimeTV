@@ -1,15 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" href="Kk.png" type="image/png" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>KunimeTV - Movies & TV Streaming</title>
-  <link rel="icon" href "Kk.png" type="image/png" />
   <link rel="stylesheet" href="home.css" />
   <link rel="stylesheet" href="anime.css" />
   <link rel="stylesheet" href="landing.css" />
   <style>
     /* Your inline styles (cleaned) */
+    /* Add any additional styles for featured movies section */
+    #featured-movies {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    #featured-movie-container {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .featured-movie {
+      margin: 0 10px;
+      width: 200px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
     .search-container button {
       border: 2px solid #e60000;
       background-color: transparent;
@@ -94,10 +117,12 @@
 <body>
   <header>
     <div class="logo">
-<a href=https://kunimetv.pages.dev/>      <img
-        src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg"
-        alt="KunimeTV Logo"
-      /> </a>
+      <a href="https://kunimetv.pages.dev/">
+        <img
+          src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg"
+          alt="KunimeTV Logo"
+        />
+      </a>
       KunimeTV
     </div>
     <div class="search-container">
@@ -111,6 +136,13 @@
     </nav>
   </header>
   <main>
+    <!-- Featured Movies Section -->
+    <section id="featured-movies">
+      <div id="featured-movie-container">
+        <!-- Featured movie images will be inserted here -->
+      </div>
+    </section>
+
     <div id="results" class="anime-list" style="margin-top: 30px; padding: 0 20px;"></div>
     <section>
       <div id="new-releases-list" class="anime-list"></div>
