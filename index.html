@@ -1,32 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>KunimeTV - Welcome</title>
-  <link rel="stylesheet" href="landing.css" />
-</head>
-<body>
-  <header class="header">
-    <div class="logo-container">
-      <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KunimeTV Logo" class="logo" />
-      <span class="website-name">KunimeTV</span>
-    </div>
-  </header>
-  <main class="main-content">
-    <h1 class="header-placeholder">[Header Placeholder]</h1>
-    <div class="buttons-container">
-      <button class="btn watch-btn" type="button">Watch Now</button>
-      <button class="btn coffee-btn" type="button">Buy me a coffee? ☕</button>
-    </div>
-  </main>
-  <script>
-    document.querySelector('.watch-btn').addEventListener('click', () => {
-      window.location.href = 'main.html'; // redirect to main homepage
-    });
-    document.querySelector('.coffee-btn').addEventListener('click', () => {
-      window.open('https://buymeacoffee.com/yourprofile', '_blank');
-    });
-  </script>
-</body>
-</html>
+/* Reset and base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+body {
+  background-color: #141414;
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+/* Header */
+.header {
+  background-color: #000;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+.logo {
+  height: 40px;
+  margin-right: 10px;
+}
+.website-name {
+  font-weight: bold;
+  font-size: 24px;
+  color: #e50914; /* Netflix-like red */
+}
+/* Main content  - center everything */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+}
+.header-placeholder {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+}
+/* Buttons side by side */
+.buttons-container {
+  display: flex;
+  gap: 20px;
+}
+.btn {
+  padding: 16px 40px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  min-width: 150px;
+}
+/* Watch Now button styling */
+.watch-btn {
+  background-color: #e50914;
+  color: white;
+}
+.watch-btn:hover {
+  background-color: #f6121d;
+}
+/* Send me a coffee button styling */
+.coffee-btn {
+  background-color: #444;
+  color: white;
+}
+.coffee-btn:hover {
+  background-color: #666;
+}
