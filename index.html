@@ -3,25 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Your Website - Welcome</title>
+  <title>KunimeTV - Welcome</title>
   <link rel="stylesheet" href="landing.css" />
 </head>
 <body>
   <header class="header">
     <div class="logo-container">
       <!-- Replace the src with your actual logo -->
-      <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="Your Logo" class="logo" />
-      <span class="KunimeTV">Your Website</span>
+      <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KunimeTV Logo" class="logo" />
+      <span class="website-name">KunimeTV</span>
     </div>
   </header>
 
   <main class="main-content">
     <h1 class="header-placeholder">[Header Placeholder]</h1>
-
     <div class="buttons-container">
-      <button class="btn watch-btn">Watch Now</button>
-      <button class="btn coffee-btn">Send me a coffee ☕</button>
+      <button class="btn watch-btn" type="button">Watch Now</button>
+      <button class="btn coffee-btn" type="button">Send me a coffee ☕</button>
     </div>
   </main>
+
+  <script>
+    document.querySelector('.watch-btn').addEventListener('click', () => {
+      // Redirect to main homepage file
+      window.location.href = 'main.html';
+    });
+
+    document.querySelector('.coffee-btn').addEventListener('click', () => {
+      // Open your "send me a coffee" link
+      window.open('https://buymeacoffee.com/yourprofile', '_blank');
+    });
+  </script>
 </body>
 </html>
