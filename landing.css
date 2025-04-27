@@ -11,7 +11,26 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+
+  /* Wallpaper background */
+  background-image: url('https://images.unsplash.com/photo-1505685296765-3a2736de412f?auto=format&fit=crop&w=1470&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Positioning for overlay */
+  position: relative;
+  z-index: 0;
 }
+/* Dark overlay for better text visibility */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(20, 20, 20, 0.7);
+  z-index: -1;
+}
+
 /* Header */
 .header {
   background-color: #000;
