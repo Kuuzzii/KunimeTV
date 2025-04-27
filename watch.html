@@ -38,7 +38,6 @@
       height: 500px;
       border: none;
     }
-    /* Add user friendly message for iframe errors */
     #video-error {
       color: red;
       padding: 20px;
@@ -92,107 +91,99 @@
       <div id="video-error">Failed to load video. Please try selecting a different server or episode.</div>
     </div>
   </main>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // NOTE: Replace YOUR_TMDB_API_KEY with your actual TMDb API key if using fetch
-    const TMDB_API_KEY = 'YOUR_TMDB_API_KEY';
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Replace with your TMDB API key or leave empty if not using API for episodes
+      const TMDB_API_KEY = '';
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const movieId = urlParams.get('id');
-    const mediaType = urlParams.get('type');
-    const episodeParam = urlParams.get('episode');
+      const urlParams = new URLSearchParams(window.location.search);
+      const movieId = urlParams.get('id');
+      const mediaType = urlParams.get('type');
+      const episodeParam = urlParams.get('episode');
 
-    const serverSelect = document.getElementById('server-select');
-    const episodeSelect = document.getElementById('episode-select');
-    const playBtn = document.getElementById('play-btn');
-    const backBtn = document.getElementById('back-btn');
-    const movieVideo = document.getElementById('movie-video');
-    const videoError = document.getElementById('video-error');
+      const serverSelect = document.getElementById('server-select');
+      const episodeSelect = document.getElementById('episode-select');
+      const playBtn = document.getElementById('play-btn');
+      const backBtn = document.getElementById('back-btn');
+      const movieVideo = document.getElementById('movie-video');
+      const videoError = document.getElementById('video-error');
 
-    if (!movieId) {
-      videoError.style.display = 'block';
-      videoError.textContent = 'Missing movie or TV show ID in URL.';
-      playBtn.disabled = true;
-      serverSelect.disabled = true;
-      return;
-    }
-
-    backBtn.addEventListener('click', () => {
-      window.history.back();
-    });
-
-    // Fetch episode count dynamically for TV shows from TMDb if API key provided
-    async function fetchEpisodeCount(tvId) {
-      if (!TMDB_API_KEY) return 0;
-      try {
-        const res = await fetch(`https://api.themoviedb.org/3/tv/${tvId}?api_key=${TMDB_API_KEY}&language=en-US`);
-        if (!res.ok) throw new Error('Failed fetching TV details');
-        const data = await res.json();
-        // Here, season 1 episode count is used; you can enhance for multiple seasons if needed.
-        const season1 = data.seasons?.find(s => s.season_number === 1);
-        return season1?.episode_count || 0;
-      } catch (error) {
-        console.error(error);
-        return 0;
+      if (!movieId) {
+        videoError.style.display = 'block';
+        videoError.textContent = 'Missing movie or TV show ID in URL.';
+        playBtn.disabled = true;
+        serverSelect.disabled = true;
+        return;
       }
-    }
 
-    async function setupEpisodeSelector() {
-      if (mediaType === 'tv') {
-        let episodeCount = 12; // fallback default if no API key
-        if (TMDB_API_KEY && movieId) {
-          episodeCount = await fetchEpisodeCount(movieId);
+      backBtn.addEventListener('click', () => {
+        window.history.back();
+      });
+
+      async function fetchEpisodeCount(tvId) {
+        if (!TMDB_API_KEY) return 0;
+        try {
+          const res = await fetch(`https://api.themoviedb.org/3/tv/${tvId}?api_key=${TMDB_API_KEY}&language=en-US`);
+          if (!res.ok) throw new Error('Failed fetching TV details');
+          const data = await res.json();
+          // You can enhance for seasons if needed; currently gets season 1 count
+          const season1 = data.seasons?.find(s => s.season_number === 1);
+          return season1?.episode_count || 0;
+        } catch {
+          return 0;
         }
-        if (episodeCount > 0) {
-          episodeSelect.style.display = 'inline-block';
-          episodeSelect.innerHTML = '';
-          for (let i = 1; i <= episodeCount; i++) {
-            const opt = document.createElement('option');
-            opt.value = i;
-            opt.textContent = `Episode ${i}`;
-            episodeSelect.appendChild(opt);
+      }
+
+      async function setupEpisodeSelector() {
+        if (mediaType === 'tv') {
+          // Use API or fallback to default 12 episodes
+          let episodeCount = 12;
+          if (TMDB_API_KEY && movieId) {
+            episodeCount = await fetchEpisodeCount(movieId);
           }
-          episodeSelect.value = episodeParam && episodeParam <= episodeCount ? episodeParam : '1';
-          return;
+          if (episodeCount > 0) {
+            episodeSelect.style.display = 'inline-block';
+            episodeSelect.innerHTML = '';
+            for (let i = 1; i <= episodeCount; i++) {
+              const opt = document.createElement('option');
+              opt.value = i;
+              opt.textContent = `Episode ${i}`;
+              episodeSelect.appendChild(opt);
+            }
+            episodeSelect.value = episodeParam && episodeParam <= episodeCount ? episodeParam : '1';
+            return;
+          }
         }
+        episodeSelect.style.display = 'none';
       }
-      episodeSelect.style.display = 'none';
-    }
 
-    // Compose iframe URL respecting server, movieId, and episode for TV shows
-    function composeVideoURL() {
-      const server = serverSelect.value;
-      let url = `https://${server}/embed/${movieId}`;
-      if (mediaType === 'tv' && episodeSelect.style.display !== 'none') {
-        url += `?episode=${episodeSelect.value}`;
+      function composeVideoURL() {
+        const server = serverSelect.value;
+        let url = `https://${server}/embed/${movieId}`;
+        if (mediaType === 'tv' && episodeSelect.style.display !== 'none') {
+          url += `?episode=${episodeSelect.value}`;
+        }
+        return url;
       }
-      return url;
-    }
 
-    // Update iframe src and handle error display
-    function updateVideoSrc() {
-      const url = composeVideoURL();
-      videoError.style.display = 'none';
-      movieVideo.src = url;
-    }
+      function updateVideoSrc() {
+        videoError.style.display = 'none';
+        movieVideo.src = composeVideoURL();
+      }
 
-    // Show error message if iframe fails to load video
-    movieVideo.onerror = () => {
-      videoError.style.display = 'block';
-    };
+      movieVideo.onerror = () => {
+        videoError.style.display = 'block';
+      };
 
-    // Event listeners to update video when inputs change
-    serverSelect.addEventListener('change', updateVideoSrc);
-    episodeSelect.addEventListener('change', updateVideoSrc);
-    playBtn.addEventListener('click', updateVideoSrc);
+      serverSelect.addEventListener('change', updateVideoSrc);
+      episodeSelect.addEventListener('change', updateVideoSrc);
+      playBtn.addEventListener('click', updateVideoSrc);
 
-    // Initialize episode selector and video player
-    (async () => {
-      await setupEpisodeSelector();
-      updateVideoSrc();
-    })();
-
-  });
-</script>
+      (async () => {
+        await setupEpisodeSelector();
+        updateVideoSrc();
+      })();
+    });
+  </script>
 </body>
 </html>
