@@ -13,7 +13,17 @@
       <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KuNime Logo" />
       <span>KuNime</span>
     </div>
-    <button id="back-btn" type="button" class="back-button">&#8592;Back To Homepage.</button>
+  <button id="back-btn" type="button" class="back-button">&#8592; Back to Homepage</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const backBtn = document.getElementById('back-btn');
+    backBtn.addEventListener('click', () => {
+      // Replace '/' with your actual homepage path, e.g., 'index.html' or 'main.html'
+      window.location.href = 'https://kunimetv.pages.dev/main'; 
+    });
+  });
+</script>
   </header>
 
   <main class="movie-container">
