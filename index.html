@@ -4,7 +4,75 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>KunimeTV - Welcome</title>
-  <link rel="stylesheet" href="landing.css" />
+  <style>
+    body {
+      background-color: #141414;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0; height: 100vh;
+      display: flex; flex-direction: column;
+    }
+    .header {
+      background-color: black;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      padding: 0 30px;
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      height: 40px;
+      margin-right: 10px;
+    }
+    .website-name {
+      font-weight: bold;
+      font-size: 24px;
+      color: #e50914;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+    }
+    .buttons-container {
+      display: flex;
+      gap: 20px;
+    }
+    button {
+      padding: 16px 40px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      min-width: 150px;
+      transition: background-color 0.3s ease;
+      color: white;
+    }
+    .watch-btn {
+      background-color: #e50914;
+    }
+    .watch-btn:hover {
+      background-color: #f6121d;
+    }
+    .coffee-btn {
+      background-color: #444;
+    }
+    .coffee-btn:hover {
+      background-color: #666;
+    }
+  </style>
 </head>
 <body>
   <header class="header">
@@ -17,16 +85,18 @@
       <span class="website-name">KunimeTV</span>
     </div>
   </header>
-  <main class="main-content">
-    <h1 class="header-placeholder">[Header Placeholder]</h1>
+
+  <main>
+    <h1>[Header Placeholder]</h1>
     <div class="buttons-container">
-      <button class="btn watch-btn" type="button">Watch Now</button>
-      <button class="btn coffee-btn" type="button">Buy me a coffee? ☕</button>
+      <button class="watch-btn" type="button">Watch Now</button>
+      <button class="coffee-btn" type="button">Buy me a coffee? ☕</button>
     </div>
   </main>
+
   <script>
     document.querySelector('.watch-btn').addEventListener('click', () => {
-      window.location.href = 'main.html'; // redirect to main homepage
+      window.location.href = 'main.html';
     });
     document.querySelector('.coffee-btn').addEventListener('click', () => {
       window.open('https://buymeacoffee.com/yourprofile', '_blank');
