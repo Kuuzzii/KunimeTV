@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="anime.css" />
   <link rel="stylesheet" href="landing.css" />
   <style>
-    /* Your existing inline styles */
+    /* Your inline styles (cleaned) */
     .search-container button {
       border: 2px solid #e60000;
       background-color: transparent;
@@ -63,21 +63,29 @@
       font-size: 24px;
       color: inherit;
     }
-    #movies-list, #tvshows-list, #anime-list, #new-releases-list {
+    #movies-list,
+    #tvshows-list,
+    #anime-list,
+    #new-releases-list {
       display: grid !important;
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
       padding: 1rem 20px;
     }
-    #movies-list img, #tvshows-list img, #anime-list img, #new-releases-list img {
+    #movies-list img,
+    #tvshows-list img,
+    #anime-list img,
+    #new-releases-list img {
       width: 100% !important;
       height: auto !important;
       border-radius: 8px;
       transition: transform 0.2s ease;
       cursor: pointer;
     }
-    #movies-list img:hover, #tvshows-list img:hover,
-    #anime-list img:hover, #new-releases-list img:hover {
+    #movies-list img:hover,
+    #tvshows-list img:hover,
+    #anime-list img:hover,
+    #new-releases-list img:hover {
       transform: scale(1.05);
     }
   </style>
@@ -85,7 +93,10 @@
 <body>
   <header>
     <div class="logo">
-      <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KunimeTV Logo" />
+      <img
+        src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg"
+        alt="KunimeTV Logo"
+      />
       KunimeTV
     </div>
     <div class="search-container">
