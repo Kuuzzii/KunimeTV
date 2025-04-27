@@ -3,197 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Welcome to KuNimeTV</title>
-  <link rel="stylesheet" href="home.css" />
-  <style>
-    body, html {
-      margin: 0; padding: 0; height: 100%; background: #000;
-      font-family: Arial, sans-serif; color: white;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-    }
-    .hero-section {
-      text-align: center; padding: 40px;
-    }
-    .hero-title {
-      font-size: 3rem; margin-bottom: 10px;
-    }
-    .hero-buttons button {
-      font-size: 1.2rem; margin: 10px; padding: 15px 30px;
-      border: none; border-radius: 8px; cursor: pointer;
-      color: white;
-    }
-    .get-started-btn {
-      background-color: #e50914;
-    }
-    .coffee-btn {
-      background-color: #444;
-    }
-    .trending-section {
-      margin-top: 50px; width: 90%;
-      max-width: 1200px;
-    }
-    .trending-title {
-      font-size: 2rem; margin-bottom: 20px;
-    }
-    .trending-carousel {
-      display: flex; overflow-x: auto; gap: 15px;
-      scroll-behavior: smooth;
-      padding-bottom: 15px;
-    }
-    .trending-item {
-      flex: 0 0 auto;
-      width: 150px; cursor: pointer;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 0 12px #e50914;
-      transition: transform 0.3s;
-    }
-    .trending-item:hover {
-      transform: scale(1.1);
-    }
-    .trending-item img {
-      width: 100%; display: block;
-    }
-    .faq-section {
-      margin-top: 60px; max-width: 900px; padding: 0 20px;
-    }
-    .faq-title {
-      font-size: 2rem; margin-bottom: 15px;
-    }
-    .faq-placeholder {
-      background-color: #222;
-      border-radius: 10px;
-      padding: 30px;
-      color: #aaa;
-      font-size: 1.3rem;
-      text-align: center;
-    }
-    /* Modal Styles */
-    #modal {
-      position: fixed;
-      top:0; left:0; width:100%; height:100%;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(5px);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-    #modal-content {
-      background: #111;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 700px;
-      max-height: 90vh;
-      overflow-y: auto;
-      color: white;
-      position: relative;
-      text-align: left;
-    }
-    #modal-content img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-    #modal-close {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      cursor: pointer;
-      font-size: 28px;
-      font-weight: bold;
-      color: #e50914;
-    }
-    #modal-content h2 {
-      margin-top: 0;
-    }
-  </style>
+  <title>Your Website - Welcome</title>
+  <link rel="stylesheet" href="landing.css" />
 </head>
 <body>
-
-  <!-- Hero / Get Started Section -->
-  <section class="hero-section">
-    <div class="hero-title">Welcome to KuNimeTV</div>
-    <div class="hero-buttons">
-      <button class="get-started-btn" onclick="alert('Get Started Placeholder')">Get Started</button>
-      <button class="coffee-btn" onclick="alert('Send Me a Coffee Placeholder')">Send Me a Coffee</button>
+  <header class="header">
+    <div class="logo-container">
+      <!-- Replace the src with your actual logo -->
+      <img src="logo-placeholder.png" alt="Your Logo" class="logo" />
+      <span class="website-name">Your Website</span>
     </div>
-  </section>
+  </header>
 
-  <!-- Trending Videos Carousel -->
-  <section class="trending-section">
-    <div class="trending-title">Trending Now</div>
-    <div class="trending-carousel" id="trending-carousel">
-      <!-- Dynamically loaded trending items -->
+  <main class="main-content">
+    <h1 class="header-placeholder">[Header Placeholder]</h1>
+
+    <div class="buttons-container">
+      <button class="btn watch-btn">Watch Now</button>
+      <button class="btn coffee-btn">Send me a coffee ☕</button>
     </div>
-  </section>
-
-  <!-- FAQ Section Placeholder -->
-  <section class="faq-section">
-    <div class="faq-title">Frequently Asked Questions</div>
-    <div class="faq-placeholder">
-      FAQ content coming soon...
-    </div>
-  </section>
-
-  <!-- Modal for Trending Item Details -->
-  <div id="modal" onclick="closeModal(event)">
-    <div id="modal-content">
-      <span id="modal-close" onclick="closeModal(event)">&times;</span>
-      <img id="modal-poster" src="" alt="Poster" />
-      <h2 id="modal-title"></h2>
-      <div id="modal-genres"></div>
-      <p id="modal-overview"></p>
-    </div>
-  </div>
-
-  <script>
-    const trendingCarousel = document.getElementById('trending-carousel');
-    const modal = document.getElementById('modal');
-    const modalPoster = document.getElementById('modal-poster');
-    const modalTitle = document.getElementById('modal-title');
-    const modalGenres = document.getElementById('modal-genres');
-    const modalOverview = document.getElementById('modal-overview');
-
-    // Placeholder trending items data (replace with your API data fetch later)
-    const trendingItems = [
-      {title: 'Movie One', poster: 'https://via.placeholder.com/300x450?text=Movie+One', genres: ['Action', 'Thriller'], overview: 'Overview for Movie One...'},
-      {title: 'Movie Two', poster: 'https://via.placeholder.com/300x450?text=Movie+Two', genres: ['Drama'], overview: 'Overview for Movie Two...'},
-      {title: 'Show Three', poster: 'https://via.placeholder.com/300x450?text=Show+Three', genres: ['Comedy'], overview: 'Overview for Show Three...'},
-      {title: 'Anime Four', poster: 'https://via.placeholder.com/300x450?text=Anime+Four', genres: ['Anime', 'Adventure'], overview: 'Overview for Anime Four...'}
-    ];
-
-    // Render trending items to carousel
-    trendingItems.forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'trending-item';
-      div.innerHTML = `<img src="${item.poster}" alt="${item.title}"/>`;
-      div.addEventListener('click', () => showModal(item));
-      trendingCarousel.appendChild(div);
-    });
-
-    function showModal(item) {
-      modalPoster.src = item.poster;
-      modalTitle.textContent = item.title;
-      modalGenres.innerHTML = '';
-      item.genres.forEach(genre => {
-        const span = document.createElement('span');
-        span.className = 'genre-tag';
-        span.style.marginRight = '8px';
-        span.textContent = genre;
-        modalGenres.appendChild(span);
-      });
-      modalOverview.textContent = item.overview;
-      modal.style.display = 'flex';
-      document.body.style.overflow = 'hidden'; // Disable scrolling when modal open
-    }
-
-    function closeModal(event) {
-      if (event.target === modal || event.target.id === 'modal-close') {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-    }
-  </script>
+  </main>
 </body>
 </html>
