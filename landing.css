@@ -1,4 +1,5 @@
-/* Reset some default styles */
+/* Reset and base */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,20 +8,21 @@
 }
 
 body {
-  background: #141414;
-  color: white;
+  background-color: #141414;
+  color: #fff;
   height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* Header styling */
+/* Header */
+
 .header {
-  padding: 20px 30px;
-  display: flex;
-  align-items: center;
   background-color: #000;
   height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
 }
 
 .logo-container {
@@ -30,17 +32,17 @@ body {
 
 .logo {
   height: 40px;
-  width: auto;
   margin-right: 10px;
 }
 
 .website-name {
   font-weight: bold;
   font-size: 24px;
-  color: #e50914; /* Netflix-like red, adjust if you want */
+  color: #e50914; /* Netflix-like red */
 }
 
-/* Main content area */
+/* Main content  - center everything */
+
 .main-content {
   flex: 1;
   display: flex;
@@ -51,13 +53,13 @@ body {
   padding: 0 20px;
 }
 
-/* Header above buttons */
 .header-placeholder {
   font-size: 2.5rem;
   margin-bottom: 40px;
 }
 
 /* Buttons side by side */
+
 .buttons-container {
   display: flex;
   gap: 20px;
@@ -75,8 +77,9 @@ body {
 }
 
 /* Watch Now button styling */
+
 .watch-btn {
-  background-color: #e50914; /* Netflix-like red */
+  background-color: #e50914;
   color: white;
 }
 
@@ -85,6 +88,7 @@ body {
 }
 
 /* Send me a coffee button styling */
+
 .coffee-btn {
   background-color: #444;
   color: white;
