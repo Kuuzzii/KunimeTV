@@ -5,50 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Watch - KuNime</title>
   <link rel="stylesheet" href="watch.css" />
-  <style>
-    .movie-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    select.action-btn {
-      padding: 8px 12px;
-      background-color: #222;
-      color: #fff;
-      border-radius: 4px;
-      border: 1px solid #444;
-      cursor: pointer;
-      min-width: 140px;
-      font-size: 1rem;
-    }
-    button.action-btn.play-btn {
-      background-color: #e50914;
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button.action-btn.play-btn:hover {
-      background-color: #f6121d;
-    }
-    .video-container iframe {
-      width: 100%;
-      height: 500px;
-      border: none;
-    }
-    #video-error {
-      color: red;
-      padding: 20px;
-      display: none;
-      font-weight: bold;
-      text-align: center;
-      background: #222;
-      margin-top: 10px;
-      border-radius: 6px;
-    }
-  </style>
+  <script defer src="watch.js"></script>
 </head>
 <body>
   <header class="navbar">
@@ -58,6 +15,7 @@
     </div>
     <button id="back-btn" type="button" class="back-button">&#8592; Back</button>
   </header>
+
   <main class="movie-container">
     <div id="movie-backdrop" class="movie-backdrop">
       <div class="movie-details">
@@ -79,111 +37,14 @@
               <option value="vidsrc.me">Vidsrc.me</option>
               <option value="videasy.net">Videasy.net</option>
             </select>
-            <select id="episode-select" class="action-btn" aria-label="Select Episode" style="display:none;">
-              <!-- Episodes dynamically added -->
-            </select>
           </div>
         </div>
       </div>
     </div>
+
     <div class="video-container">
-      <iframe id="movie-video" allowfullscreen loading="lazy" title="Streaming Video Player"></iframe>
-      <div id="video-error">Failed to load video. Please try selecting a different server or episode.</div>
+      <iframe id="movie-video" frameborder="0" allowfullscreen loading="lazy" title="Streaming Video Player"></iframe>
     </div>
   </main>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Replace with your TMDB API key or leave empty if not using API for episodes
-      const TMDB_API_KEY = '';
-
-      const urlParams = new URLSearchParams(window.location.search);
-      const movieId = urlParams.get('id');
-      const mediaType = urlParams.get('type');
-      const episodeParam = urlParams.get('episode');
-
-      const serverSelect = document.getElementById('server-select');
-      const episodeSelect = document.getElementById('episode-select');
-      const playBtn = document.getElementById('play-btn');
-      const backBtn = document.getElementById('back-btn');
-      const movieVideo = document.getElementById('movie-video');
-      const videoError = document.getElementById('video-error');
-
-      if (!movieId) {
-        videoError.style.display = 'block';
-        videoError.textContent = 'Missing movie or TV show ID in URL.';
-        playBtn.disabled = true;
-        serverSelect.disabled = true;
-        return;
-      }
-
-      backBtn.addEventListener('click', () => {
-        window.history.back();
-      });
-
-      async function fetchEpisodeCount(tvId) {
-        if (!TMDB_API_KEY) return 0;
-        try {
-          const res = await fetch(`https://api.themoviedb.org/3/tv/${tvId}?api_key=${TMDB_API_KEY}&language=en-US`);
-          if (!res.ok) throw new Error('Failed fetching TV details');
-          const data = await res.json();
-          // You can enhance for seasons if needed; currently gets season 1 count
-          const season1 = data.seasons?.find(s => s.season_number === 1);
-          return season1?.episode_count || 0;
-        } catch {
-          return 0;
-        }
-      }
-
-      async function setupEpisodeSelector() {
-        if (mediaType === 'tv') {
-          // Use API or fallback to default 12 episodes
-          let episodeCount = 12;
-          if (TMDB_API_KEY && movieId) {
-            episodeCount = await fetchEpisodeCount(movieId);
-          }
-          if (episodeCount > 0) {
-            episodeSelect.style.display = 'inline-block';
-            episodeSelect.innerHTML = '';
-            for (let i = 1; i <= episodeCount; i++) {
-              const opt = document.createElement('option');
-              opt.value = i;
-              opt.textContent = `Episode ${i}`;
-              episodeSelect.appendChild(opt);
-            }
-            episodeSelect.value = episodeParam && episodeParam <= episodeCount ? episodeParam : '1';
-            return;
-          }
-        }
-        episodeSelect.style.display = 'none';
-      }
-
-      function composeVideoURL() {
-        const server = serverSelect.value;
-        let url = `https://${server}/embed/${movieId}`;
-        if (mediaType === 'tv' && episodeSelect.style.display !== 'none') {
-          url += `?episode=${episodeSelect.value}`;
-        }
-        return url;
-      }
-
-      function updateVideoSrc() {
-        videoError.style.display = 'none';
-        movieVideo.src = composeVideoURL();
-      }
-
-      movieVideo.onerror = () => {
-        videoError.style.display = 'block';
-      };
-
-      serverSelect.addEventListener('change', updateVideoSrc);
-      episodeSelect.addEventListener('change', updateVideoSrc);
-      playBtn.addEventListener('click', updateVideoSrc);
-
-      (async () => {
-        await setupEpisodeSelector();
-        updateVideoSrc();
-      })();
-    });
-  </script>
 </body>
 </html>
