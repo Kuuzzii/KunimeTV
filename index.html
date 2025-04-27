@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" href="faviconK.ico" type="image/png" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>KunimeTV - Welcome</title>
@@ -13,31 +12,16 @@
     body {
       margin: 0;
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background-color: #141414;
       color: white;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       transition: background-color 0.3s ease, color 0.3s ease;
-
-      /* Wallpaper background */
-      background-image: url('https://wallpapercave.com/wp/wp10615907.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      position: relative;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(20, 20, 20, 0.7);
-      z-index: -1;
-      pointer-events: none;
     }
     body.light-mode {
       background-color: #f9f9f9;
       color: #222;
-      background-image: none; /* Optional: no background in light mode */
     }
     header {
       display: flex;
@@ -59,6 +43,7 @@
       font-size: 28px;
       color: #e50914; /* Netflix red */
       letter-spacing: 2px;
+      user-select: none;
     }
     body.light-mode .website-name {
       color: #b3000a;
@@ -73,12 +58,6 @@
       opacity: 0;
       width: 0;
       height: 0;
-      background-image: url('https://wallpapercave.com/wp/wp10615907.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      position: relative;
-
     }
     .slider {
       position: absolute;
@@ -114,7 +93,7 @@
       align-items: center;
       padding: 0 20px 60px;
       text-align: center;
-      max-width: 720px;
+      max-width: 1100px;
       margin: 0 auto;
     }
     /* Headline */
@@ -184,7 +163,6 @@
     }
     .coffee-btn {
       background-color: #444;
-      color: white;
     }
     .coffee-btn:hover {
       background-color: #666;
@@ -214,6 +192,63 @@
     }
     body.light-mode .disclaimer {
       color: #555;
+    }
+    /* Trending Section */
+    #trending-section {
+      margin-top: 60px;
+      width: 100%;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+      color: white;
+    }
+    #trending-section h2 {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    #trending-container {
+      position: relative;
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      gap: 15px;
+      padding-bottom: 10px;
+    }
+    #trending-container::-webkit-scrollbar {
+      display: none;
+    }
+    .movie-card {
+      position: relative;
+      min-width: 160px;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      flex-shrink: 0;
+      user-select: none;
+      transition: transform 0.3s ease;
+    }
+    .movie-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+    .movie-card:hover {
+      transform: scale(1.05);
+      z-index: 10;
+    }
+    .movie-rank {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      font-size: 28px;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.8);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+      pointer-events: none;
+      user-select: none;
     }
   </style>
 </head>
@@ -248,16 +283,24 @@
     <p class="disclaimer">
       Disclaimer: All movies and shows are third-party content and are not owned or operated by KunimeTV.
     </p>
+
+    <!-- Trending Section -->
+    <section id="trending-section">
+      <h2>Trending Now</h2>
+      <div id="trending-container"></div>
+    </section>
   </main>
+
   <script>
-    // Dark/Light mode toggle logic
     const toggle = document.getElementById('modeToggle');
     const body = document.body;
-    // Initialize mode from localStorage
+
+    // Initialize dark/light mode from localStorage
     if (localStorage.getItem('kunimeTVMode') === 'light') {
       body.classList.add('light-mode');
       toggle.checked = true;
     }
+
     toggle.addEventListener('change', () => {
       if (toggle.checked) {
         body.classList.add('light-mode');
@@ -267,13 +310,57 @@
         localStorage.setItem('kunimeTVMode', 'dark');
       }
     });
-    // Button click functions
+
+    // Button click handlers
     document.querySelector('.watch-btn').addEventListener('click', () => {
       window.location.href = 'main.html';
     });
     document.querySelector('.coffee-btn').addEventListener('click', () => {
       window.open('https://buymeacoffee.com/yourprofile', '_blank');
     });
+
+    // Trending Movies Fetch and Render
+    const API_KEY = '961334ce43e0adcaa714fddec89fcfd9';
+    const TRENDING_URL = `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`;
+    const IMG_URL = 'https://image.tmdb.org/t/p/w300';
+
+    async function loadTrendingMovies() {
+      try {
+        const response = await fetch(TRENDING_URL);
+        if (!response.ok) throw new Error('Network response was not OK');
+
+        const data = await response.json();
+        const movies = data.results;
+        const container = document.getElementById('trending-container');
+        container.innerHTML = '';
+
+        movies.forEach((movie, index) => {
+          const card = document.createElement('div');
+          card.className = 'movie-card';
+
+          const rank = document.createElement('div');
+          rank.className = 'movie-rank';
+          rank.textContent = index + 1;
+          card.appendChild(rank);
+
+          const img = document.createElement('img');
+          img.src = movie.poster_path ? `${IMG_URL}${movie.poster_path}` : '';
+          img.alt = movie.title || movie.name || 'Movie poster';
+          card.appendChild(img);
+
+          // Click navigates to watch page with movie id (adjust as per your routing)
+          card.addEventListener('click', () => {
+            window.location.href = `watch.html?movieId=${movie.id}`;
+          });
+
+          container.appendChild(card);
+        });
+      } catch (error) {
+        console.error('Failed to load trending movies:', error);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadTrendingMovies);
   </script>
 </body>
 </html>
