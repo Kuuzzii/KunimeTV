@@ -12,16 +12,31 @@
     body {
       margin: 0;
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      background-color: #141414;
       color: white;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       transition: background-color 0.3s ease, color 0.3s ease;
+
+      /* Wallpaper background */
+      background-image: url('https://images.unsplash.com/photo-1505685296765-3a2736de412f?auto=format&fit=crop&w=1470&q=80');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(20, 20, 20, 0.7);
+      z-index: -1;
+      pointer-events: none;
     }
     body.light-mode {
       background-color: #f9f9f9;
       color: #222;
+      background-image: none; /* Optional: no background in light mode */
     }
     header {
       display: flex;
@@ -171,7 +186,7 @@
       background-color: #b3000a;
     }
     body.light-mode .watch-btn:hover {
-            background-color: #d32f2f;
+      background-color: #d32f2f;
     }
     body.light-mode .coffee-btn {
       background-color: #ccc;
@@ -198,53 +213,44 @@
 <body>
   <header>
     <div class="logo-container">
-      <img 
-        src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" 
-        alt="KunimeTV Logo" 
+      <img
+        src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg"
+        alt="KunimeTV Logo"
         class="logo" />
       <span class="website-name">KunimeTV</span>
     </div>
-
     <!-- Dark/Light Mode Toggle Switch -->
     <label class="toggle-switch" aria-label="Toggle dark/light mode">
       <input type="checkbox" id="modeToggle" />
       <span class="slider"></span>
     </label>
   </header>
-
   <main>
     <h1>Unlimited movies, TV shows, and more</h1>
-
     <a class="facebook-link" href="#" target="_blank" rel="noopener noreferrer" aria-label="Visit our Facebook page">
       <svg class="facebook-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
         <path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12v-9.294H9.294v-3.622H12V8.413c0-2.664 1.625-4.117 4.005-4.117 1.137 0 2.11.084 2.394.122v2.78l-1.645.001c-1.29 0-1.54.613-1.54 1.513v1.984h3.07l-.4 3.622h-2.67V24h5.234c.732 0 1.325-.593 1.325-1.324V1.324C24 .593 23.407 0 22.675 0z"/>
       </svg>
       Visit us on Facebook
     </a>
-
     <p class="info-text">Ready to watch? Click “Watch Now” to enjoy every movie.</p>
-
     <div class="buttons-container">
       <button class="watch-btn" type="button">Watch Now</button>
       <button class="coffee-btn" type="button">Buy me a coffee? ☕</button>
     </div>
-
     <p class="disclaimer">
       Disclaimer: All movies and shows are third-party content and are not owned or operated by KunimeTV.
     </p>
   </main>
-
   <script>
     // Dark/Light mode toggle logic
     const toggle = document.getElementById('modeToggle');
     const body = document.body;
-
     // Initialize mode from localStorage
     if (localStorage.getItem('kunimeTVMode') === 'light') {
       body.classList.add('light-mode');
       toggle.checked = true;
     }
-
     toggle.addEventListener('change', () => {
       if (toggle.checked) {
         body.classList.add('light-mode');
@@ -254,12 +260,10 @@
         localStorage.setItem('kunimeTVMode', 'dark');
       }
     });
-
     // Button click functions
     document.querySelector('.watch-btn').addEventListener('click', () => {
       window.location.href = 'main.html';
     });
-
     document.querySelector('.coffee-btn').addEventListener('click', () => {
       window.open('https://buymeacoffee.com/yourprofile', '_blank');
     });
