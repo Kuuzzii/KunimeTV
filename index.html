@@ -33,14 +33,10 @@
     .logo-container {
       display: flex;
       align-items: center;
-      gap: 12px;
-      user-select: none;
     }
-    .logo-container img {
+    .logo {
       height: 40px;
-      display: block;
-      max-width: 100%;
-      object-fit: contain;
+      margin-right: 12px;
     }
     .website-name {
       font-weight: 700;
@@ -51,25 +47,7 @@
     body.light-mode .website-name {
       color: #b3000a;
     }
-    /* Dark/Light Mode Toggle Container */
-    .mode-toggle-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      user-select: none;
-    }
-    /* Icons */
-    .mode-icon {
-      width: 24px;
-      height: 24px;
-      fill: #e50914;
-      transition: fill 0.3s ease;
-    }
-    body.light-mode .mode-icon {
-      fill: #f39c12; /* warm yellow for sun */
-    }
-    /* Dark/Light Mode Toggle Switch */
+    /* Dark/Light Mode Toggle */
     .toggle-switch {
       position: relative;
       width: 50px;
@@ -184,6 +162,7 @@
     }
     .coffee-btn {
       background-color: #444;
+      color: white;
     }
     .coffee-btn:hover {
       background-color: #666;
@@ -192,7 +171,7 @@
       background-color: #b3000a;
     }
     body.light-mode .watch-btn:hover {
-      background-color: #d32f2f;
+            background-color: #d32f2f;
     }
     body.light-mode .coffee-btn {
       background-color: #ccc;
@@ -220,17 +199,14 @@
   <header>
     <div class="logo-container">
       <img 
-        src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg"
-        alt="KunimeTV Logo"
-        loading="lazy"
-        decoding="async"
-      />
+        src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" 
+        alt="KunimeTV Logo" 
+        class="logo" />
       <span class="website-name">KunimeTV</span>
     </div>
-    <label class="mode-toggle-container" for="modeToggle" tabindex="0" role="checkbox" aria-checked="false" aria-label="Toggle dark and light mode">
-      <svg id="modeIcon" class="mode-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="M21.75 15.352a9 9 0 01-11.002-11.002 8.993 8.993 0 0011.002 11.002z"/>
-      </svg>
+
+    <!-- Dark/Light Mode Toggle Switch -->
+    <label class="toggle-switch" aria-label="Toggle dark/light mode">
       <input type="checkbox" id="modeToggle" />
       <span class="slider"></span>
     </label>
@@ -259,54 +235,27 @@
   </main>
 
   <script>
+    // Dark/Light mode toggle logic
     const toggle = document.getElementById('modeToggle');
     const body = document.body;
-    const modeIcon = document.getElementById('modeIcon');
 
-    // Set initial mode from localStorage or default to dark (moon)
-    if(localStorage.getItem('kunimeTVMode') === 'light') {
+    // Initialize mode from localStorage
+    if (localStorage.getItem('kunimeTVMode') === 'light') {
       body.classList.add('light-mode');
       toggle.checked = true;
-      setIcon('light');
-    } else {
-      setIcon('dark');
     }
 
     toggle.addEventListener('change', () => {
-      if(toggle.checked) {
+      if (toggle.checked) {
         body.classList.add('light-mode');
         localStorage.setItem('kunimeTVMode', 'light');
-        setIcon('light');
       } else {
         body.classList.remove('light-mode');
         localStorage.setItem('kunimeTVMode', 'dark');
-        setIcon('dark');
       }
     });
 
-    function setIcon(mode) {
-      if (mode === 'light') {
-        // Sun icon
-        modeIcon.innerHTML = `
-          <circle cx="12" cy="12" r="5" fill="currentColor"></circle>
-          <g stroke="currentColor" stroke-width="2">
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </g>
-        `;
-      } else {
-        // Moon icon
-        modeIcon.innerHTML = `<path d="M21.75 15.352a9 9 0 01-11.002-11.002 8.993 8.993 0 0011.002 11.002z"/>`;
-      }
-    }
-
-    // Button click events
+    // Button click functions
     document.querySelector('.watch-btn').addEventListener('click', () => {
       window.location.href = 'main.html';
     });
