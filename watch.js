@@ -6,7 +6,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const movieId = urlParams.get('id');
 const type = urlParams.get('type'); // 'movie' or 'tv'
 
-let currentServerIndex = 0;
+let currentServerIndex = null; // Set to null initially, to track the server selection
 
 const backdrop = document.getElementById('movie-backdrop');
 const poster = document.getElementById('movie-poster');
@@ -92,7 +92,7 @@ function updateVideoSrc() {
   }
 
   // If no server selected, show overlay message
-  if (!currentServer) {
+  if (currentServerIndex === null) {
     videoIframe.src = 'about:blank';
 
     const msg = document.createElement('div');
@@ -119,20 +119,19 @@ function updateVideoSrc() {
     return;
   }
 
- // Server selected; hide overlay and load embed
-playBtn.disabled = false;
+  // Server selected; hide overlay and load embed
+  playBtn.disabled = false;
 
-const selectedServer = servers[currentServerIndex];
-if (selectedServer) {
-    videoIframe.src = selectedServer.url;
-} else {
-    videoIframe.src = 'about:blank'; // fallback if somehow invalid
-}
-
+  const selectedServer = servers[currentServerIndex];
+  if (selectedServer) {
+      videoIframe.src = selectedServer.url;
+  } else {
+      videoIframe.src = 'about:blank'; // fallback if somehow invalid
+  }
 }
 
 playBtn.addEventListener('click', () => {
-  if (!currentServer) {
+  if (currentServerIndex === null) {
     alert('Please choose a streaming server first.');
     return;
   }
@@ -140,7 +139,7 @@ playBtn.addEventListener('click', () => {
 });
 
 serverSelect.addEventListener('change', (e) => {
-  currentServerIndex = e.target.value;
+  currentServerIndex = parseInt(e.target.value); // Make sure to parse the value as an integer
   updateVideoSrc();
 });
 
