@@ -171,7 +171,7 @@
       background-color: #b3000a;
     }
     body.light-mode .watch-btn:hover {
-            background-color: #d32f2f;
+      background-color: #d32f2f;
     }
     body.light-mode .coffee-btn {
       background-color: #ccc;
@@ -193,64 +193,122 @@
     body.light-mode .disclaimer {
       color: #555;
     }
+
+    /* Trending movies styles */
+    #trending-section {
+      max-width: 900px;
+      margin: 40px auto 20px auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+    #trending-section h2 {
+      color: inherit;
+      margin-bottom: 20px;
+      user-select: none;
+    }
+    #trending-movies {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #e50914 transparent;
+      padding-bottom: 8px;
+    }
+    #trending-movies::-webkit-scrollbar {
+      height: 8px;
+    }
+    #trending-movies::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    #trending-movies::-webkit-scrollbar-thumb {
+      background-color: #e50914;
+      border-radius: 4px;
+    }
+    .trending-movie {
+      min-width: 140px;
+      flex-shrink: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease;
+    }
+    .trending-movie img {
+      width: 100%;
+      display: block;
+      border-radius: 8px;
+    }
+    .trending-movie:hover {
+      transform: scale(1.05);
+      z-index: 10;
+    }
+    .trending-movie-number {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      font-size: 20px;
+      font-weight: 800;
+      color: white;
+      background-color: rgba(229, 9, 20, 0.8);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      text-align: center;
+      line-height: 32px;
+      user-select: none;
+      text-shadow: 0 0 6px black;
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="logo-container">
-      <img 
-        src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" 
-        alt="KunimeTV Logo" 
+      <img
+        src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg"
+        alt="KunimeTV Logo"
         class="logo" />
       <span class="website-name">KunimeTV</span>
     </div>
-
     <!-- Dark/Light Mode Toggle Switch -->
     <label class="toggle-switch" aria-label="Toggle dark/light mode">
       <input type="checkbox" id="modeToggle" />
       <span class="slider"></span>
     </label>
   </header>
-
   <main>
-    <section id="trending-section" style="max-width: 900px; margin: 40px auto; padding: 0 20px;">
-  <h2 style="color: inherit; margin-bottom: 20px;">Trending Now</h2>
-  <div id="trending-movies" style="display: flex; gap: 16px; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #e50914 transparent;">
-    <!-- Trending movie cards will be injected here -->
-  </div>
-</section>
-    <h1>Unlimited movies, TV shows, and more</h1>
+    <section id="trending-section">
+      <h2>Trending Now</h2>
+      <div id="trending-movies">
+        <!-- Trending movie cards will be injected here -->
+      </div>
+    </section>
 
+    <h1>Unlimited movies, TV shows, and more</h1>
     <a class="facebook-link" href="#" target="_blank" rel="noopener noreferrer" aria-label="Visit our Facebook page">
       <svg class="facebook-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
         <path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12v-9.294H9.294v-3.622H12V8.413c0-2.664 1.625-4.117 4.005-4.117 1.137 0 2.11.084 2.394.122v2.78l-1.645.001c-1.29 0-1.54.613-1.54 1.513v1.984h3.07l-.4 3.622h-2.67V24h5.234c.732 0 1.325-.593 1.325-1.324V1.324C24 .593 23.407 0 22.675 0z"/>
       </svg>
       Visit us on Facebook
     </a>
-
     <p class="info-text">Ready to watch? Click “Watch Now” to enjoy every movie.</p>
-
     <div class="buttons-container">
       <button class="watch-btn" type="button">Watch Now</button>
       <button class="coffee-btn" type="button">Buy me a coffee? ☕</button>
     </div>
-
     <p class="disclaimer">
       Disclaimer: All movies and shows are third-party content and are not owned or operated by KunimeTV.
     </p>
   </main>
-
   <script>
     // Dark/Light mode toggle logic
     const toggle = document.getElementById('modeToggle');
     const body = document.body;
-
     // Initialize mode from localStorage
     if (localStorage.getItem('kunimeTVMode') === 'light') {
       body.classList.add('light-mode');
       toggle.checked = true;
     }
-
     toggle.addEventListener('change', () => {
       if (toggle.checked) {
         body.classList.add('light-mode');
@@ -260,15 +318,57 @@
         localStorage.setItem('kunimeTVMode', 'dark');
       }
     });
-
     // Button click functions
     document.querySelector('.watch-btn').addEventListener('click', () => {
       window.location.href = 'main.html';
     });
-
     document.querySelector('.coffee-btn').addEventListener('click', () => {
       window.open('https://buymeacoffee.com/yourprofile', '_blank');
     });
+
+    // Trending movies fetch and render logic
+    const API_KEY = '961334ce43e0adcaa714fddec89fcfd9';
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const IMG_URL = 'https://image.tmdb.org/t/p/original';
+
+    const trendingContainer = document.getElementById('trending-movies');
+
+    async function fetchTrendingMovies() {
+      try {
+        const res = await fetch(`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`);
+        const data = await res.json();
+
+        if (data && data.results) {
+          renderTrendingMovies(data.results.slice(0, 10));  // Show top 10 trending movies
+        }
+      } catch (e) {
+        console.error('Failed to fetch trending movies', e);
+      }
+    }
+
+    function renderTrendingMovies(movies) {
+      trendingContainer.innerHTML = '';
+      movies.forEach((movie, index) => {
+        const movieDiv = document.createElement('div');
+        movieDiv.classList.add('trending-movie');
+        movieDiv.title = movie.title || movie.name;
+
+        movieDiv.innerHTML = `
+          <div class="trending-movie-number">${index + 1}</div>
+          <img src="${IMG_URL + movie.poster_path}" alt="${movie.title || movie.name}" loading="lazy" />
+        `;
+
+        movieDiv.addEventListener('click', () => {
+          alert(`You clicked on: "${movie.title || movie.name}"`);
+          // You can redirect or open modal here for details!
+        });
+
+        trendingContainer.appendChild(movieDiv);
+      });
+    }
+
+    // Call fetch after DOM loads
+    fetchTrendingMovies();
   </script>
 </body>
 </html>
