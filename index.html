@@ -202,50 +202,118 @@
       position: relative;
       user-select: none;
     }
-#trending-section h2 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 15px;
-  position: absolute;
-  left: 20px;
-  top: -50px; /* moved higher */
-  user-select: text;
-  z-index: 10;
-  color: #e50914; /* Netflix red */
-}
+    #trending-section h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #e50914; /* Netflix red */
+      user-select: text;
+    }
 
-.trending-arrow {
-  position: absolute;
-  top: 50%; /* center vertically */
-  transform: translateY(-50%);
-  width: 30px;       /* smaller width */
-  height: 80px;      /* smaller height */
-  background: rgba(0, 0, 0, 0.5);
-  border: none;
-  color: white;
-  font-size: 22px;   /* smaller font size */
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 4px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  transition: background-color 0.2s ease;
-}
+    .trending-wrapper {
+      position: relative;
+    }
 
-.trending-arrow:hover {
-  background: rgba(229, 9, 20, 0.8);
-}
+    /* Trending Container: horizontal scrolling row */
+    #trending-container {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none;  /* IE and Edge */
+      scroll-behavior: smooth;
+      gap: 16px;
+      padding: 10px 0;
+      outline: none;
+    }
+    /* Hide scrollbar */
+    #trending-container::-webkit-scrollbar {
+      display: none;
+    }
 
-#trending-prev {
-  left: 0;
-}
+    /* Movie Card Styling */
+    .movie-card {
+      flex: 0 0 auto;
+      width: 160px;
+      position: relative;
+      cursor: pointer;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      will-change: transform;
+      background-color: #222;
+      box-shadow: 0 0 4px rgba(0,0,0,0.5);
+    }
+    .movie-card:hover {
+      transform: scale(1.08);
+      box-shadow: 0 8px 16px rgba(229, 9, 20, 0.8);
+      z-index: 5;
+    }
 
-#trending-next {
-  right: 0;
-}
+    .movie-card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+      border-radius: 8px;
+      user-select: none;
+    }
+
+    /* Number overlay similar to Netflix: bottom-left */
+    .movie-rank {
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      font-size: 48px;
+      font-weight: 900;
+      color: transparent;
+      -webkit-text-stroke: 1.75px white;
+      text-stroke: 1.75px white;
+      user-select: none;
+      pointer-events: none;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      text-shadow:
+        2px 2px 0 #e50914,
+        -2px -2px 0 #e50914,
+        2px -2px 0 #e50914,
+        -2px 2px 0 #e50914;
+      line-height: 1;
+    }
+
+    /* Arrow Buttons */
+    .trending-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 80px;
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      font-size: 36px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      transition: background-color 0.2s ease;
+      opacity: 0.85;
+      user-select: none;
+    }
+    .trending-arrow:hover {
+      background: rgba(229, 9, 20, 0.9);
+      opacity: 1;
+    }
+    #trending-prev {
+      left: -24px;
+    }
+    #trending-next {
+      right: -24px;
+    }
+
+    /* Light mode adjustments */
     body.light-mode #trending-section {
       color: #222;
     }
@@ -254,7 +322,7 @@
       color: #222;
     }
     body.light-mode .trending-arrow:hover {
-      background: rgba(229, 9, 20, 0.8);
+      background: rgba(229, 9, 20, 0.9);
       color: white;
     }
   </style>
@@ -265,9 +333,8 @@
       <img
         src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg"
         alt="KunimeTV Logo"
-        class="logo"
-      />
-      <span class="website-name">KunimeTV</span>
+        class="logo
+              <span class="website-name">KunimeTV</span>
     </div>
     <!-- Dark/Light Mode Toggle Switch -->
     <label class="toggle-switch" aria-label="Toggle dark/light mode">
@@ -305,7 +372,6 @@
     <p class="disclaimer">
       Disclaimer: All movies and shows are third-party content and are not owned or operated by KunimeTV.
     </p>
-
     <!-- Trending Section -->
     <section id="trending-section">
       <h2>Trending Now</h2>
@@ -315,19 +381,15 @@
         <button id="trending-next" class="trending-arrow" aria-label="Scroll right">&#8250;</button>
       </div>
     </section>
-
   </main>
-
   <script>
     const toggle = document.getElementById('modeToggle');
     const body = document.body;
-
     // Initialize dark/light mode from localStorage
     if (localStorage.getItem('kunimeTVMode') === 'light') {
       body.classList.add('light-mode');
       toggle.checked = true;
     }
-
     toggle.addEventListener('change', () => {
       if (toggle.checked) {
         body.classList.add('light-mode');
@@ -355,52 +417,58 @@
       try {
         const res = await fetch(TRENDING_URL);
         if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-
         const data = await res.json();
         const movies = data.results.slice(0, 10);
-
         const container = document.getElementById('trending-container');
         container.innerHTML = '';
-
         movies.forEach((movie, index) => {
           const card = document.createElement('div');
           card.className = 'movie-card';
           card.setAttribute('role', 'listitem');
-
+          card.setAttribute('tabindex', '0');
+          // Rank overlay with Netflix style
           const rank = document.createElement('div');
           rank.className = 'movie-rank';
           rank.textContent = index + 1;
           card.appendChild(rank);
-
+          // Poster image
           const img = document.createElement('img');
           img.src = movie.poster_path ? IMG_BASE + movie.poster_path : '';
           img.alt = movie.title || 'Movie poster';
           card.appendChild(img);
 
+          // Keyboard accessibility: enter or space triggers click
           card.addEventListener('click', () => {
             window.location.href = `watch.html?movieId=${movie.id}`;
+          });
+          card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              card.click();
+            }
           });
 
           container.appendChild(card);
         });
-    } catch (error) {
-      console.error('Failed to load trending movies:', error);
+      } catch (error) {
+        console.error('Failed to load trending movies:', error);
+        const container = document.getElementById('trending-container');
+        container.innerHTML = '<p style="color:#eee; padding:20px;">Failed to load trending movies.</p>';
+      }
     }
-  }
 
-  const trendingContainer = document.getElementById('trending-container');
-  const prevBtn = document.getElementById('trending-prev');
-  const nextBtn = document.getElementById('trending-next');
+    const trendingContainer = document.getElementById('trending-container');
+    const prevBtn = document.getElementById('trending-prev');
+    const nextBtn = document.getElementById('trending-next');
 
-  prevBtn.addEventListener('click', () => {
-    trendingContainer.scrollBy({ left: -400, behavior: 'smooth' });
-  });
+    prevBtn.addEventListener('click', () => {
+      trendingContainer.scrollBy({ left: -400, behavior: 'smooth' });
+    });
+    nextBtn.addEventListener('click', () => {
+      trendingContainer.scrollBy({ left: 400, behavior: 'smooth' });
+    });
 
-  nextBtn.addEventListener('click', () => {
-    trendingContainer.scrollBy({ left: 400, behavior: 'smooth' });
-  });
-
-  window.addEventListener('DOMContentLoaded', loadTrendingMovies);
+    window.addEventListener('DOMContentLoaded', loadTrendingMovies);
   </script>
 </body>
 </html>
