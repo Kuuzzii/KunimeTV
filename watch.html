@@ -5,17 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Watch - KuNime</title>
   <link rel="stylesheet" href="watch.css" />
-  <script defer src="watch.js"></script>
+  <style>
+    /* Add minimal styles for inline selectors */
+    .movie-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .action-btn {
+      padding: 8px 12px;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      background-color: #e50914;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    .action-btn:hover {
+      background-color: #f6121d;
+    }
+    select.action-btn {
+      background-color: #222;
+      color: white;
+      appearance: none;
+      padding-right: 24px;
+      cursor: pointer;
+      border: 1px solid #444;
+      min-width: 140px;
+    }
+  </style>
 </head>
 <body>
   <header class="navbar">
     <div class="logo">
-      <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KuNime Logo" />
+      <img
+        src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg"
+        alt="KuNime Logo"
+      />
       <span>KuNime</span>
     </div>
     <button id="back-btn" type="button" class="back-button">&#8592; Back</button>
   </header>
-
   <main class="movie-container">
     <div id="movie-backdrop" class="movie-backdrop">
       <div class="movie-details">
@@ -37,14 +69,91 @@
               <option value="vidsrc.me">Vidsrc.me</option>
               <option value="videasy.net">Videasy.net</option>
             </select>
+            <!-- Episode selector dropdown -->
+            <select id="episode-select" class="action-btn" aria-label="Select Episode" style="display:none;">
+              <!-- Episodes will be dynamically added here -->
+            </select>
           </div>
         </div>
       </div>
     </div>
-
     <div class="video-container">
-      <iframe id="movie-video" frameborder="0" allowfullscreen loading="lazy" title="Streaming Video Player"></iframe>
+      <iframe
+        id="movie-video"
+        frameborder="0"
+        allowfullscreen
+        loading="lazy"
+        title="Streaming Video Player"
+      ></iframe>
     </div>
   </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const movieId = urlParams.get('id');
+      const mediaType = urlParams.get('type');
+      const episodeParam = urlParams.get('episode');
+      const serverSelect = document.getElementById('server-select');
+      const episodeSelect = document.getElementById('episode-select');
+      const playBtn = document.getElementById('play-btn');
+      const backBtn = document.getElementById('back-btn');
+      const movieVideo = document.getElementById('movie-video');
+
+      // For demonstration we'll simulate episode count
+      // Change this as needed or fetch actual episode count dynamically
+      const totalEpisodes = mediaType === 'tv' ? 12 : 0;
+
+      // Show episode selector only if media type is TV and has episodes
+      if (mediaType === 'tv' && totalEpisodes > 0) {
+        episodeSelect.style.display = 'inline-block';
+        // Populate episodes 1 to totalEpisodes
+        episodeSelect.innerHTML = '';
+        for (let i = 1; i <= totalEpisodes; i++) {
+          const option = document.createElement('option');
+          option.value = i;
+          option.textContent = `Episode ${i}`;
+          episodeSelect.appendChild(option);
+        }
+        // Select current episodeParam or default to 1
+        episodeSelect.value = episodeParam && episodeParam <= totalEpisodes ? episodeParam : '1';
+      } else {
+        episodeSelect.style.display = 'none';
+      }
+
+      // Back button logic
+      backBtn.addEventListener('click', () => {
+        window.history.back();
+      });
+
+      // Update video src based on selections
+      function updateVideoSrc() {
+        const server = serverSelect.value;
+        let episode = '';
+        if (episodeSelect.style.display !== 'none') {
+          episode = episodeSelect.value;
+        }
+        // For demonstration, build fake URL, replace with your actual logic
+        let videoUrl = `https://${server}/embed/${movieId}`;
+        if (mediaType === 'tv' && episode) {
+          videoUrl += `?episode=${episode}`;
+        }
+        movieVideo.src = videoUrl;
+      }
+
+      serverSelect.addEventListener('change', updateVideoSrc);
+      episodeSelect.addEventListener('change', updateVideoSrc);
+
+      // Play button just toggles or reloads video with updated src
+      playBtn.addEventListener('click', () => {
+        updateVideoSrc();
+      });
+
+      // Initial setup
+      updateVideoSrc();
+
+      // You can add your logic here to populate movie details, poster, genres, etc.
+    });
+  </script>
 </body>
 </html>
