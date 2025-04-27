@@ -44,61 +44,13 @@ if (type === 'movie') {
     );
 }
 
-// Check server availability with a fetch request
-async function checkServerAvailability(url) {
-    try {
-        const res = await fetch(url, { method: 'HEAD' });
-        return res.ok; // Return true if the server responds with a valid status code (200 OK)
-    } catch (error) {
-        return false; // Return false if there is an error (e.g., network issue, 404, etc.)
-    }
-}
-
-// Filter out unavailable servers
-async function filterAvailableServers() {
-    const availableServers = [];
-    for (const server of servers) {
-        const isAvailable = await checkServerAvailability(server.url);
-        if (isAvailable) {
-            availableServers.push(server);
-        }
-    }
-    return availableServers;
-}
-
-// Populate server dropdown with only available servers
-async function populateServerDropdown() {
-    const availableServers = await filterAvailableServers();
-    availableServers.forEach((server, index) => {
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = server.name;
-        serverSelect.appendChild(option);
-    });
-
-    // If no servers are available, show a message
-    if (availableServers.length === 0) {
-        const msg = document.createElement('div');
-        msg.id = 'no-servers-msg';
-        msg.style.position = 'absolute';
-        msg.style.top = 0;
-        msg.style.left = 0;
-        msg.style.width = '100%';
-        msg.style.height = '100%';
-        msg.style.display = 'flex';
-        msg.style.alignItems = 'center';
-        msg.style.justifyContent = 'center';
-        msg.style.color = '#fff';
-        msg.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
-        msg.style.fontSize = '1.4rem';
-        msg.style.zIndex = '10';
-        msg.textContent = '⚠️ No servers are currently available. Please try again later.';
-
-        const container = document.querySelector('.video-container');
-        container.style.position = 'relative';
-        container.appendChild(msg);
-    }
-}
+// Populate server dropdown
+servers.forEach((server, index) => {
+    const option = document.createElement('option');
+    option.value = index;
+    option.textContent = server.name;
+    serverSelect.appendChild(option);
+});
 
 async function fetchDetails() {
   try {
@@ -172,11 +124,7 @@ function updateVideoSrc() {
 
   const selectedServer = servers[currentServerIndex];
   if (selectedServer) {
-      // Force iframe reload by resetting src
-      videoIframe.src = ''; // Clear previous iframe content
-      setTimeout(() => {
-          videoIframe.src = selectedServer.url; // Set new server URL after a short delay
-      }, 200); // Delay to ensure the iframe reloads
+      videoIframe.src = selectedServer.url;
   } else {
       videoIframe.src = 'about:blank'; // fallback if somehow invalid
   }
@@ -203,6 +151,5 @@ if (!movieId || !type) {
   alert('Invalid movie or TV show ID');
 } else {
   fetchDetails();
-  populateServerDropdown();
   updateVideoSrc();
 }
