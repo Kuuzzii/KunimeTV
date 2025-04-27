@@ -124,7 +124,11 @@ function updateVideoSrc() {
 
   const selectedServer = servers[currentServerIndex];
   if (selectedServer) {
-      videoIframe.src = selectedServer.url;
+      // Force iframe reload by resetting src
+      videoIframe.src = ''; // Clear previous iframe content
+      setTimeout(() => {
+          videoIframe.src = selectedServer.url; // Set new server URL after a short delay
+      }, 200); // Delay to ensure the iframe reloads
   } else {
       videoIframe.src = 'about:blank'; // fallback if somehow invalid
   }
