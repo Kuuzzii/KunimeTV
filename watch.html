@@ -5,7 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Watch - KuNime</title>
   <link rel="stylesheet" href="watch.css" />
-  <script defer src="watch.js"></script>
+  <style>
+    .movie-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    select.action-btn, button.action-btn {
+      padding: 8px 12px;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      background-color: #e50914;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    select.action-btn {
+      background-color: #222;
+      border: 1px solid #444;
+      min-width: 140px;
+      color: #fff;
+      appearance: none;
+    }
+    button.action-btn:hover,
+    select.action-btn:hover {
+      background-color: #f6121d;
+    }
+    /* Cast container below streamers */
+    #cast-container {
+      margin-top: 20px;
+      width: 100%;
+      display: flex;
+      gap: 16px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+    #cast-container::-webkit-scrollbar {
+      height: 6px;
+    } 
+    #cast-container::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
+      border-radius: 3px;
+    }
+    .cast-member {
+      flex: 0 0 auto;
+      width: 72px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: white;
+      user-select: none;
+    }
+    .cast-member img {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+    }
+  </style>
 </head>
 <body>
   <header class="navbar">
@@ -13,19 +75,8 @@
       <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KuNime Logo" />
       <span>KuNime</span>
     </div>
-  <button id="back-btn" type="button" class="back-button">&#8592; Back to Homepage</button>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const backBtn = document.getElementById('back-btn');
-    backBtn.addEventListener('click', () => {
-      // Replace '/' with your actual homepage path, e.g., 'index.html' or 'main.html'
-      window.location.href = 'https://kunimetv.pages.dev/main'; 
-    });
-  });
-</script>
+    <button id="back-btn" type="button" class="back-button">&#8592; Back to Homepage</button>
   </header>
-
   <main class="movie-container">
     <div id="movie-backdrop" class="movie-backdrop">
       <div class="movie-details">
@@ -48,13 +99,71 @@
               <option value="videasy.net">Videasy.net</option>
             </select>
           </div>
+          <!-- Cast container here below server selector -->
+          <div id="cast-container" aria-label="Top Cast"></div>
         </div>
       </div>
     </div>
-
     <div class="video-container">
       <iframe id="movie-video" frameborder="0" allowfullscreen loading="lazy" title="Streaming Video Player"></iframe>
     </div>
   </main>
+  <script>
+    const API_KEY = '961334ce43e0adcaa714fddec89fcfd9';
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const movieId = urlParams.get('id');
+      const mediaType = urlParams.get('type'); // movie or tv
+
+      const castContainer = document.getElementById('cast-container');
+
+      // Function to fetch cast from TMDb API
+      async function fetchCast() {
+        try {
+          const url = `https://api.themoviedb.org/3/${mediaType}/${movieId}/credits?api_key=${API_KEY}&language=en-US`;
+          const res = await fetch(url);
+          if(!res.ok) throw new Error('Credits not found');
+          const data = await res.json();
+
+          // Clear previous cast if any
+          castContainer.innerHTML = '';
+
+          // Take first 6 cast members
+          const castToShow = data.cast.slice(0, 6);
+
+          if(castToShow.length === 0) {
+            castContainer.textContent = 'Cast information not available';
+            return;
+          }
+
+          castToShow.forEach(actor => {
+            const actorDiv = document.createElement('div');
+            actorDiv.className = 'cast-member';
+
+            const img = document.createElement('img');
+            img.src = actor.profile_path 
+              ? `https://image.tmdb.org/t/p/w185${actor.profile_path}`
+              : 'https://via.placeholder.com/72x72?text=No+Image';
+            img.alt = actor.name;
+
+            const name = document.createElement('div');
+            name.textContent = actor.name;
+
+            actorDiv.appendChild(img);
+            actorDiv.appendChild(name);
+            castContainer.appendChild(actorDiv);
+          });
+        } catch (error) {
+          console.error('Error fetching cast:', error);
+          castContainer.textContent = 'Unable to load cast info.';
+        }
+      }
+
+      // TODO: Your existing code to fetch/show movie details below here ...
+      // After you load main movie/show data call fetchCast()
+
+      fetchCast(); // call it to load cast right now
+    });
+  </script>
 </body>
 </html>
