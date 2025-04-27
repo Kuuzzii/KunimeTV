@@ -12,12 +12,6 @@ body {
   display: flex;
   flex-direction: column;
 
-  /* Wallpaper background */
-  background-image: url('https://wallpapercave.com/wp/wp10615907.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
   /* Positioning for overlay */
   position: relative;
   z-index: 0;
