@@ -5,15 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Watch - KuNime</title>
   <link rel="stylesheet" href="watch.css" />
-  <script defer src="watch.js"></script>
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      const backBtn = document.getElementById('back-btn');
+      backBtn.addEventListener('click', () => {
+        // Replace '/' with your actual homepage path if needed
+        window.location.href = '/';
+      });
+    });
+  </script>
 </head>
 <body>
   <header class="navbar">
     <div class="logo">
-      <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KuNime Logo" />
+      <img
+        src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg"
+        alt="KuNime Logo"
+      />
       <span>KuNime</span>
     </div>
-    <button id="back-btn" type="button" class="back-button">&#8592; Back</button>
+    <button id="back-btn" type="button" class="back-button">&#8592; Back to Homepage</button>
   </header>
 
   <main class="movie-container">
@@ -43,7 +54,13 @@
     </div>
 
     <div class="video-container">
-      <iframe id="movie-video" frameborder="0" allowfullscreen loading="lazy" title="Streaming Video Player"></iframe>
+      <iframe
+        id="movie-video"
+        frameborder="0"
+        allowfullscreen
+        loading="lazy"
+        title="Streaming Video Player"
+      ></iframe>
     </div>
   </main>
 </body>
