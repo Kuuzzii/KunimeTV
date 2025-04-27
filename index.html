@@ -104,18 +104,11 @@
       color: inherit;
       user-select: none;
     }
-    /* Subheadline */
-    .subheadline {
-      font-size: 1.5rem;
-      font-weight: 400;
-      margin-bottom: 35px;
-      color: inherit;
-    }
     /* Facebook Link */
     .facebook-link {
       display: inline-flex;
       align-items: center;
-      margin-bottom: 25px;
+      margin-bottom: 12px;
       font-size: 1.1rem;
       color: #1877f2; /* Facebook blue */
       text-decoration: none;
@@ -132,6 +125,13 @@
       fill: #1877f2;
       pointer-events: none;
     }
+    /* Info text above buttons */
+    .info-text {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+      color: inherit;
+    }
     /* Buttons */
     .buttons-container {
       display: flex;
@@ -140,7 +140,7 @@
       flex-wrap: wrap;
       justify-content: center;
     }
-      button {
+    button {
       padding: 16px 40px;
       font-size: 1.2rem;
       border: none;
@@ -171,7 +171,7 @@
       background-color: #b3000a;
     }
     body.light-mode .watch-btn:hover {
-      background-color: #d32f2f;
+            background-color: #d32f2f;
     }
     body.light-mode .coffee-btn {
       background-color: #ccc;
@@ -188,6 +188,7 @@
       max-width: 400px;
       line-height: 1.4;
       user-select: none;
+      margin-top: 10px;
     }
     body.light-mode .disclaimer {
       color: #555;
@@ -197,7 +198,10 @@
 <body>
   <header>
     <div class="logo-container">
-      <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KunimeTV Logo" class="logo" />
+      <img 
+        src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" 
+        alt="KunimeTV Logo" 
+        class="logo" />
       <span class="website-name">KunimeTV</span>
     </div>
 
@@ -218,15 +222,14 @@
       Visit us on Facebook
     </a>
 
-<b><font color=white>
-  Ready to watch? Click “Watch Now” to enjoy every movie.<br /><br /></b>
+    <p class="info-text">Ready to watch? Click “Watch Now” to enjoy every movie.</p>
 
     <div class="buttons-container">
       <button class="watch-btn" type="button">Watch Now</button>
       <button class="coffee-btn" type="button">Buy me a coffee? ☕</button>
     </div>
 
-    <p class="disclaimer"><br></br>
+    <p class="disclaimer">
       Disclaimer: All movies and shows are third-party content and are not owned or operated by KunimeTV.
     </p>
   </main>
