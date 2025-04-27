@@ -70,9 +70,9 @@
     .slider:before {
       position: absolute;
       content: "";
-     : 22px;
+      height: 22px;
       width: 22px;
- left: 2px;
+      left: 2px;
       bottom: 2px;
       background-color: white;
       border-radius: 50%;
@@ -116,6 +116,7 @@
       font-weight: 700;
       gap: 8px;
       user-select: none;
+      cursor: pointer;
     }
     .facebook-link:hover {
       text-decoration: underline;
@@ -311,7 +312,6 @@
       background: rgba(229, 9, 20, 0.9);
       color: white;
     }
-
     /* FAQ Section */
     #faq-section {
       width: 100%;
@@ -419,8 +419,8 @@
   <main>
     <h1>Unlimited movies, TV shows, and more</h1>
     <a
-      class="https://www.facebook.com/profile.php?id=61575194987950"
-      href="#"
+      class="facebook-link"
+      href="https://www.facebook.com/profile.php?id=61575194987950"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Visit our Facebook page"
@@ -446,7 +446,6 @@
     <p class="disclaimer">
       Disclaimer: All movies and shows are third-party content and are not owned or operated by KunimeTV.
     </p>
-
     <!-- Trending Section -->
     <section id="trending-section">
       <h2>Trending Now</h2>
@@ -456,11 +455,9 @@
         <button id="trending-next" class="trending-arrow" aria-label="Scroll right">&#8250;</button>
       </div>
     </section>
-
     <!-- FAQ Section -->
     <section id="faq-section" aria-label="Frequently Asked Questions">
       <h2>Frequently Asked Questions</h2>
-
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" aria-controls="faq1" id="faq1-btn">
           What is KunimeTV?
@@ -470,7 +467,6 @@
           KunimeTV is an online platform to watch unlimited movies and TV shows from various sources.
         </div>
       </div>
-
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" aria-controls="faq2" id="faq2-btn">
           How can I watch movies on KunimeTV?
@@ -480,7 +476,6 @@
           Simply click on “Watch Now” to access our content library, or select a movie from the trending section.
         </div>
       </div>
-
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" aria-controls="faq3" id="faq3-btn">
           Is KunimeTV free?
@@ -490,7 +485,6 @@
           Yes, KunimeTV is a 100% Free Movie Streaming Site.
         </div>
       </div>
-
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" aria-controls="faq4" id="faq4-btn">
           What devices support KunimeTV?
@@ -502,7 +496,6 @@
       </div>
     </section>
   </main>
-
   <script>
     // Dark/Light toggle
     const toggle = document.getElementById('modeToggle');
@@ -520,7 +513,6 @@
         localStorage.setItem('kunimeTVMode', 'dark');
       }
     });
-
     // Button click handlers
     document.querySelector('.watch-btn').addEventListener('click', () => {
       window.location.href = 'main.html';
@@ -528,12 +520,10 @@
     document.querySelector('.coffee-btn').addEventListener('click', () => {
       window.open('https://buymeacoffee.com/yourprofile', '_blank');
     });
-
     // Trending Items Fetch and Render (both movies and tv)
     const API_KEY = '961334ce43e0adcaa714fddec89fcfd9';
     const TRENDING_URL = `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`;
     const IMG_BASE = 'https://image.tmdb.org/t/p/w300';
-
     async function loadTrendingItems() {
       try {
         const res = await fetch(TRENDING_URL);
@@ -547,33 +537,27 @@
           card.className = 'movie-card';
           card.setAttribute('role', 'listitem');
           card.setAttribute('tabindex', '0');
-
           const rank = document.createElement('div');
           rank.className = 'movie-rank';
           rank.textContent = index + 1;
           card.appendChild(rank);
-
           const img = document.createElement('img');
           img.src = item.poster_path ? IMG_BASE + item.poster_path : '';
           img.alt = item.title || item.name || 'Poster image';
           card.appendChild(img);
-
           // Use media_type for watch page URL
           let type = 'movie'; // default fallback
-          if(item.media_type === 'tv') type = 'tv';
-          else if(item.media_type === 'movie') type = 'movie';
-
+          if (item.media_type === 'tv') type = 'tv';
+          else if (item.media_type === 'movie') type = 'movie';
           card.addEventListener('click', () => {
             window.location.href = `watch?id=${item.id}&type=${type}`;
           });
-
           card.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
               window.location.href = `watch?id=${item.id}&type=${type}`;
             }
           });
-
           container.appendChild(card);
         });
       } catch (error) {
@@ -582,20 +566,16 @@
         container.innerHTML = '<p style="color:#eee; padding:20px;">Failed to load trending items.</p>';
       }
     }
-
     const trendingContainer = document.getElementById('trending-container');
     const prevBtn = document.getElementById('trending-prev');
     const nextBtn = document.getElementById('trending-next');
-
     prevBtn.addEventListener('click', () => {
       trendingContainer.scrollBy({ left: -400, behavior: 'smooth' });
     });
     nextBtn.addEventListener('click', () => {
       trendingContainer.scrollBy({ left: 400, behavior: 'smooth' });
     });
-
     window.addEventListener('DOMContentLoaded', loadTrendingItems);
-
     // FAQ Accordion logic
     const faqItems = document.querySelectorAll('.faq-question');
     faqItems.forEach((btn) => {
@@ -612,7 +592,6 @@
             }
           }
         });
-
         if (!expanded) {
           btn.setAttribute('aria-expanded', 'true');
           const answerId = btn.getAttribute('aria-controls');
@@ -629,7 +608,6 @@
           }
         }
       });
-
       // Enable toggle by enter or space keyboard keys on the button
       btn.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
