@@ -5,63 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>KunimeTV - Welcome</title>
   <style>
-
-    /* Mobile Styles */
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    padding: 10px; /* Reduced padding for mobile */
-    align-items: center; /* Center items for mobile */
-  }
-  
-  .logo-container {
-    margin-bottom: 10px; /* Space below logo on mobile */
-  }
-
-  .website-name {
-    font-size: 24px; /* Smaller font size for mobile */
-  }
-
-  h1 {
-    font-size: 2.5rem; /* Smaller font size for mobile */
-    margin-bottom: 10px; /* Reduced margin for mobile */
-  }
-
-  .info-text {
-    font-size: 0.9rem; /* Smaller font size for mobile */
-  }
-
-  .buttons-container {
-    flex-direction: column; /* Stack buttons vertically on mobile */
-    width: 100%; /* Full width for buttons */
-    gap: 10px; /* Space between buttons */
-  }
-
-  button {
-    padding: 12px 20px; /* Smaller padding for mobile */
-    font-size: 1rem; /* Smaller font size for mobile */
-    width: 100%; /* Make button take full width */
-    max-width: none; /* Override max-width */
-  }
-
-  .disclaimer {
-    font-size: 0.75rem; /* Smaller disclaimer font for mobile */
-  }
-
-  #trending-section {
-    padding: 0 10px; /* Reduced padding for mobile */
-  }
-
-  .movie-card {
-    width: 120px; /* Smaller card width for mobile */
-  }
-
-  .trending-arrow {
-    width: 36px; /* Smaller arrow buttons for mobile */
-    height: 64px; /* Smaller arrow buttons for mobile */
-    font-size: 24px; /* Smaller font size on arrows */
-  }
-}
     /* Base and Reset */
     * {
       box-sizing: border-box;
@@ -457,6 +400,112 @@
     }
     body.light-mode .faq-answer {
       color: #444;
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        padding: 10px;
+        align-items: center;
+      }
+
+      .logo-container {
+        margin-bottom: 10px;
+      }
+
+      .website-name {
+        font-size: 24px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 15px;
+        padding: 0 10px;
+      }
+
+      .info-text {
+        font-size: 0.9rem;
+        padding: 0 15px;
+      }
+
+      .facebook-link {
+        font-size: 1rem;
+      }
+
+      .buttons-container {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+        padding: 0 15px;
+      }
+
+      button {
+        padding: 14px 20px;
+        font-size: 1.1rem;
+        width: 100%;
+        max-width: none;
+      }
+
+      .disclaimer {
+        font-size: 0.75rem;
+        padding: 0 20px;
+      }
+
+      #trending-section {
+        padding: 0 10px;
+        margin: 30px auto 60px;
+      }
+
+      #trending-section h2 {
+        font-size: 1.4rem;
+        margin-bottom: 12px;
+      }
+
+      .trending-wrapper {
+        margin: 0 -5px;
+      }
+
+      .movie-card {
+        width: 110px;
+      }
+
+      .movie-card img {
+        height: 165px;
+      }
+
+      .movie-rank {
+        font-size: 36px;
+      }
+
+      .trending-arrow {
+        width: 32px;
+        height: 60px;
+        font-size: 22px;
+        opacity: 0.7;
+      }
+
+      #trending-prev {
+        left: -16px;
+      }
+
+      #trending-next {
+        right: -16px;
+      }
+
+      .faq-question {
+        padding: 15px 12px;
+        font-size: 1rem;
+      }
+
+      .faq-answer {
+        font-size: 0.9rem;
+        padding: 0 12px;
+      }
+
+      .faq-answer[aria-hidden="false"] {
+        padding: 10px 12px 15px;
+      }
     }
   </style>
 </head>
