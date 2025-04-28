@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Watch - KuNime</title>
   <link rel="stylesheet" href="watch.css" />
+  <script defer src="watch.js"></script>
   <style>
     /* Reset and base styles */
     * {
@@ -13,11 +14,13 @@
       box-sizing: border-box;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
+    
     body {
       background-color: #111;
       color: #fff;
       line-height: 1.5;
     }
+    
     /* Navbar styling */
     .navbar {
       display: flex;
@@ -29,6 +32,7 @@
       top: 0;
       z-index: 100;
     }
+    
     .logo {
       display: flex;
       align-items: center;
@@ -37,10 +41,12 @@
       font-weight: 700;
       font-size: 20px;
     }
+    
     .logo img {
       height: 35px;
       border-radius: 4px;
     }
+    
     .back-button {
       padding: 8px 16px;
       background-color: #e60000;
@@ -51,15 +57,18 @@
       font-weight: 600;
       transition: background-color 0.2s;
     }
+    
     .back-button:hover {
       background-color: #cc0000;
     }
+    
     /* Movie container styling */
     .movie-container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 15px;
     }
+    
     /* Movie backdrop and details */
     .movie-backdrop {
       position: relative;
@@ -68,6 +77,7 @@
       overflow: hidden;
       margin-bottom: 20px;
     }
+    
     .movie-backdrop::before {
       content: '';
       position: absolute;
@@ -78,6 +88,7 @@
       background-color: rgba(0, 0, 0, 0.7);
       z-index: 1;
     }
+    
     .movie-details {
       position: relative;
       z-index: 2;
@@ -86,6 +97,7 @@
       gap: 25px;
       padding: 0 20px;
     }
+    
     .movie-poster {
       flex-shrink: 0;
       width: 220px;
@@ -94,46 +106,55 @@
       overflow: hidden;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
+    
     .movie-poster img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+    
     .movie-info {
       flex-grow: 1;
     }
+    
     .movie-info h1 {
       font-size: 28px;
       margin-bottom: 10px;
       color: #fff;
     }
+    
     .movie-meta {
       color: #ccc;
       margin-bottom: 15px;
     }
+    
     .movie-genres {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       margin-bottom: 15px;
     }
+    
     .movie-genres span {
       background-color: rgba(255, 255, 255, 0.1);
       padding: 4px 10px;
       border-radius: 20px;
       font-size: 14px;
     }
+    
     #movie-overview {
       color: #ddd;
       margin-bottom: 20px;
       line-height: 1.6;
     }
+    
     .movie-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       align-items: flex-start;
     }
+    
     .action-btn {
       padding: 10px 20px;
       border: none;
@@ -142,15 +163,18 @@
       font-weight: 600;
       font-size: 16px;
     }
+    
     .play-btn {
       background-color: #e60000;
       color: white;
     }
+    
     #server-select {
       background-color: #333;
       color: white;
       padding: 10px 15px;
     }
+    
     /* Warning box styling */
     .warning-box {
       margin-top: 15px;
@@ -165,6 +189,7 @@
       box-sizing: border-box;
       width: 100%;
     }
+    
     /* Video container styling */
     .video-container {
       position: relative;
@@ -176,6 +201,7 @@
       border-radius: 8px;
       overflow: hidden;
     }
+    
     #movie-video {
       position: absolute;
       top: 0;
@@ -184,7 +210,107 @@
       height: 100%;
       background-color: #000;
     }
+    
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      .movie-poster {
+        width: 180px;
+        height: 270px;
+      }
+      
+      .movie-info h1 {
+        font-size: 24px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .movie-details {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      
+      .movie-poster {
+        width: 200px;
+        height: 300px;
+        margin-bottom: 20px;
+      }
+      
+      .movie-genres {
+        justify-content: center;
+      }
+      
+      .movie-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .action-btn, #server-select, .warning-box {
+        width: 100%;
+        max-width: 400px;
+      }
+      
+      .navbar {
+        padding: 10px 15px;
+      }
+      
+      .logo {
+        font-size: 18px;
+      }
+      
+      .logo img {
+        height: 30px;
+      }
+      
+      .back-button {
+        padding: 6px 12px;
+        font-size: 14px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .movie-container {
+        padding: 0 10px;
+      }
+      
+      .movie-backdrop {
+        padding: 15px 0;
+      }
+      
+      .movie-poster {
+        width: 160px;
+        height: 240px;
+      }
+      
+      .movie-info h1 {
+        font-size: 20px;
+      }
+      
+      #movie-overview {
+        font-size: 14px;
+      }
+      
+      .movie-meta, .movie-genres span {
+        font-size: 13px;
+      }
+      
+      .warning-box {
+        font-size: 0.9rem;
+        padding: 10px 12px;
+      }
+      
+      .video-container {
+        margin-bottom: 20px;
+      }
+    }
   </style>
+
+  <script type="text/javascript" data-cfasync="false">
+/*<![CDATA[/* */
+(function(){var s=window,c="d23f4a340889e2c400e951a27f5d0988",u=[["siteId",120+537-286+5195167],["minBid",0.001],["popundersPerIP","15,15"],["delayBetween",20],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],z=["d3d3LmJsb2NrYWRzbm90LmNvbS9nc2VsZWN0Mi5taW4uY3Nz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9DVGUvd2xhdmUuanM="],v=-1,b,y,e=function(){clearTimeout(y);v++;if(z[v]&&!(1771751274000<(new Date).getTime()&&1<v)){b=s.document.createElement("script");b.type="text/javascript";b.async=!0;var i=s.document.getElementsByTagName("script")[0];b.src="https://"+atob(z[v]);b.crossOrigin="anonymous";b.onerror=e;b.onload=function(){clearTimeout(y);s[c.slice(0,16)+c.slice(0,16)]||e()};y=setTimeout(e,5E3);i.parentNode.insertBefore(b,i)}};if(!s[c]){try{Object.freeze(s[c]=u)}catch(e){}e()}})();
+/*]]>/* */
+</script>
+
 </head>
 <body>
   <header class="navbar">
@@ -193,8 +319,15 @@
       <span>KuNime</span>
     </div>
     <button id="back-btn" type="button" class="back-button">&#8592; Back to Homepage</button>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const backBtn = document.getElementById('back-btn');
+        backBtn.addEventListener('click', () => {
+          window.location.href = 'https://kunimetv.pages.dev/main';
+        });
+      });
+    </script>
   </header>
-
   <main class="movie-container">
     <div id="movie-backdrop" class="movie-backdrop">
       <div class="movie-details">
@@ -211,11 +344,13 @@
           <p id="movie-overview"></p>
           <div class="movie-actions">
             <button id="play-btn" type="button" class="action-btn play-btn">&#9658; Play</button>
-            <select id="server-select" class="action-btn" aria-label="Select Streaming Server"></select>
-            <div class="warning-box"
-              role="alert"
-              aria-live="polite"
-            >
+            <select id="server-select" class="action-btn" aria-label="Select Streaming Server">
+              <option value="vidsrc.cc">Vidsrc.cc</option>
+              <option value="vidsrc.me">Vidsrc.me</option>
+              <option value="videasy.net">Videasy.net</option>
+            </select>
+            <!-- Warning Box -->
+            <div class="warning-box" role="alert" aria-live="polite">
               ⚠️Some servers may occasionally be unavailable. If the one you selected is not working, please try another. For the best experience, we recommend choosing one of the first four servers listed
             </div>
           </div>
@@ -223,15 +358,8 @@
       </div>
     </div>
     <div class="video-container">
-      <iframe
-        id="movie-video"
-        frameborder="0"
-        allowfullscreen
-        loading="lazy"
-        title="Streaming Video Player"></iframe>
+      <iframe id="movie-video" frameborder="0" allowfullscreen loading="lazy" title="Streaming Video Player"></iframe>
     </div>
   </main>
-
-  <script src="watch.js"></script>
 </body>
 </html>
