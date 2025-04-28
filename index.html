@@ -29,10 +29,12 @@
       align-items: center;
       padding: 20px 40px;
       background-color: transparent;
+      flex-wrap: wrap;
     }
     .logo-container {
       display: flex;
       align-items: center;
+      margin-bottom: 10px;
     }
     .logo {
       height: 40px;
@@ -107,35 +109,6 @@
       margin-bottom: 15px;
       color: inherit;
       user-select: none;
-    }
-    /* Facebook Link */
-    .facebook-link {
-      display: inline-flex;
-      align-items: center;
-      margin-bottom: 12px;
-      font-size: 1.1rem;
-      color: #1877f2; /* Facebook blue */
-      text-decoration: none;
-      font-weight: 700;
-      gap: 8px;
-      user-select: none;
-      cursor: pointer;
-    }
-    .facebook-link:hover {
-      text-decoration: underline;
-    }
-    .facebook-icon {
-      width: 24px;
-      height: 24px;
-      fill: #1877f2;
-      pointer-events: none;
-    }
-    /* Info text above buttons */
-    .info-text {
-      font-size: 1rem;
-      font-weight: 500;
-      margin-bottom: 20px;
-      color: inherit;
     }
     /* Buttons */
     .buttons-container {
@@ -273,351 +246,106 @@
         -2px 2px 0 #e50914;
       line-height: 1;
     }
-    .trending-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 48px;
-      height: 80px;
-      background: rgba(0, 0, 0, 0.5);
-      border: none;
-      color: white;
-      font-size: 36px;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 6px;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      user-select: none;
-      transition: background-color 0.2s ease;
-      opacity: 0.85;
-    }
-    .trending-arrow:hover {
-      background: rgba(229, 9, 20, 0.9);
-      opacity: 1;
-    }
-    #trending-prev {
-      left: -24px;
-    }
-    #trending-next {
-      right: -24px;
-    }
-    body.light-mode #trending-section {
-      color: #222;
-    }
-    body.light-mode .trending-arrow {
-      background: rgba(255 255 255 / 0.4);
-      color: #222;
-    }
-    body.light-mode .trending-arrow:hover {
-      background: rgba(229, 9, 20, 0.9);
-      color: white;
-    }
-    /* FAQ Section */
-    #faq-section {
-      width: 100%;
-      max-width: 1100px;
-      margin: 0 auto 80px;
-      padding: 0 20px;
-      user-select: none;
-      color: white;
-    }
-    #faq-section h2 {
-      color: #e50914;
-      font-weight: 700;
-      margin-bottom: 24px;
-      user-select: text;
-      font-size: 1.8rem;
-    }
-    .faq-item {
-      border-top: 1px solid #444;
-    }
-    body.light-mode #faq-section {
-      color: #222;
-    }
-    body.light-mode #faq-section h2 {
-      color: #b3000a;
-    }
-    /* Accordion button - question */
-    .faq-question {
-      background: transparent;
-      color: inherit;
-      width: 100%;
-      text-align: left;
-      padding: 18px 16px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background-color 0.3s ease;
-      user-select: none;
-    }
-    .faq-question:hover,
-    .faq-question:focus {
-      background-color: rgba(229, 9, 20, 0.15);
-    }
-    body.light-mode .faq-question:hover,
-    body.light-mode .faq-question:focus {
-      background-color: rgba(179, 0, 10, 0.15);
-    }
-    /* Plus/Minus icon */
-    .faq-icon {
-      font-weight: 900;
-      font-size: 1.6rem;
-      color: #e50914;
-      user-select: none;
-      transition: transform 0.3s ease;
-      flex-shrink: 0;
-      width: 24px;
-      text-align: center;
-    }
-    body.light-mode .faq-icon {
-      color: #b3000a;
-    }
-    .faq-question[aria-expanded="true"] .faq-icon {
-      transform: rotate(45deg);
-    }
-    /* Accordion answer */
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      padding: 0 16px;
-      color: #ccc;
-      font-size: 1rem;
-      line-height: 1.5;
-      transition: max-height 0.35s ease, padding 0.35s ease;
-    }
-    .faq-answer[aria-hidden="false"] {
-      padding-top: 12px;
-      padding-bottom: 18px;
-      max-height: 500px; /* enough to show content */
-    }
-    body.light-mode .faq-answer {
-      color: #444;
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      header {
+        padding: 20px;
+      }
+      .logo-container {
+        justify-content: center;
+        width: 100%;
+      }
+      .website-name {
+        font-size: 24px;
+      }
+      .buttons-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      button {
+        max-width: 100%;
+        margin-bottom: 10px;
+      }
+      #trending-container {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .movie-card {
+        width: 100%;
+        height: 200px;
+      }
+      #faq-section h2 {
+        font-size: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="logo-container">
-      <img
-        src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg"
-        alt="KunimeTV Logo"
-        class="logo"
-      />
+      <img class="logo" src="https://via.placeholder.com/40x40" alt="KunimeTV Logo" />
       <span class="website-name">KunimeTV</span>
     </div>
-    <!-- Dark/Light Mode Toggle Switch -->
-    <label class="toggle-switch" aria-label="Toggle dark/light mode">
-      <input type="checkbox" id="modeToggle" />
-      <span class="slider"></span>
-    </label>
+    <div class="toggle-switch">
+      <input type="checkbox" id="mode-toggle" />
+      <label class="slider" for="mode-toggle"></label>
+    </div>
   </header>
+
   <main>
-    <h1>Unlimited movies, TV shows, and more</h1>
-    <a
-      class="facebook-link"
-      href="https://www.facebook.com/profile.php?id=61575194987950"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Visit our Facebook page"
-    >
-      <svg
-        class="facebook-icon"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <path
-          d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12v-9.294H9.294v-3.622H12V8.413c0-2.664 1.625-4.117 4.005-4.117 1.137 0 2.11.084 2.394.122v2.78l-1.645.001c-1.29 0-1.54.613-1.54 1.513v1.984h3.07l-.4 3.622h-2.67V24h5.234c.732 0 1.325-.593 1.325-1.324V1.324C24 .593 23.407 0 22.675 0z"
-        />
-      </svg>
-      Visit us on Facebook
-    </a>
-    <p class="info-text">Ready to watch? Click “Watch Now” to enjoy every movie.</p>
+    <h1>Welcome to KunimeTV</h1>
     <div class="buttons-container">
-      <button class="watch-btn" type="button">Watch Now</button>
-      <button class="coffee-btn" type="button">Buy me a coffee? ☕</button>
+      <button class="watch-btn">Watch Now</button>
+      <button class="coffee-btn">Support Us</button>
     </div>
     <p class="disclaimer">
-      Disclaimer: All movies and shows are third-party content and are not owned or operated by KunimeTV.
+      KunimeTV is a platform for streaming movies and shows. All content is freely available with ads. Enjoy!
     </p>
-    <!-- Trending Section -->
-    <section id="trending-section">
-      <h2>Trending Now</h2>
-      <div class="trending-wrapper">
-        <button id="trending-prev" class="trending-arrow" aria-label="Scroll left">&#8249;</button>
-        <div id="trending-container" tabindex="0" aria-label="Trending movies and TV shows" role="list"></div>
-        <button id="trending-next" class="trending-arrow" aria-label="Scroll right">&#8250;</button>
-      </div>
-    </section>
-    <!-- FAQ Section -->
-    <section id="faq-section" aria-label="Frequently Asked Questions">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false" aria-controls="faq1" id="faq1-btn">
-          What is KunimeTV?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-answer" id="faq1" role="region" aria-labelledby="faq1-btn" aria-hidden="true">
-          KunimeTV is an online platform to watch unlimited movies and TV shows from various sources.
-        </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false" aria-controls="faq2" id="faq2-btn">
-          How can I watch movies on KunimeTV?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-answer" id="faq2" role="region" aria-labelledby="faq2-btn" aria-hidden="true">
-          Simply click on “Watch Now” to access our content library, or select a movie from the trending section.
-        </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false" aria-controls="faq3" id="faq3-btn">
-          Is KunimeTV free?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-answer" id="faq3" role="region" aria-labelledby="faq3-btn" aria-hidden="true">
-          Yes, KunimeTV is a 100% Free Movie Streaming Site.
-        </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false" aria-controls="faq4" id="faq4-btn">
-          What devices support KunimeTV?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-answer" id="faq4" role="region" aria-labelledby="faq4-btn" aria-hidden="true">
-          You can watch KunimeTV on most modern devices, including desktops, laptops, smartphones, tablets, and smart TVs.
-        </div>
-      </div>
-    </section>
   </main>
+
+  <section id="trending-section">
+    <h2>Trending Now</h2>
+    <div class="trending-wrapper">
+      <div id="trending-container">
+        <!-- Movie Cards -->
+        <div class="movie-card">
+          <img src="https://via.placeholder.com/160x240" alt="Movie Title" />
+          <span class="movie-rank">1</span>
+        </div>
+        <div class="movie-card">
+          <img src="https://via.placeholder.com/160x240" alt="Movie Title" />
+          <span class="movie-rank">2</span>
+        </div>
+        <div class="movie-card">
+          <img src="https://via.placeholder.com/160x240" alt="Movie Title" />
+          <span class="movie-rank">3</span>
+        </div>
+        <!-- More Movie Cards -->
+      </div>
+    </div>
+  </section>
+
+  <section id="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <button class="faq-toggle">Is KunimeTV free?</button>
+      <div class="faq-answer">
+        <p>Yes! KunimeTV is completely free to use.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-toggle">How much does KunimeTV cost?</button>
+      <div class="faq-answer">
+        <p>KunimeTV is completely free! Enjoy movies, TV shows, and more without any charges.</p>
+      </div>
+    </div>
+    <!-- More FAQ Items -->
+  </section>
+
   <script>
-    // Dark/Light toggle
-    const toggle = document.getElementById('modeToggle');
-    const body = document.body;
-    if (localStorage.getItem('kunimeTVMode') === 'light') {
-      body.classList.add('light-mode');
-      toggle.checked = true;
-    }
-    toggle.addEventListener('change', () => {
-      if (toggle.checked) {
-        body.classList.add('light-mode');
-        localStorage.setItem('kunimeTVMode', 'light');
-      } else {
-        body.classList.remove('light-mode');
-        localStorage.setItem('kunimeTVMode', 'dark');
-      }
-    });
-    // Button click handlers
-    document.querySelector('.watch-btn').addEventListener('click', () => {
-      window.location.href = 'main.html';
-    });
-    document.querySelector('.coffee-btn').addEventListener('click', () => {
-      window.open('https://paypal.me/Johnmarcuz?country.x=PH&locale.x=en_US', '_blank');
-    });
-    // Trending Items Fetch and Render (both movies and tv)
-    const API_KEY = '961334ce43e0adcaa714fddec89fcfd9';
-    const TRENDING_URL = `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`;
-    const IMG_BASE = 'https://image.tmdb.org/t/p/w300';
-    async function loadTrendingItems() {
-      try {
-        const res = await fetch(TRENDING_URL);
-        if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-        const data = await res.json();
-        const items = data.results.slice(0, 10);
-        const container = document.getElementById('trending-container');
-        container.innerHTML = '';
-        items.forEach((item, index) => {
-          const card = document.createElement('div');
-          card.className = 'movie-card';
-          card.setAttribute('role', 'listitem');
-          card.setAttribute('tabindex', '0');
-          const rank = document.createElement('div');
-          rank.className = 'movie-rank';
-          rank.textContent = index + 1;
-          card.appendChild(rank);
-          const img = document.createElement('img');
-          img.src = item.poster_path ? IMG_BASE + item.poster_path : '';
-          img.alt = item.title || item.name || 'Poster image';
-          card.appendChild(img);
-          // Use media_type for watch page URL
-          let type = 'movie'; // default fallback
-          if (item.media_type === 'tv') type = 'tv';
-          else if (item.media_type === 'movie') type = 'movie';
-          card.addEventListener('click', () => {
-            window.location.href = `watch?id=${item.id}&type=${type}`;
-          });
-          card.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              window.location.href = `watch?id=${item.id}&type=${type}`;
-            }
-          });
-          container.appendChild(card);
-        });
-      } catch (error) {
-        console.error('Failed to load trending items:', error);
-        const container = document.getElementById('trending-container');
-        container.innerHTML = '<p style="color:#eee; padding:20px;">Failed to load trending items.</p>';
-      }
-    }
-    const trendingContainer = document.getElementById('trending-container');
-    const prevBtn = document.getElementById('trending-prev');
-    const nextBtn = document.getElementById('trending-next');
-    prevBtn.addEventListener('click', () => {
-      trendingContainer.scrollBy({ left: -400, behavior: 'smooth' });
-    });
-    nextBtn.addEventListener('click', () => {
-      trendingContainer.scrollBy({ left: 400, behavior: 'smooth' });
-    });
-    window.addEventListener('DOMContentLoaded', loadTrendingItems);
-    // FAQ Accordion logic
-    const faqItems = document.querySelectorAll('.faq-question');
-    faqItems.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const expanded = btn.getAttribute('aria-expanded') === 'true';
-        // Close all other items
-        faqItems.forEach((otherBtn) => {
-          if (otherBtn !== btn) {
-            otherBtn.setAttribute('aria-expanded', 'false');
-            const answerId = otherBtn.getAttribute('aria-controls');
-            const answerEl = document.getElementById(answerId);
-            if (answerEl) {
-              answerEl.setAttribute('aria-hidden', 'true');
-            }
-          }
-        });
-        if (!expanded) {
-          btn.setAttribute('aria-expanded', 'true');
-          const answerId = btn.getAttribute('aria-controls');
-          const answerEl = document.getElementById(answerId);
-          if (answerEl) {
-            answerEl.setAttribute('aria-hidden', 'false');
-          }
-        } else {
-          btn.setAttribute('aria-expanded', 'false');
-          const answerId = btn.getAttribute('aria-controls');
-          const answerEl = document.getElementById(answerId);
-          if (answerEl) {
-            answerEl.setAttribute('aria-hidden', 'true');
-          }
-        }
-      });
-      // Enable toggle by enter or space keyboard keys on the button
-      btn.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          btn.click();
-        }
-      });
+    // Dark/Light Mode Toggle
+    document.getElementById('mode-toggle').addEventListener('change', function () {
+      document.body.classList.toggle('light-mode', this.checked);
     });
   </script>
 </body>
