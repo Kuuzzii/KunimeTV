@@ -75,6 +75,8 @@
       border-radius: 8px;
       overflow: hidden;
       margin-bottom: 20px;
+      background-size: cover;
+      background-position: center top;
     }
     
     .movie-backdrop::before {
@@ -176,23 +178,6 @@
       background-color: #333;
       color: white;
       padding: 10px 15px;
-    }
-    
-    /* Content type toggle */
-    .content-type {
-      display: flex;
-      margin-bottom: 15px;
-    }
-    
-    .content-type label {
-      margin-right: 20px;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-    }
-    
-    .content-type input {
-      margin-right: 8px;
     }
     
     /* TV controls */
@@ -391,10 +376,6 @@
         font-size: 14px;
       }
       
-      .content-type {
-        justify-content: center;
-      }
-      
       .server-dropdown-content {
         width: 100%;
         max-width: 400px;
@@ -462,15 +443,6 @@
           <div id="movie-genres" class="movie-genres"></div>
           <p id="movie-overview"></p>
           
-          <div class="content-type">
-            <label>
-              <input type="radio" name="content-type" value="movie" checked> Movie
-            </label>
-            <label>
-              <input type="radio" name="content-type" value="tv"> TV Show
-            </label>
-          </div>
-          
           <div class="movie-actions">
             <button id="play-btn" type="button" class="action-btn play-btn">&#9658; Play</button>
             
@@ -489,28 +461,29 @@
               </div>
             </div>
             
-            <!-- TV show server selection dropdown (hidden by default) -->
-            <div class="server-dropdown" id="tv-server-dropdown" style="display: none;">
-              <button class="server-dropdown-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
-                  <polyline points="17 2 12 7 7 2"></polyline>
-                </svg>
-                Select Server
-              </button>
-              <div class="server-dropdown-content" id="tv-server-list">
-                <!-- Will be populated by JavaScript -->
+            <!-- TV show server selection dropdown and controls (hidden by default, only shown for TV shows) -->
+            <div id="tv-only-controls" style="display: none;">
+              <div class="server-dropdown" id="tv-server-dropdown">
+                <button class="server-dropdown-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                    <polyline points="17 2 12 7 7 2"></polyline>
+                  </svg>
+                  Select Server
+                </button>
+                <div class="server-dropdown-content" id="tv-server-list">
+                  <!-- Will be populated by JavaScript -->
+                </div>
               </div>
-            </div>
-            
-            <!-- TV show controls (hidden by default) -->
-            <div class="tv-controls" id="tv-controls" style="display: none;">
-              <select id="season-select" aria-label="Select Season">
-                <option value="1">Season 1</option>
-              </select>
-              <select id="episode-select" aria-label="Select Episode">
-                <option value="1">Episode 1</option>
-              </select>
+              
+              <div class="tv-controls" id="tv-controls">
+                <select id="season-select" aria-label="Select Season">
+                  <option value="1">Season 1</option>
+                </select>
+                <select id="episode-select" aria-label="Select Episode">
+                  <option value="1">Episode 1</option>
+                </select>
+              </div>
             </div>
             
             <!-- Warning Box -->
@@ -530,6 +503,11 @@
   </main>
   
   <script>
+    // TMDB API configuration
+    const API_KEY = '961334ce43e0adcaa714fddec89fcfd9';
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const IMG_URL = 'https://image.tmdb.org/t/p/original';
+    
     // Player configuration
     const playerConfig = {
       font: "Poppins",
@@ -558,12 +536,10 @@
     
     document.addEventListener('DOMContentLoaded', () => {
       // Initialize UI elements
-      const contentTypeRadios = document.querySelectorAll('input[name="content-type"]');
       const movieServerDropdown = document.getElementById('movie-server-dropdown');
-      const tvServerDropdown = document.getElementById('tv-server-dropdown');
-      const tvControls = document.getElementById('tv-controls');
-      const movieServerList = document.getElementById('movie-server-list');
+      const tvOnlyControls = document.getElementById('tv-only-controls');
       const tvServerList = document.getElementById('tv-server-list');
+      const movieServerList = document.getElementById('movie-server-list');
       const loaderElement = document.getElementById('loader');
       const videoElement = document.getElementById('movie-video');
       
@@ -585,10 +561,8 @@
       
       // Set up the UI based on content type
       if (contentType === 'tv') {
-        document.querySelector('input[value="tv"]').checked = true;
         movieServerDropdown.style.display = 'none';
-        tvServerDropdown.style.display = 'block';
-        tvControls.style.display = 'flex';
+        tvOnlyControls.style.display = 'block';
       }
       
       // Define available movie servers (correctly formatted URLs)
@@ -612,21 +586,6 @@
         { id: "gdriveplayer", name: "GDrivePlayer", url: "https://databasegdriveplayer.co/player.php?type=series&tmdb={tmdbId}&season={season}&episode={episode}" },
         { id: "curtstream", name: "CurtStream", url: "https://curtstream.com/series/tmdb/{tmdbId}/{season}/{episode}/" }
       ];
-      
-      // Handle content type selection change
-      contentTypeRadios.forEach(radio => {
-        radio.addEventListener('change', (e) => {
-          if (e.target.value === 'movie') {
-            movieServerDropdown.style.display = 'block';
-            tvServerDropdown.style.display = 'none';
-            tvControls.style.display = 'none';
-          } else {
-            movieServerDropdown.style.display = 'none';
-            tvServerDropdown.style.display = 'block';
-            tvControls.style.display = 'flex';
-          }
-        });
-      });
       
       // Populate season and episode selectors
       function populateSeasons(maxSeasons = 3) {
@@ -681,7 +640,8 @@
         // Show the loader
         loaderElement.style.display = 'flex';
         
-        const isTV = document.querySelector('input[name="content-type"]:checked').value === 'tv';
+        // Determine if content is TV or movie based on URL parameter
+        const isTV = contentType === 'tv';
         const season = seasonSelect.value;
         const episode = episodeSelect.value;
         
@@ -714,51 +674,108 @@
       
       // Play button click handler
       document.getElementById('play-btn').addEventListener('click', () => {
-        // Determine if we're playing a movie or TV show
-        const isTV = document.querySelector('input[name="content-type"]:checked').value === 'tv';
-        
-        // Choose SuperEmbed as the default server
-        const defaultServer = isTV ? tvServers[0] : movieServers[0];
+        // Choose SuperEmbed as the default server for either movie or TV
+        const defaultServer = contentType === 'tv' ? tvServers[0] : movieServers[0];
         
         // Load the server
         loadServer(defaultServer);
       });
       
-      // Fetch movie/show data and update UI
-      fetchMovieData();
-      
-      // Simple function to fetch movie data
+      // Fetch movie/show data from TMDB API
       async function fetchMovieData() {
         try {
-          // For demo purposes, using static data
-          // In a real app, you would fetch this from an API
-          const movieData = {
-            title: "Spider-Man",
-            overview: "After being bitten by a genetically altered spider at Oscorp, nerdy but good-hearted high school student Peter Parker is endowed with amazing powers to become the superhero known as Spider-Man.",
-            poster_path: "https://m.media-amazon.com/images/M/MV5BZDEyN2NhMjgtMjdhNi00MmNlLWE5YTgtZGE4MzNjMTRlMGEwXkEyXkFqcGdeQXVyNDUyOTg3Njg@._V1_FMjpg_UX1000_.jpg",
-            release_date: "2002-05-03",
-            runtime: 121,
-            genres: ["Action", "Adventure", "Sci-Fi"]
-          };
+          // Get content type from URL parameter
+          const type = contentType === 'tv' ? 'tv' : 'movie';
           
-          // Update UI with movie data
-          document.getElementById('movie-title').textContent = movieData.title;
-          document.getElementById('movie-overview').textContent = movieData.overview;
-          document.getElementById('movie-poster').src = movieData.poster_path || '';
-          document.getElementById('movie-release-date').textContent = formatDate(movieData.release_date);
-          document.getElementById('movie-runtime').textContent = formatRuntime(movieData.runtime);
+          // Create URL for API request
+          let apiUrl;
+          if (tmdbId) {
+            apiUrl = `${BASE_URL}/${type}/${tmdbId}?api_key=${API_KEY}`;
+          } else {
+            // For IMDb ID, need to use the find endpoint
+            apiUrl = `${BASE_URL}/find/${imdbId}?api_key=${API_KEY}&external_source=imdb_id`;
+          }
+          
+          const response = await fetch(apiUrl);
+          let data = await response.json();
+          
+          // If using the find endpoint, need to extract the result
+          if (apiUrl.includes('/find/')) {
+            const results = type === 'movie' ? data.movie_results : data.tv_results;
+            
+            if (results && results.length > 0) {
+              // Get the first result's ID and make another request
+              const id = results[0].id;
+              const detailsResponse = await fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}`);
+              data = await detailsResponse.json();
+            } else {
+              throw new Error('Content not found');
+            }
+          }
+          
+          // Update UI with movie/TV show data
+          document.getElementById('movie-title').textContent = data.title || data.name;
+          document.getElementById('movie-overview').textContent = data.overview;
+          
+          if (data.poster_path) {
+            document.getElementById('movie-poster').src = `${IMG_URL}${data.poster_path}`;
+          }
+          
+          // Set backdrop image
+          if (data.backdrop_path) {
+            document.getElementById('movie-backdrop').style.backgroundImage = `url(${IMG_URL}${data.backdrop_path})`;
+          }
+          
+          // Set release date or first air date
+          const dateString = data.release_date || data.first_air_date;
+          document.getElementById('movie-release-date').textContent = formatDate(dateString);
+          
+          // Set runtime or episode runtime
+          let runtime = data.runtime;
+          if (!runtime && data.episode_run_time && data.episode_run_time.length) {
+            runtime = data.episode_run_time[0];
+          }
+          document.getElementById('movie-runtime').textContent = formatRuntime(runtime);
           
           // Update genres
           const genresElement = document.getElementById('movie-genres');
           genresElement.innerHTML = '';
-          movieData.genres.forEach(genre => {
-            const span = document.createElement('span');
-            span.textContent = genre;
-            genresElement.appendChild(span);
-          });
+          
+          if (data.genres && data.genres.length) {
+            data.genres.forEach(genre => {
+              const span = document.createElement('span');
+              span.textContent = genre.name;
+              genresElement.appendChild(span);
+            });
+          }
+          
+          // If it's a TV show, update season/episode information
+          if (type === 'tv' && data.number_of_seasons) {
+            populateSeasons(data.number_of_seasons);
+            
+            // When a season is selected, update episodes
+            seasonSelect.addEventListener('change', () => {
+              const seasonNum = parseInt(seasonSelect.value);
+              const season = data.seasons.find(s => s.season_number === seasonNum);
+              
+              if (season) {
+                populateEpisodes(season.episode_count);
+              } else {
+                populateEpisodes(10); // Default
+              }
+            });
+            
+            // Trigger once to initialize first season's episodes
+            const event = new Event('change');
+            seasonSelect.dispatchEvent(event);
+          }
           
         } catch (error) {
-          console.error('Error fetching movie data:', error);
+          console.error('Error fetching data:', error);
+          
+          // Fallback to basic data
+          document.getElementById('movie-title').textContent = "Video Content";
+          document.getElementById('movie-overview').textContent = "Content information not available.";
         }
       }
       
@@ -775,6 +792,9 @@
         const mins = minutes % 60;
         return `${hours}h ${mins}m`;
       }
+      
+      // Initialize page with content data
+      fetchMovieData();
     });
   </script>
 </body>
