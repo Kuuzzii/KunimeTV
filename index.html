@@ -2,9 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KunimeTV - Welcome</title>
   <style>
+
+    @media (max-width: 768px) {
+  /* Main content */
+  main {
+    padding: 0 10px 40px;  /* Reduced padding */
+  }
+
+  h1 {
+    font-size: 2.5rem; /* Make the headline smaller */
+  }
+
+  .buttons-container {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 15px; /* Reduced gap */
+  }
+
+  button {
+    width: 100%; /* Make buttons take full width */
+    font-size: 1.1rem; /* Adjust button text size */
+  }
+
+  .movie-card {
+    width: 130px; /* Adjust movie card size */
+    height: 180px; /* Adjust height for mobile */
+  }
+
+  .disclaimer {
+    font-size: 0.8rem; /* Smaller disclaimer text */
+    max-width: 90%; /* Make disclaimer text more flexible */
+  }
+
+  #trending-container {
+    gap: 12px; /* Reduced gap between items */
+  }
+
+  /* FAQ Section */
+  .faq-question {
+    font-size: 1rem; /* Smaller font size for FAQ questions */
+  }
+
+  .faq-answer {
+    font-size: 0.9rem; /* Smaller font size for answers */
+  }
+
+  /* Reduce the size of the arrows for mobile */
+  .trending-arrow {
+    width: 40px;
+    height: 60px;
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further optimizations for very small screens */
+  h1 {
+    font-size: 2rem; /* Even smaller headline */
+  }
+
+  .buttons-container {
+    gap: 10px;
+  }
+
+  button {
+    font-size: 1rem; /* Smaller button text */
+  }
+
+  .movie-card {
+    width: 120px; /* Even smaller movie card */
+    height: 160px; /* Adjust height further */
+  }
+
+  /* Make the disclaimer text even smaller */
+  .disclaimer {
+    font-size: 0.75rem;
+  }
+
+  .faq-question {
+    padding: 15px; /* Reduced padding for mobile */
+  }
+}
+
     /* Base and Reset */
     * {
       box-sizing: border-box;
