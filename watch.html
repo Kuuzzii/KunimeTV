@@ -1,17 +1,17 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Watch - KuNime</title>
-  <link rel="stylesheet" href="watch.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* Reset and base styles */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
     
     body {
@@ -48,7 +48,7 @@
     
     .back-button {
       padding: 8px 16px;
-      background-color: #e60000;
+      background-color: #34cfeb; /* Using player primary color */
       color: white;
       border: none;
       border-radius: 4px;
@@ -58,7 +58,7 @@
     }
     
     .back-button:hover {
-      background-color: #cc0000;
+      background-color: #6900e0; /* Using player secondary color */
     }
     
     /* Movie container styling */
@@ -164,8 +164,12 @@
     }
     
     .play-btn {
-      background-color: #e60000;
+      background-color: #34cfeb; /* Using player primary color */
       color: white;
+    }
+    
+    .play-btn:hover {
+      background-color: #6900e0; /* Using player secondary color */
     }
     
     #server-select {
@@ -174,7 +178,24 @@
       padding: 10px 15px;
     }
     
-    /* Season and episode selectors for TV shows */
+    /* Content type toggle */
+    .content-type {
+      display: flex;
+      margin-bottom: 15px;
+    }
+    
+    .content-type label {
+      margin-right: 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    
+    .content-type input {
+      margin-right: 8px;
+    }
+    
+    /* TV controls */
     .tv-controls {
       display: flex;
       flex-wrap: wrap;
@@ -182,14 +203,12 @@
       margin-top: 10px;
     }
     
-    #season-select,
-    #episode-select {
+    #season-select, #episode-select {
       background-color: #333;
       color: white;
       padding: 8px 15px;
       border: none;
       border-radius: 4px;
-      font-size: 15px;
     }
     
     /* Warning box styling */
@@ -214,7 +233,7 @@
       height: 0;
       padding-bottom: 56.25%; /* 16:9 aspect ratio */
       margin-bottom: 30px;
-      background-color: #000;
+      background-color: #000000; /* Using player bg color */
       border-radius: 8px;
       overflow: hidden;
     }
@@ -225,25 +244,95 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: #000;
+      background-color: #000000; /* Using player bg color */
     }
     
-    /* Type switch */
-    .content-type {
+    /* Loader animation */
+    .loader-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       display: flex;
-      margin-bottom: 15px;
+      justify-content: center;
+      align-items: center;
+      background-color: #000000; /* Using player bg color */
+      z-index: 10;
     }
     
-    .content-type label {
-      margin-right: 20px;
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid #34cfeb; /* Using player primary color */
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+    
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+    /* Server dropdown styling */
+    .server-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .server-dropdown-btn {
+      background-color: #333;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
       display: flex;
       align-items: center;
-      font-size: 16px;
-      cursor: pointer;
+      gap: 8px;
     }
     
-    .content-type input {
-      margin-right: 8px;
+    .server-dropdown-btn:hover {
+      background-color: #444;
+    }
+    
+    .server-dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #333;
+      min-width: 180px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+      z-index: 1;
+      border-radius: 4px;
+      overflow: hidden;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .server-dropdown-content a {
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      display: block;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+    
+    .server-dropdown-content a:hover {
+      background-color: #444;
+    }
+    
+    .server-dropdown:hover .server-dropdown-content {
+      display: block;
     }
     
     /* Responsive adjustments */
@@ -280,7 +369,7 @@
         align-items: center;
       }
       
-      .action-btn, #server-select, .warning-box, .tv-controls, #season-select, #episode-select {
+      .action-btn, #server-select, .warning-box, .tv-controls, #season-select, #episode-select, .server-dropdown, .server-dropdown-btn {
         width: 100%;
         max-width: 400px;
       }
@@ -304,6 +393,11 @@
       
       .content-type {
         justify-content: center;
+      }
+      
+      .server-dropdown-content {
+        width: 100%;
+        max-width: 400px;
       }
     }
     
@@ -380,38 +474,34 @@
           <div class="movie-actions">
             <button id="play-btn" type="button" class="action-btn play-btn">&#9658; Play</button>
             
-            <!-- Movie server selection -->
-            <select id="movie-server-select" class="action-btn">
-              <option value="vidsrc.me">Vidsrc.me</option>
-              <option value="fsapi.xyz">FSAPI</option>
-              <option value="curtstream.com">CurtStream</option>
-              <option value="moviewp.com">MovieWP</option>
-              <option value="v2.apimdb.net">ApiMDB</option>
-              <option value="gomo.to">GoMo</option>
-              <option value="vidcloud.stream">VidCloud</option>
-              <option value="vidsrc.cc">Vidsrc.cc</option>
-              <option value="vidsrc.to">Vidsrc.to</option>
-              <option value="vizcloud.net">VizCloud</option>
-              <option value="vidlink.pro">VidLink</option>
-              <option value="vidsrc.dev">Vidsrc.dev</option>
-              <option value="111movies">111Movies</option>
-              <option value="vidjoy.pro">VidJoy</option>
-              <option value="vidsrc.io">Vidsrc.io</option>
-              <option value="vidsrc.xyz">Vidsrc.xyz</option>
-              <option value="2embed.cc">2Embed.cc</option>
-              <option value="moviesapi.club">MoviesAPI.club</option>
-            </select>
+            <!-- Movie server selection dropdown -->
+            <div class="server-dropdown" id="movie-server-dropdown">
+              <button class="server-dropdown-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v4z"></path>
+                  <path d="M6 10h.01"></path>
+                  <path d="M10 10h.01"></path>
+                </svg>
+                Select Server
+              </button>
+              <div class="server-dropdown-content" id="movie-server-list">
+                <!-- Will be populated by JavaScript -->
+              </div>
+            </div>
             
-            <!-- TV show server selection (hidden by default) -->
-            <select id="tv-server-select" class="action-btn" style="display: none;">
-              <option value="fsapi.xyz">FSAPI</option>
-              <option value="moviewp.com">MovieWP</option>
-              <option value="v2.apimdb.net">ApiMDB</option>
-              <option value="databasegdriveplayer.co">GDrivePlayer</option>
-              <option value="curtstream.com">CurtStream</option>
-              <option value="vidsrc.me">Vidsrc.me</option>
-              <option value="vidsrc.cc">Vidsrc.cc</option>
-            </select>
+            <!-- TV show server selection dropdown (hidden by default) -->
+            <div class="server-dropdown" id="tv-server-dropdown" style="display: none;">
+              <button class="server-dropdown-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                  <polyline points="17 2 12 7 7 2"></polyline>
+                </svg>
+                Select Server
+              </button>
+              <div class="server-dropdown-content" id="tv-server-list">
+                <!-- Will be populated by JavaScript -->
+              </div>
+            </div>
             
             <!-- TV show controls (hidden by default) -->
             <div class="tv-controls" id="tv-controls" style="display: none;">
@@ -425,7 +515,7 @@
             
             <!-- Warning Box -->
             <div class="warning-box" role="alert" aria-live="polite">
-              ⚠️ Some servers may occasionally be unavailable. If the one you selected is not working, please try another. For the best experience, we recommend trying different servers until you find one that works.
+              ⚠️ Some servers may occasionally be unavailable. If the one you selected is not working, please try another for the best experience.
             </div>
           </div>
         </div>
@@ -433,18 +523,55 @@
     </div>
     <div class="video-container">
       <iframe id="movie-video" frameborder="0" allowfullscreen loading="lazy" title="Streaming Video Player"></iframe>
+      <div class="loader-container" id="loader">
+        <span class="loader"></span>
+      </div>
     </div>
   </main>
   
   <script>
+    // Player configuration
+    const playerConfig = {
+      font: "Poppins",
+      bgColor: "000000",
+      fontColor: "ffffff",
+      primaryColor: "34cfeb",
+      secondaryColor: "6900e0",
+      loader: 1,
+      preferredServer: 0, // 0 means no preference
+      sourcesToggleType: 2 // 2 = dropdown with server list
+    };
+    
+    // Server number mappings for SuperEmbed
+    const serverMap = {
+      7: "vidlox",
+      11: "fembed", 
+      12: "mixdrop",
+      17: "upstream",
+      18: "videobin",
+      21: "doodstream",
+      25: "streamtape",
+      26: "streamsb",
+      29: "voe",
+      33: "ninjastream"
+    };
+    
     document.addEventListener('DOMContentLoaded', () => {
-      // Content type toggle
+      // Initialize UI elements
       const contentTypeRadios = document.querySelectorAll('input[name="content-type"]');
-      const movieServerSelect = document.getElementById('movie-server-select');
-      const tvServerSelect = document.getElementById('tv-server-select');
+      const movieServerDropdown = document.getElementById('movie-server-dropdown');
+      const tvServerDropdown = document.getElementById('tv-server-dropdown');
       const tvControls = document.getElementById('tv-controls');
+      const movieServerList = document.getElementById('movie-server-list');
+      const tvServerList = document.getElementById('tv-server-list');
+      const loaderElement = document.getElementById('loader');
+      const videoElement = document.getElementById('movie-video');
       
-      // Back button
+      // Initialize season and episode selectors
+      const seasonSelect = document.getElementById('season-select');
+      const episodeSelect = document.getElementById('episode-select');
+      
+      // Back button handler
       const backBtn = document.getElementById('back-btn');
       backBtn.addEventListener('click', () => {
         window.location.href = 'https://kunimetv.pages.dev/main';
@@ -456,48 +583,65 @@
       const tmdbId = urlParams.get('tmdb') || '299534'; // Default to Avengers: Endgame in TMDB
       const contentType = urlParams.get('type') || 'movie';
       
-      // Set initial content type
+      // Set up the UI based on content type
       if (contentType === 'tv') {
         document.querySelector('input[value="tv"]').checked = true;
-        movieServerSelect.style.display = 'none';
-        tvServerSelect.style.display = 'block';
+        movieServerDropdown.style.display = 'none';
+        tvServerDropdown.style.display = 'block';
         tvControls.style.display = 'flex';
       }
       
-      // Handle content type change
+      // Define available movie servers (correctly formatted URLs)
+      const movieServers = [
+        { id: "superembed", name: "Super Embed", url: "https://getsuperembed.link/?video_id={imdbId}&preferred_server={preferredServer}" },
+        { id: "vidsrc.me", name: "Vidsrc.me", url: "https://vidsrc.me/embed/{imdbId}/" },
+        { id: "fsapi.xyz", name: "FSAPI", url: "https://fsapi.xyz/movie/{imdbId}" },
+        { id: "curtstream", name: "CurtStream", url: "https://curtstream.com/movies/imdb/{imdbId}" },
+        { id: "moviewp", name: "MovieWP", url: "https://moviewp.com/se.php?video_id={imdbId}" },
+        { id: "apimdb", name: "ApiMDB", url: "https://v2.apimdb.net/e/movie/{imdbId}" },
+        { id: "gomo", name: "GomoTV", url: "https://gomo.to/movie/{imdbId}" },
+        { id: "vidcloud", name: "VidCloud", url: "https://vidcloud.stream/{imdbId}.html" }
+      ];
+      
+      // Define available TV show servers (correctly formatted URLs)
+      const tvServers = [
+        { id: "superembed", name: "Super Embed", url: "https://getsuperembed.link/?video_id={imdbId}&season={season}&episode={episode}&preferred_server={preferredServer}" },
+        { id: "fsapi.xyz", name: "FSAPI", url: "https://fsapi.xyz/tv-imdb/{imdbId}-{season}-{episode}" },
+        { id: "moviewp", name: "MovieWP", url: "https://moviewp.com/se.php?video_id={tmdbId}&tmdb=1&s={season}&e={episode}" },
+        { id: "apimdb", name: "ApiMDB", url: "https://v2.apimdb.net/e/tmdb/tv/{tmdbId}/{season}/{episode}/" },
+        { id: "gdriveplayer", name: "GDrivePlayer", url: "https://databasegdriveplayer.co/player.php?type=series&tmdb={tmdbId}&season={season}&episode={episode}" },
+        { id: "curtstream", name: "CurtStream", url: "https://curtstream.com/series/tmdb/{tmdbId}/{season}/{episode}/" }
+      ];
+      
+      // Handle content type selection change
       contentTypeRadios.forEach(radio => {
         radio.addEventListener('change', (e) => {
           if (e.target.value === 'movie') {
-            movieServerSelect.style.display = 'block';
-            tvServerSelect.style.display = 'none';
+            movieServerDropdown.style.display = 'block';
+            tvServerDropdown.style.display = 'none';
             tvControls.style.display = 'none';
           } else {
-            movieServerSelect.style.display = 'none';
-            tvServerSelect.style.display = 'block';
+            movieServerDropdown.style.display = 'none';
+            tvServerDropdown.style.display = 'block';
             tvControls.style.display = 'flex';
           }
-          updateVideoSrc();
         });
       });
       
-      // Season and episode selectors
-      const seasonSelect = document.getElementById('season-select');
-      const episodeSelect = document.getElementById('episode-select');
-      
-      // Populate seasons (default to 3 seasons)
-      seasonSelect.innerHTML = '';
-      for (let i = 1; i <= 3; i++) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = `Season ${i}`;
-        seasonSelect.appendChild(option);
+      // Populate season and episode selectors
+      function populateSeasons(maxSeasons = 3) {
+        seasonSelect.innerHTML = '';
+        for (let i = 1; i <= maxSeasons; i++) {
+          const option = document.createElement('option');
+          option.value = i;
+          option.textContent = `Season ${i}`;
+          seasonSelect.appendChild(option);
+        }
       }
       
-      // Populate episodes based on season (default to 10 episodes)
-      function updateEpisodes() {
+      function populateEpisodes(maxEpisodes = 10) {
         episodeSelect.innerHTML = '';
-        const episodeCount = 10;
-        for (let i = 1; i <= episodeCount; i++) {
+        for (let i = 1; i <= maxEpisodes; i++) {
           const option = document.createElement('option');
           option.value = i;
           option.textContent = `Episode ${i}`;
@@ -505,16 +649,89 @@
         }
       }
       
-      updateEpisodes();
+      populateSeasons();
+      populateEpisodes();
       
-      // Update episodes when season changes
-      seasonSelect.addEventListener('change', updateEpisodes);
+      seasonSelect.addEventListener('change', populateEpisodes);
+      
+      // Populate server selection dropdowns
+      function populateServerList(listElement, servers) {
+        listElement.innerHTML = '';
+        
+        servers.forEach(server => {
+          const link = document.createElement('a');
+          link.href = '#';
+          link.textContent = server.name;
+          link.dataset.serverId = server.id;
+          
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            loadServer(server);
+          });
+          
+          listElement.appendChild(link);
+        });
+      }
+      
+      populateServerList(movieServerList, movieServers);
+      populateServerList(tvServerList, tvServers);
+      
+      // Function to load a server
+      function loadServer(server) {
+        // Show the loader
+        loaderElement.style.display = 'flex';
+        
+        const isTV = document.querySelector('input[name="content-type"]:checked').value === 'tv';
+        const season = seasonSelect.value;
+        const episode = episodeSelect.value;
+        
+        // Prepare the URL by replacing placeholders
+        let url = server.url;
+        url = url.replace(/{imdbId}/g, imdbId);
+        url = url.replace(/{preferredServer}/g, playerConfig.preferredServer);
+        
+        if (isTV) {
+          url = url.replace(/{season}/g, season);
+          url = url.replace(/{episode}/g, episode);
+          if (url.includes('{tmdbId}')) {
+            url = url.replace(/{tmdbId}/g, tmdbId);
+          }
+        }
+        
+        // Load the video
+        videoElement.src = url;
+        
+        // Set up the event listeners for the iframe
+        videoElement.onload = () => {
+          loaderElement.style.display = 'none';
+        };
+        
+        // Add a fallback to hide loader if the iframe somehow doesn't trigger onload
+        setTimeout(() => {
+          loaderElement.style.display = 'none';
+        }, 10000); // Hide loader after 10 seconds if it doesn't load
+      }
+      
+      // Play button click handler
+      document.getElementById('play-btn').addEventListener('click', () => {
+        // Determine if we're playing a movie or TV show
+        const isTV = document.querySelector('input[name="content-type"]:checked').value === 'tv';
+        
+        // Choose SuperEmbed as the default server
+        const defaultServer = isTV ? tvServers[0] : movieServers[0];
+        
+        // Load the server
+        loadServer(defaultServer);
+      });
       
       // Fetch movie/show data and update UI
+      fetchMovieData();
+      
+      // Simple function to fetch movie data
       async function fetchMovieData() {
         try {
-          // For a real application, you would fetch this from a real API
-          // This is simulated data
+          // For demo purposes, using static data
+          // In a real app, you would fetch this from an API
           const movieData = {
             title: "Spider-Man",
             overview: "After being bitten by a genetically altered spider at Oscorp, nerdy but good-hearted high school student Peter Parker is endowed with amazing powers to become the superhero known as Spider-Man.",
@@ -545,147 +762,19 @@
         }
       }
       
-      // Format date as "YYYY"
+      // Helper function to format date
       function formatDate(dateString) {
         if (!dateString) return 'Unknown';
         return new Date(dateString).getFullYear();
       }
       
-      // Format runtime as "Xh Ym"
+      // Helper function to format runtime
       function formatRuntime(minutes) {
         if (!minutes) return 'Unknown';
         const hours = Math.floor(minutes / 60);
         const mins = minutes % 60;
         return `${hours}h ${mins}m`;
       }
-      
-      // Function to update video src based on selected server and content type
-      function updateVideoSrc() {
-        let isTV = document.querySelector('input[name="content-type"]:checked').value === 'tv';
-        let selectedServer = isTV ? tvServerSelect.value : movieServerSelect.value;
-        let season = seasonSelect.value;
-        let episode = episodeSelect.value;
-        
-        const videoElement = document.getElementById('movie-video');
-        let src = '';
-        
-        if (isTV) {
-          // TV show sources
-          switch (selectedServer) {
-            case 'fsapi.xyz':
-              src = `https://fsapi.xyz/tv-imdb/${imdbId}-${season}-${episode}`;
-              break;
-            case 'moviewp.com':
-              src = `https://moviewp.com/se.php?video_id=${tmdbId}&tmdb=1&s=${season}&e=${episode}`;
-              break;
-            case 'v2.apimdb.net':
-              src = `https://v2.apimdb.net/e/tmdb/tv/${tmdbId}/${season}/${episode}/`;
-              break;
-            case 'databasegdriveplayer.co':
-              src = `https://databasegdriveplayer.co/player.php?type=series&tmdb=${tmdbId}&season=${season}&episode=${episode}`;
-              break;
-            case 'curtstream.com':
-              src = `https://curtstream.com/series/tmdb/${tmdbId}/${season}/${episode}/`;
-              break;
-            case 'vidsrc.me':
-              src = `https://vidsrc.me/embed/tv?imdb=${imdbId}&season=${season}&episode=${episode}`;
-              break;
-            case 'vidsrc.cc':
-              src = `https://vidsrc.cc/embed/tv?imdb=${imdbId}&season=${season}&episode=${episode}`;
-              break;
-            default:
-              src = `https://vidsrc.me/embed/tv?imdb=${imdbId}&season=${season}&episode=${episode}`;
-          }
-        } else {
-          // Movie sources
-          switch (selectedServer) {
-            case 'vidsrc.me':
-              src = `https://vidsrc.me/embed/movie?imdb=${imdbId}`;
-              break;
-            case 'fsapi.xyz':
-              src = `https://fsapi.xyz/movie/${imdbId}`;
-              break;
-            case 'curtstream.com':
-              src = `https://curtstream.com/movies/imdb/${imdbId}`;
-              break;
-            case 'moviewp.com':
-              src = `https://moviewp.com/se.php?video_id=${imdbId}`;
-              break;
-            case 'v2.apimdb.net':
-              src = `https://v2.apimdb.net/e/movie/${imdbId}`;
-              break;
-            case 'gomo.to':
-              src = `https://gomo.to/movie/${imdbId}`;
-              break;
-            case 'vidcloud.stream':
-              src = `https://vidcloud.stream/${imdbId}.html`;
-              break;
-            case 'vidsrc.cc':
-              src = `https://vidsrc.cc/embed/movie?imdb=${imdbId}`;
-              break;
-            case 'vidsrc.to':
-              src = `https://vidsrc.to/embed/movie/${imdbId}`;
-              break;
-            case 'vizcloud.net':
-              src = `https://vizcloud.net/simple/embed?id=${imdbId}&type=movie`;
-              break;
-            case 'vidlink.pro':
-              src = `https://vidlink.pro/movie/${imdbId}`;
-              break;
-            case 'vidsrc.dev':
-              src = `https://vidsrc.dev/embed/movie/${imdbId}`;
-              break;
-            case '111movies':
-              src = `https://111movies.xyz/movie/${imdbId}`;
-              break;
-            case 'vidjoy.pro':
-              src = `https://vidjoy.pro/embed/movie/${imdbId}`;
-              break;
-            case 'vidsrc.io':
-              src = `https://vidsrc.io/embed/movie/${imdbId}`;
-              break;
-            case 'vidsrc.xyz':
-              src = `https://vidsrc.xyz/embed/${imdbId}`;
-              break;
-            case '2embed.cc':
-              src = `https://2embed.cc/embed/${imdbId}`;
-              break;
-            case 'moviesapi.club':
-              src = `https://moviesapi.club/movie/${imdbId}`;
-              break;
-            default:
-              src = `https://vidsrc.me/embed/movie?imdb=${imdbId}`;
-          }
-        }
-        
-        videoElement.src = src;
-      }
-      
-      // Play button click handler
-      document.getElementById('play-btn').addEventListener('click', () => {
-        updateVideoSrc();
-      });
-      
-      // Server change handlers
-      movieServerSelect.addEventListener('change', () => {
-        updateVideoSrc();
-      });
-      
-      tvServerSelect.addEventListener('change', () => {
-        updateVideoSrc();
-      });
-      
-      // Season/episode change
-      seasonSelect.addEventListener('change', () => {
-        updateVideoSrc();
-      });
-      
-      episodeSelect.addEventListener('change', () => {
-        updateVideoSrc();
-      });
-      
-      // Load initial movie data
-      fetchMovieData();
     });
   </script>
 </body>
