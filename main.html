@@ -4,69 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>KunimeTV - Movies & TV Streaming</title>
-  <link rel="icon" href="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" type="image/jpeg" />
+  <link rel="icon" href="Kk.png" type="image/png" />
+  <link rel="stylesheet" href="home.css" />
+  <link rel="stylesheet" href="anime.css" />
+  <link rel="stylesheet" href="landing.css" />
   <style>
-    /* Global styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-    
-    body {
-      background-color: #111;
-      color: #fff;
-    }
-    
-    /* Header styles */
-    header {
-      background-color: #000;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    
-    .logo {
-      display: flex;
-      align-items: center;
-      font-size: 24px;
-      font-weight: bold;
-      color: #e60000;
-    }
-    
-    .logo img {
-      height: 40px;
-      margin-right: 10px;
-      border-radius: 5px;
-    }
-    
-    .search-container {
-      display: flex;
-      align-items: center;
-    }
-    
-    .search-container input {
-      width: 300px;
-      height: 40px;
-      padding: 0 15px;
-      border: 2px solid #333;
-      background-color: #222;
-      color: #fff;
-      border-radius: 6px;
-      margin-right: 10px;
-      outline: none;
-      transition: border-color 0.3s ease;
-    }
-    
-    .search-container input:focus {
-      border-color: #e60000;
-    }
-    
+    /* Your inline styles (cleaned) */
     .search-container button {
       border: 2px solid #e60000;
       background-color: transparent;
@@ -79,109 +22,10 @@
       cursor: pointer;
       transition: background-color 0.3s ease, color 0.3s ease;
     }
-    
     .search-container button:hover {
       background-color: #e60000;
       color: #fff;
     }
-    
-    nav {
-      display: flex;
-      gap: 20px;
-    }
-    
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 8px 16px;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
-    
-    nav a.active {
-      background-color: #e60000;
-    }
-    
-    nav a:hover:not(.active) {
-      background-color: #333;
-    }
-    
-    /* Main content */
-    main {
-      padding: 20px 0;
-    }
-    
-    section {
-      margin-bottom: 40px;
-    }
-    
-    section h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
-      padding: 0 20px;
-      color: #e60000;
-    }
-    
-    /* Content grid */
-    #movies-list,
-    #tvshows-list,
-    #anime-list,
-    #new-releases-list {
-      display: grid !important;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      padding: 1rem 20px;
-    }
-    
-    /* Movie cards */
-    .content-card {
-      position: relative;
-      border-radius: 8px;
-      overflow: hidden;
-      transition: transform 0.2s ease;
-    }
-    
-    .content-card:hover {
-      transform: scale(1.05);
-    }
-    
-    .content-card img {
-      width: 100% !important;
-      height: auto !important;
-      border-radius: 8px;
-      display: block;
-    }
-    
-    .content-info {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-      padding: 15px;
-      transition: opacity 0.3s ease;
-    }
-    
-    .content-title {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    
-    .content-year {
-      font-size: 0.9em;
-      opacity: 0.7;
-    }
-    
-    /* Pagination */
-    .pagination-controls {
-      text-align: center;
-      margin-bottom: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    
     .pagination-controls button {
       border: 2px solid #e60000;
       background-color: transparent;
@@ -197,18 +41,15 @@
       align-items: center;
       justify-content: center;
     }
-    
     .pagination-controls button:hover:not(:disabled) {
       background-color: #e60000;
       color: #fff;
     }
-    
     .pagination-controls button:disabled {
       border-color: #aaa;
       color: #aaa;
       cursor: not-allowed;
     }
-    
     #movies-prev-page::before,
     #tvshows-prev-page::before,
     #new-prev-page::before {
@@ -216,7 +57,6 @@
       font-size: 24px;
       color: inherit;
     }
-    
     #movies-next-page::before,
     #tvshows-next-page::before,
     #new-next-page::before {
@@ -224,13 +64,33 @@
       font-size: 24px;
       color: inherit;
     }
-    
-    .pagination-controls span {
-      margin: 0 15px;
-      font-weight: bold;
+    #movies-list,
+    #tvshows-list,
+    #anime-list,
+    #new-releases-list {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      padding: 1rem 20px;
+    }
+    #movies-list img,
+    #tvshows-list img,
+    #anime-list img,
+    #new-releases-list img {
+      width: 100% !important;
+      height: auto !important;
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+    #movies-list img:hover,
+    #tvshows-list img:hover,
+    #anime-list img:hover,
+    #new-releases-list img:hover {
+      transform: scale(1.05);
     }
     
-    /* Media queries for responsive design */
+    /* ADDED: Media queries for responsive design */
     @media (max-width: 1024px) {
       #movies-list,
       #tvshows-list,
@@ -274,11 +134,71 @@
       #new-releases-list {
         grid-template-columns: 1fr;
       }
+      
+      .logo {
+        font-size: 20px;
+      }
+      
+      .logo img {
+        height: 35px;
+      }
+      
+      nav a {
+        padding: 6px 10px;
+        font-size: 14px;
+      }
     }
   </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
+  <header>
+    <div class="logo">
+<a href=https://kunimetv.pages.dev/>      <img
+        src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg"
+        alt="KunimeTV Logo"
+      /> </a>
+      KunimeTV
+    </div>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search movies, TV shows, anime..." autocomplete="off" />
+      <button id="searchBtn" title="Search">🔍</button>
+    </div>
+    <nav>
+      <a href="#" id="nav-movies" class="active">Movies</a>
+      <a href="#" id="nav-tvshows">TV Shows</a>
+      <a href="#" id="nav-new">New</a>
+    </nav>
+  </header>
+  <main>
+    <div id="results" class="anime-list" style="margin-top: 30px; padding: 0 20px;"></div>
+    <section>
+      <div id="new-releases-list" class="anime-list"></div>
+      <div id="new-releases-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
+        <button id="new-prev-page"></button>
+        <span id="new-current-page">1</span>
+        <button id="new-next-page"></button>
+      </div>
+    </section>
+    <section>
+      <div id="movies-list" class="anime-list"></div>
+      <div id="movies-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
+        <button id="movies-prev-page"></button>
+        <span id="movies-current-page">1</span>
+        <button id="movies-next-page"></button>
+      </div>
+    </section>
+    <section>
+      <div id="tvshows-list" class="anime-list"></div>
+      <div id="tvshows-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
+        <button id="tvshows-prev-page"></button>
+        <span id="tvshows-current-page">1</span>
+        <button id="tvshows-next-page"></button>
+      </div>
+    </section>
+    <section>
+      <div id="anime-list" class="anime-list"></div>
+    </section>
+  </main>
+  <script src="home.js" defer></script>
 </body>
 </html>
