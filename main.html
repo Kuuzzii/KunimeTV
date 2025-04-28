@@ -65,34 +65,37 @@
       color: inherit;
     }
     
-    /* Fixed grid layout for consistent sizing */
+    /* Changed to exactly 2 columns */
     #movies-list,
     #tvshows-list,
     #anime-list,
     #new-releases-list {
       display: grid !important;
-      grid-template-columns: repeat(3, 1fr); /* 3 columns */
-      gap: 15px;
-      padding: 1rem;
+      grid-template-columns: repeat(2, 1fr); /* Exactly 2 columns */
+      gap: 20px;
+      padding: 1rem 20px;
+      max-width: 900px; /* Limit width to prevent too-large thumbnails */
+      margin: 0 auto;
     }
     
-    /* Fixed aspect ratio for all items */
+    /* Fixed size container for movie thumbnails */
     .movie-item {
-      aspect-ratio: 2/3; /* Maintain consistent aspect ratio */
+      aspect-ratio: 16/9; /* Widescreen aspect ratio */
       position: relative;
-      overflow: hidden;
       border-radius: 8px;
+      overflow: hidden;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      background-color: #222;
     }
     
-    /* Force all images to be the same exact size */
+    /* Make all images identical in size */
     #movies-list img,
     #tvshows-list img,
     #anime-list img,
     #new-releases-list img {
       width: 100% !important;
-      height: 100% !important; /* Take full height of container */
-      object-fit: cover; /* This ensures the image covers the area without distortion */
+      height: 100% !important;
+      object-fit: cover;
       border-radius: 8px;
       transition: transform 0.2s ease;
       cursor: pointer;
@@ -106,22 +109,13 @@
       transform: scale(1.05);
     }
     
-    /* Media queries for responsive design */
-    @media (max-width: 800px) {
-      #movies-list,
-      #tvshows-list,
-      #anime-list,
-      #new-releases-list {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
-      }
-    }
-    
+    /* For very small screens, go to 1 column */
     @media (max-width: 480px) {
       #movies-list,
       #tvshows-list,
       #anime-list,
       #new-releases-list {
-        grid-template-columns: repeat(1, 1fr); /* 1 column on small screens */
+        grid-template-columns: 1fr; /* 1 column on very small screens */
       }
       
       header {
@@ -197,29 +191,28 @@
   <!-- Ensuring all images are wrapped in consistent containers -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Get all the content lists
+      // Wrap all images in consistent containers
       const lists = document.querySelectorAll('#movies-list, #tvshows-list, #anime-list, #new-releases-list');
       
       lists.forEach(list => {
-        // Get all images
         const images = list.querySelectorAll('img');
         
         images.forEach(img => {
-          // If image not already wrapped in our custom container
-          if (!img.parentElement.classList.contains('movie-item')) {
-            // Create container
-            const container = document.createElement('div');
-            container.className = 'movie-item';
-            
-            // Get the parent
-            const parent = img.parentElement;
-            
-            // Replace img with container
-            parent.replaceChild(container, img);
-            
-            // Add img to container
-            container.appendChild(img);
-          }
+          // Skip if already wrapped
+          if (img.parentElement.classList.contains('movie-item')) return;
+          
+          // Create wrapper
+          const wrapper = document.createElement('div');
+          wrapper.className = 'movie-item';
+          
+          // Get parent
+          const parent = img.parentElement;
+          
+          // Replace img with wrapper
+          parent.replaceChild(wrapper, img);
+          
+          // Add img to wrapper
+          wrapper.appendChild(img);
         });
       });
     });
