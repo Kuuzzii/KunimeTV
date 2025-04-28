@@ -4,78 +4,105 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Watch - KuNime</title>
-  <link rel="stylesheet" href="watch.css" />
-  <script defer src="watch.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* Reset and base styles */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
     
     body {
       background-color: #111;
       color: #fff;
       line-height: 1.5;
+      background-image: linear-gradient(to bottom, #000, #111, #181818);
+      min-height: 100vh;
     }
     
-    /* Navbar styling */
+    /* Navbar styling - modernized */
     .navbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 15px 20px;
-      background-color: #000;
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
       position: sticky;
       top: 0;
       z-index: 100;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
     
     .logo {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       color: #e60000;
       font-weight: 700;
-      font-size: 20px;
+      font-size: 22px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
     
     .logo img {
-      height: 35px;
-      border-radius: 4px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #e60000;
+      transition: transform 0.3s ease;
+    }
+    
+    .logo:hover img {
+      transform: scale(1.05);
     }
     
     .back-button {
-      padding: 8px 16px;
+      padding: 10px 18px;
       background-color: #e60000;
       color: white;
       border: none;
-      border-radius: 4px;
+      border-radius: 24px;
       cursor: pointer;
       font-weight: 600;
-      transition: background-color 0.2s;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(230, 0, 0, 0.3);
     }
     
     .back-button:hover {
-      background-color: #cc0000;
+      background-color: #ff1a1a;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(230, 0, 0, 0.4);
+    }
+    
+    .back-button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(230, 0, 0, 0.3);
     }
     
     /* Movie container styling */
     .movie-container {
       max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 15px;
+      margin: 20px auto;
+      padding: 0 20px;
     }
     
-    /* Movie backdrop and details */
+    /* Movie backdrop and details - enhanced */
     .movie-backdrop {
       position: relative;
-      padding: 25px 0;
-      border-radius: 8px;
+      padding: 40px 0 30px;
+      border-radius: 16px;
       overflow: hidden;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      background-position: center;
+      background-size: cover;
     }
     
     .movie-backdrop::before {
@@ -85,7 +112,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(0, 0, 0, 0.7);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 100%);
       z-index: 1;
     }
     
@@ -94,112 +121,214 @@
       z-index: 2;
       display: flex;
       flex-direction: row;
-      gap: 25px;
-      padding: 0 20px;
+      gap: 35px;
+      padding: 0 30px;
     }
     
     .movie-poster {
       flex-shrink: 0;
-      width: 220px;
-      height: 330px;
-      border-radius: 8px;
+      width: 240px;
+      height: 360px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      transform: perspective(800px) rotateY(-5deg);
+      transition: transform 0.5s ease;
+    }
+    
+    .movie-poster:hover {
+      transform: perspective(800px) rotateY(0deg);
     }
     
     .movie-poster img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .movie-poster:hover img {
+      transform: scale(1.05);
     }
     
     .movie-info {
       flex-grow: 1;
+      padding: 10px 0;
     }
     
     .movie-info h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
+      font-size: 38px;
+      margin-bottom: 15px;
       color: #fff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      background: linear-gradient(90deg, #fff, #ccc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
     }
     
     .movie-meta {
-      color: #ccc;
-      margin-bottom: 15px;
+      color: #ddd;
+      margin-bottom: 20px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .movie-meta span {
+      display: flex;
+      align-items: center;
     }
     
     .movie-genres {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 15px;
+      gap: 10px;
+      margin-bottom: 20px;
     }
     
     .movie-genres span {
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 4px 10px;
-      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 6px 15px;
+      border-radius: 30px;
       font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+    }
+    
+    .movie-genres span:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
     }
     
     #movie-overview {
       color: #ddd;
-      margin-bottom: 20px;
-      line-height: 1.6;
+      margin-bottom: 25px;
+      line-height: 1.8;
+      font-size: 16px;
+      max-width: 90%;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
     
     .movie-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      align-items: flex-start;
+      gap: 15px;
+      align-items: center;
+      margin-top: 10px;
     }
     
     .action-btn {
-      padding: 10px 20px;
+      padding: 12px 24px;
       border: none;
-      border-radius: 4px;
+      border-radius: 30px;
       cursor: pointer;
       font-weight: 600;
       font-size: 16px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      letter-spacing: 0.3px;
     }
     
     .play-btn {
       background-color: #e60000;
       color: white;
+      box-shadow: 0 4px 15px rgba(230, 0, 0, 0.4);
+      min-width: 120px;
+    }
+    
+    .play-btn:hover {
+      background-color: #ff1a1a;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(230, 0, 0, 0.5);
+    }
+    
+    .play-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 10px rgba(230, 0, 0, 0.4);
     }
     
     #server-select {
-      background-color: #333;
+      background-color: rgba(51, 51, 51, 0.8);
       color: white;
-      padding: 10px 15px;
+      padding: 12px 20px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 15px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
+      background-repeat: no-repeat;
+      background-position: right 15px top 50%;
+      background-size: 12px auto;
+      padding-right: 30px;
     }
     
-    /* Warning box styling */
+    #server-select:hover {
+      background-color: rgba(61, 61, 61, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    #server-select:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3), 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Warning box styling - enhanced */
     .warning-box {
-      margin-top: 15px;
-      padding: 12px 16px;
-      background-color: #ff9800; /* Orange background */
+      margin-top: 20px;
+      padding: 15px 20px;
+      background: linear-gradient(135deg, #ff9800 0%, #ff8100 100%);
       color: #000;
-      font-weight: 600;
-      font-size: 1rem;
-      border-radius: 4px;
+      font-weight: 500;
+      font-size: 15px;
+      border-radius: 12px;
       user-select: none;
       max-width: 600px;
       box-sizing: border-box;
       width: 100%;
+      box-shadow: 0 6px 20px rgba(255, 152, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-left: 5px solid rgba(0, 0, 0, 0.2);
     }
     
-    /* Video container styling */
+    .warning-box::before {
+      content: "⚠️";
+      font-size: 24px;
+      display: inline-block;
+    }
+    
+    /* Video container styling - enhanced */
     .video-container {
       position: relative;
       width: 100%;
       height: 0;
       padding-bottom: 56.25%; /* 16:9 aspect ratio */
-      margin-bottom: 30px;
+      margin-bottom: 40px;
       background-color: #000;
-      border-radius: 8px;
+      border-radius: 12px;
       overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
     
     #movie-video {
@@ -209,17 +338,56 @@
       width: 100%;
       height: 100%;
       background-color: #000;
+      border: none;
+    }
+    
+    /* Loader styling */
+    .loader-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000000;
+      z-index: 10;
+    }
+    
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #e60000;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+    
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
     }
     
     /* Responsive adjustments */
     @media (max-width: 992px) {
       .movie-poster {
-        width: 180px;
-        height: 270px;
+        width: 200px;
+        height: 300px;
       }
       
       .movie-info h1 {
-        font-size: 24px;
+        font-size: 32px;
+      }
+      
+      #movie-overview {
+        max-width: 100%;
       }
     }
     
@@ -228,12 +396,14 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
+        padding: 0 15px;
       }
       
       .movie-poster {
-        width: 200px;
-        height: 300px;
-        margin-bottom: 20px;
+        width: 220px;
+        height: 330px;
+        margin-bottom: 25px;
+        transform: perspective(800px) rotateY(0deg);
       }
       
       .movie-genres {
@@ -243,15 +413,33 @@
       .movie-actions {
         flex-direction: column;
         align-items: center;
+        gap: 12px;
+      }
+      
+      #movie-overview {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
       }
       
       .action-btn, #server-select, .warning-box {
         width: 100%;
-        max-width: 400px;
+        max-width: 350px;
+      }
+      
+      .warning-box {
+        padding: 15px;
+        display: block;
+        text-align: left;
+      }
+      
+      .warning-box::before {
+        margin-bottom: 8px;
+        display: block;
       }
       
       .navbar {
-        padding: 10px 15px;
+        padding: 12px;
       }
       
       .logo {
@@ -259,35 +447,38 @@
       }
       
       .logo img {
-        height: 30px;
+        height: 32px;
       }
       
       .back-button {
-        padding: 6px 12px;
+        padding: 8px 14px;
         font-size: 14px;
       }
     }
     
     @media (max-width: 480px) {
       .movie-container {
-        padding: 0 10px;
+        padding: 0 12px;
+        margin-top: 10px;
       }
       
       .movie-backdrop {
-        padding: 15px 0;
+        padding: 20px 0;
+        border-radius: 12px;
       }
       
       .movie-poster {
-        width: 160px;
-        height: 240px;
+        width: 180px;
+        height: 270px;
       }
       
       .movie-info h1 {
-        font-size: 20px;
+        font-size: 24px;
       }
       
       #movie-overview {
         font-size: 14px;
+        line-height: 1.6;
       }
       
       .movie-meta, .movie-genres span {
@@ -295,12 +486,13 @@
       }
       
       .warning-box {
-        font-size: 0.9rem;
-        padding: 10px 12px;
+        font-size: 13px;
+        padding: 12px;
       }
       
       .video-container {
-        margin-bottom: 20px;
+        margin-bottom: 25px;
+        border-radius: 10px;
       }
     }
   </style>
@@ -312,14 +504,6 @@
       <span>KuNime</span>
     </div>
     <button id="back-btn" type="button" class="back-button">&#8592; Back to Homepage</button>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const backBtn = document.getElementById('back-btn');
-        backBtn.addEventListener('click', () => {
-          window.location.href = 'https://kunimetv.pages.dev/main';
-        });
-      });
-    </script>
   </header>
   <main class="movie-container">
     <div id="movie-backdrop" class="movie-backdrop">
@@ -338,21 +522,237 @@
           <div class="movie-actions">
             <button id="play-btn" type="button" class="action-btn play-btn">&#9658; Play</button>
             <select id="server-select" class="action-btn" aria-label="Select Streaming Server">
-              <option value="vidsrc.cc">Vidsrc.cc</option>
+              <option value="superembed">Super Embed</option>
               <option value="vidsrc.me">Vidsrc.me</option>
-              <option value="videasy.net">Videasy.net</option>
+              <option value="fsapi.xyz">FSAPI</option>
+              <option value="curtstream">CurtStream</option>
+              <option value="moviewp">MovieWP</option>
+              <option value="apimdb">ApiMDB</option>
+              <option value="gomo">GomoTV</option>
+              <option value="vidcloud">VidCloud</option>
+              <option value="vidsrc.cc">Vidsrc.cc</option>
             </select>
             <!-- Warning Box -->
             <div class="warning-box" role="alert" aria-live="polite">
-              ⚠️Some servers may occasionally be unavailable. If the one you selected is not working, please try another. For the best experience, we recommend choosing one of the first three servers listed
+              Some servers may occasionally be unavailable. If the one you selected is not working, please try another for the best experience.
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="video-container">
-      <iframe id="movie-video" frameborder="0" allowfullscreen loading="lazy" title="Streaming Video Player"></iframe>
+      <iframe id="movie-video" allowfullscreen loading="lazy" title="Streaming Video Player"></iframe>
+      <div class="loader-container" id="loader">
+        <span class="loader"></span>
+      </div>
     </div>
   </main>
+  
+  <script>
+    // TMDB API configuration
+    const API_KEY = '961334ce43e0adcaa714fddec89fcfd9';
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const IMG_URL = 'https://image.tmdb.org/t/p/original';
+    
+    // Player configuration
+    const player_font = "Poppins";
+    const player_bg_color = "000000";
+    const player_font_color = "ffffff";
+    const player_primary_color = "e60000";
+    const player_secondary_color = "cc0000";
+    const player_loader = 1;
+    const preferred_server = 0;
+    const player_sources_toggle_type = 2;
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize elements
+      const serverSelect = document.getElementById('server-select');
+      const playButton = document.getElementById('play-btn');
+      const movieVideo = document.getElementById('movie-video');
+      const loader = document.getElementById('loader');
+      
+      // Back button handler
+      const backBtn = document.getElementById('back-btn');
+      backBtn.addEventListener('click', () => {
+        window.location.href = '/';
+      });
+      
+      // Get URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const imdbId = urlParams.get('imdb'); 
+      const tmdbId = urlParams.get('tmdb');
+      
+      // Exit early if no movie ID provided
+      if (!imdbId && !tmdbId) {
+        document.getElementById('movie-title').textContent = "No Movie Selected";
+        document.getElementById('movie-overview').textContent = "Please select a movie from the homepage.";
+        loader.style.display = 'none';
+        return;
+      }
+      
+      // Define server URLs - this function uses the current imdbId
+      function getServerUrl(server) {
+        switch(server) {
+          case 'superembed':
+            return `https://getsuperembed.link/?video_id=${imdbId}&preferred_server=${preferred_server}`;
+          case 'vidsrc.me':
+            return `https://vidsrc.me/embed/${imdbId}/`;
+          case 'fsapi.xyz':
+            return `https://fsapi.xyz/movie/${imdbId}`;
+          case 'curtstream':
+            return `https://curtstream.com/movies/imdb/${imdbId}`;
+          case 'moviewp':
+            return `https://moviewp.com/se.php?video_id=${imdbId}`;
+          case 'apimdb':
+            return `https://v2.apimdb.net/e/movie/${imdbId}`;
+          case 'gomo':
+            return `https://gomo.to/movie/${imdbId}`;
+          case 'vidcloud':
+            return `https://vidcloud.stream/${imdbId}.html`;
+          case 'vidsrc.cc':
+            return `https://vidsrc.cc/embed/movie?imdb=${imdbId}`;
+          default:
+            return `https://getsuperembed.link/?video_id=${imdbId}&preferred_server=${preferred_server}`;
+        }
+      }
+      
+      // Function to load a server
+      function loadServer(serverId) {
+        // Show the loader
+        loader.style.display = 'flex';
+        
+        // Get the server URL
+        const serverUrl = getServerUrl(serverId);
+        
+        if (serverUrl) {
+          // Load the video
+          movieVideo.src = serverUrl;
+          
+          // Hide the loader when iframe is loaded
+          movieVideo.onload = () => {
+            loader.style.display = 'none';
+          };
+          
+          // Fallback to hide loader after 8 seconds
+          setTimeout(() => {
+            loader.style.display = 'none';
+          }, 8000);
+        } else {
+          loader.style.display = 'none';
+        }
+      }
+      
+      // Play button click handler
+      playButton.addEventListener('click', () => {
+        const selectedServer = serverSelect.value;
+        loadServer(selectedServer);
+      });
+      
+      // Server select change handler
+      serverSelect.addEventListener('change', () => {
+        const selectedServer = serverSelect.value;
+        loadServer(selectedServer);
+      });
+      
+      // Fetch movie data from TMDB API
+      async function fetchMovieData() {
+        try {
+          // Create URL for API request based on the available IDs
+          let apiUrl;
+          if (tmdbId) {
+            apiUrl = `${BASE_URL}/movie/${tmdbId}?api_key=${API_KEY}`;
+          } else if (imdbId) {
+            apiUrl = `${BASE_URL}/find/${imdbId}?api_key=${API_KEY}&external_source=imdb_id`;
+          } else {
+            throw new Error('No movie ID provided');
+          }
+          
+          const response = await fetch(apiUrl);
+          if (!response.ok) {
+            throw new Error(`API request failed: ${response.status}`);
+          }
+          
+          let data = await response.json();
+          
+          // If using the find endpoint, need to extract the result
+          if (apiUrl.includes('/find/')) {
+            const results = data.movie_results;
+            
+            if (results && results.length > 0) {
+              // Get the first result's ID and make another request for full details
+              const id = results[0].id;
+              
+              const detailsResponse = await fetch(`${BASE_URL}/movie/${id}?api_key=${API_KEY}`);
+              if (!detailsResponse.ok) {
+                throw new Error(`Details request failed: ${detailsResponse.status}`);
+              }
+              
+              data = await detailsResponse.json();
+            } else {
+              throw new Error('Movie not found in search results');
+            }
+          }
+          
+          // Update UI with movie data
+          document.getElementById('movie-title').textContent = data.title;
+          document.getElementById('movie-overview').textContent = data.overview;
+          document.title = `Watch - ${data.title} - KuNime`;
+          
+          if (data.poster_path) {
+            document.getElementById('movie-poster').src = `${IMG_URL}${data.poster_path}`;
+          }
+          
+          // Set backdrop image
+          if (data.backdrop_path) {
+            document.getElementById('movie-backdrop').style.backgroundImage = `url(${IMG_URL}${data.backdrop_path})`;
+          }
+          
+          // Set release date
+          document.getElementById('movie-release-date').textContent = formatDate(data.release_date);
+          
+          // Set runtime
+          document.getElementById('movie-runtime').textContent = formatRuntime(data.runtime);
+          
+          // Update genres
+          const genresElement = document.getElementById('movie-genres');
+          genresElement.innerHTML = '';
+          
+          if (data.genres && data.genres.length) {
+            data.genres.forEach(genre => {
+              const span = document.createElement('span');
+              span.textContent = genre.name;
+              genresElement.appendChild(span);
+            });
+          }
+          
+          // Now that we have movie data, load the default server
+          loadServer('superembed');
+          
+        } catch (error) {
+          // Show error in UI
+          document.getElementById('movie-title').textContent = "Error Loading Movie";
+          document.getElementById('movie-overview').textContent = `Could not load movie information. Please try again.`;
+          loader.style.display = 'none';
+        }
+      }
+      
+      // Helper function to format date
+      function formatDate(dateString) {
+        if (!dateString) return 'Unknown';
+        return new Date(dateString).getFullYear();
+      }
+      
+      // Helper function to format runtime
+      function formatRuntime(minutes) {
+        if (!minutes) return 'Unknown';
+        const hours = Math.floor(minutes / 60);
+        const mins = minutes % 60;
+        return `${hours}h ${mins}m`;
+      }
+      
+      // Initialize page with content data
+      fetchMovieData();
+    });
+  </script>
 </body>
 </html>
