@@ -65,36 +65,38 @@
       color: inherit;
     }
     
-    /* Completely revised to make movies smaller and display inline */
+    /* Fixed grid layout for consistent sizing */
     #movies-list,
     #tvshows-list,
     #anime-list,
     #new-releases-list {
-      display: flex !important;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding: 1rem 10px;
-      justify-content: flex-start;
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr); /* 3 columns */
+      gap: 15px;
+      padding: 1rem;
     }
     
-    /* Movie card styling */
-    .movie-card {
-      width: calc(33.33% - 10px); /* Display 3 per row by default */
-      margin-bottom: 15px;
+    /* Fixed aspect ratio for all items */
+    .movie-item {
+      aspect-ratio: 2/3; /* Maintain consistent aspect ratio */
       position: relative;
-      box-sizing: border-box;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
     
+    /* Force all images to be the same exact size */
     #movies-list img,
     #tvshows-list img,
     #anime-list img,
     #new-releases-list img {
       width: 100% !important;
-      height: 150px !important; /* Smaller height */
+      height: 100% !important; /* Take full height of container */
+      object-fit: cover; /* This ensures the image covers the area without distortion */
       border-radius: 8px;
       transition: transform 0.2s ease;
       cursor: pointer;
-      object-fit: cover;
+      display: block;
     }
     
     #movies-list img:hover,
@@ -106,14 +108,20 @@
     
     /* Media queries for responsive design */
     @media (max-width: 800px) {
-      .movie-card {
-        width: calc(50% - 10px); /* Display 2 per row on medium screens */
+      #movies-list,
+      #tvshows-list,
+      #anime-list,
+      #new-releases-list {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
       }
     }
     
     @media (max-width: 480px) {
-      .movie-card {
-        width: 100%; /* Display 1 per row on small screens */
+      #movies-list,
+      #tvshows-list,
+      #anime-list,
+      #new-releases-list {
+        grid-template-columns: repeat(1, 1fr); /* 1 column on small screens */
       }
       
       header {
@@ -133,21 +141,6 @@
         width: 100%;
         justify-content: space-between;
       }
-    }
-    
-    /* Add this to your existing styles to make sure the movie titles display nicely */
-    .movie-title {
-      font-size: 14px;
-      font-weight: bold;
-      margin-top: 5px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    
-    .movie-year {
-      font-size: 12px;
-      color: #999;
     }
   </style>
 </head>
@@ -201,45 +194,32 @@
     </section>
   </main>
   <script src="home.js" defer></script>
-  <!-- Add this script to wrap images in movie-card divs -->
+  <!-- Ensuring all images are wrapped in consistent containers -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Get all the image containers
+      // Get all the content lists
       const lists = document.querySelectorAll('#movies-list, #tvshows-list, #anime-list, #new-releases-list');
       
-      // For each container
       lists.forEach(list => {
-        // Get all direct child img elements
+        // Get all images
         const images = list.querySelectorAll('img');
         
         images.forEach(img => {
-          // Skip if image is already wrapped
-          if (img.parentElement.classList.contains('movie-card')) return;
-          
-          // Create wrapper div
-          const wrapper = document.createElement('div');
-          wrapper.className = 'movie-card';
-          
-          // Get the parent element
-          const parent = img.parentElement;
-          
-          // Replace img with wrapper
-          parent.replaceChild(wrapper, img);
-          
-          // Add img to wrapper
-          wrapper.appendChild(img);
-          
-          // Add title based on alt text
-          const title = document.createElement('div');
-          title.className = 'movie-title';
-          title.textContent = img.alt || 'Movie Title';
-          wrapper.appendChild(title);
-          
-          // Add year (placeholder)
-          const year = document.createElement('div');
-          year.className = 'movie-year';
-          year.textContent = '2023'; // You can customize this or get actual data
-          wrapper.appendChild(year);
+          // If image not already wrapped in our custom container
+          if (!img.parentElement.classList.contains('movie-item')) {
+            // Create container
+            const container = document.createElement('div');
+            container.className = 'movie-item';
+            
+            // Get the parent
+            const parent = img.parentElement;
+            
+            // Replace img with container
+            parent.replaceChild(container, img);
+            
+            // Add img to container
+            container.appendChild(img);
+          }
         });
       });
     });
