@@ -65,30 +65,31 @@
       color: inherit;
     }
     
-    /* Changed to exactly 2 columns */
+    /* Grid container for thumbnails - 3 per row */
     #movies-list,
     #tvshows-list,
     #anime-list,
     #new-releases-list {
       display: grid !important;
-      grid-template-columns: repeat(2, 1fr); /* Exactly 2 columns */
-      gap: 20px;
-      padding: 1rem 20px;
-      max-width: 900px; /* Limit width to prevent too-large thumbnails */
+      grid-template-columns: repeat(3, 1fr); /* 3 thumbnails per row */
+      gap: 15px;
+      padding: 1rem 15px;
+      width: 100%;
+      max-width: 1200px; /* Limit maximum width on very large screens */
       margin: 0 auto;
     }
     
-    /* Fixed size container for movie thumbnails */
+    /* Movie item container with consistent aspect ratio */
     .movie-item {
-      aspect-ratio: 16/9; /* Widescreen aspect ratio */
+      aspect-ratio: 2/3; /* Portrait aspect ratio good for movie posters */
       position: relative;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
       background-color: #222;
     }
     
-    /* Make all images identical in size */
+    /* Make all images fill their containers */
     #movies-list img,
     #tvshows-list img,
     #anime-list img,
@@ -99,7 +100,6 @@
       border-radius: 8px;
       transition: transform 0.2s ease;
       cursor: pointer;
-      display: block;
     }
     
     #movies-list img:hover,
@@ -109,13 +109,15 @@
       transform: scale(1.05);
     }
     
-    /* For very small screens, go to 1 column */
-    @media (max-width: 480px) {
+    /* Media queries for different device sizes */
+    /* Tablet */
+    @media (max-width: 768px) {
       #movies-list,
       #tvshows-list,
       #anime-list,
       #new-releases-list {
-        grid-template-columns: 1fr; /* 1 column on very small screens */
+        gap: 10px; /* Smaller gap on tablets */
+        padding: 1rem 10px;
       }
       
       header {
@@ -134,6 +136,31 @@
       nav {
         width: 100%;
         justify-content: space-between;
+      }
+    }
+    
+    /* Mobile - still 3 per row but smaller */
+    @media (max-width: 576px) {
+      #movies-list,
+      #tvshows-list,
+      #anime-list,
+      #new-releases-list {
+        gap: 8px; /* Even smaller gap on mobile */
+        padding: 1rem 8px;
+      }
+      
+      .movie-item {
+        aspect-ratio: 3/4; /* Slightly different aspect ratio on mobile */
+      }
+    }
+    
+    /* Very small mobile devices - 2 per row */
+    @media (max-width: 375px) {
+      #movies-list,
+      #tvshows-list,
+      #anime-list,
+      #new-releases-list {
+        grid-template-columns: repeat(2, 1fr); /* 2 thumbnails per row on very small devices */
       }
     }
   </style>
@@ -188,13 +215,14 @@
     </section>
   </main>
   <script src="home.js" defer></script>
-  <!-- Ensuring all images are wrapped in consistent containers -->
+  <!-- Script to ensure all images are consistently wrapped -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Wrap all images in consistent containers
+      // Find all content lists
       const lists = document.querySelectorAll('#movies-list, #tvshows-list, #anime-list, #new-releases-list');
       
       lists.forEach(list => {
+        // Find images in each list
         const images = list.querySelectorAll('img');
         
         images.forEach(img => {
