@@ -3,252 +3,713 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>KunimeTV - Movies & TV Streaming</title>
-  <link rel="icon" href="Kk.png" type="image/png" />
-  <link rel="stylesheet" href="home.css" />
-  <link rel="stylesheet" href="anime.css" />
-  <link rel="stylesheet" href="landing.css" />
+  <title>Watch - KuNime</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Your inline styles (cleaned) */
-    .search-container button {
-      border: 2px solid #e60000;
-      background-color: transparent;
-      color: #e60000;
-      font-size: 22px;
-      font-weight: bold;
-      width: 50px;
-      height: 40px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
-    .search-container button:hover {
-      background-color: #e60000;
+    
+    body {
+      background-color: #000;
       color: #fff;
+      line-height: 1.5;
     }
-    .pagination-controls button {
-      border: 2px solid #e60000;
-      background-color: transparent;
-      color: #e60000;
-      font-size: 0;
-      width: 50px;
-      height: 50px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin: 0 10px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      display: inline-flex;
+    
+    /* Navbar styling */
+    .navbar {
+      display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background-color: #000;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    .pagination-controls button:hover:not(:disabled) {
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #e60000;
+      font-weight: 700;
+      font-size: 20px;
+    }
+    
+    .logo img {
+      height: 35px;
+      border-radius: 4px;
+    }
+    
+    .back-button {
+      padding: 10px 20px;
       background-color: #e60000;
-      color: #fff;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s;
     }
-    .pagination-controls button:disabled {
-      border-color: #aaa;
-      color: #aaa;
-      cursor: not-allowed;
+    
+    .back-button:hover {
+      background-color: #cc0000;
     }
-    #movies-prev-page::before,
-    #tvshows-prev-page::before,
-    #new-prev-page::before {
-      content: '←';
-      font-size: 24px;
-      color: inherit;
-    }
-    #movies-next-page::before,
-    #tvshows-next-page::before,
-    #new-next-page::before {
-      content: '→';
-      font-size: 24px;
-      color: inherit;
-    }
-    /* Grid container for thumbnails - 3 per row */
-    #movies-list,
-    #tvshows-list,
-    #anime-list,
-    #new-releases-list {
-      display: grid !important;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      padding: 1rem 15px;
-      width: 100%;
+    
+    /* Movie container styling */
+    .movie-container {
       max-width: 1200px;
       margin: 0 auto;
+      padding: 0 15px;
     }
-    /* Movie item container */
-    .movie-item {
-      aspect-ratio: 2/3;
+    
+    /* Movie backdrop and details */
+    .movie-backdrop {
       position: relative;
+      padding: 25px 0;
+      border-radius: 0;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    
+    .movie-backdrop::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1;
+    }
+    
+    .movie-details {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: row;
+      gap: 25px;
+      padding: 0 20px;
+    }
+    
+    .movie-poster {
+      flex-shrink: 0;
+      width: 220px;
+      height: 330px;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      background-color: #222;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
-    /* Make images fill their containers */
-    #movies-list img,
-    #tvshows-list img,
-    #anime-list img,
-    #new-releases-list img {
-      width: 100% !important;
-      height: 100% !important;
+    
+    .movie-poster img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      border-radius: 8px;
-      transition: transform 0.2s ease;
+    }
+    
+    .movie-info {
+      flex-grow: 1;
+    }
+    
+    .movie-info h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    
+    .movie-meta {
+      color: #ccc;
+      margin-bottom: 15px;
+    }
+    
+    .movie-genres {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+    
+    .movie-genres span {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+    
+    #movie-overview {
+      color: #ddd;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    .movie-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    .action-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 30px;
       cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.2s;
     }
-    #movies-list img:hover,
-    #tvshows-list img:hover,
-    #anime-list img:hover,
-    #new-releases-list img:hover {
-      transform: scale(1.05);
+    
+    .play-btn {
+      background-color: #e60000;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-    /* Media queries */
+    
+    .play-btn:hover {
+      background-color: #cc0000;
+    }
+    
+    .server-btn {
+      background-color: #333;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .server-btn:hover {
+      background-color: #444;
+    }
+    
+    .server-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .server-dropdown-content {
+      display: none;
+      position: absolute;
+      min-width: 180px;
+      z-index: 1;
+      background-color: #333;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      top: 100%;
+      left: 0;
+      margin-top: 5px;
+    }
+    
+    .server-dropdown-content a {
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      display: block;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    
+    .server-dropdown-content a:hover {
+      background-color: #444;
+    }
+    
+    .server-dropdown.active .server-dropdown-content {
+      display: block;
+    }
+    
+    /* Warning box styling */
+    .warning-box {
+      margin-top: 15px;
+      padding: 15px;
+      background-color: #ff9800;
+      color: #000;
+      font-weight: 600;
+      font-size: 15px;
+      border-radius: 8px;
+      user-select: none;
+      max-width: 600px;
+      box-sizing: border-box;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .warning-box::before {
+      content: "⚠️";
+      font-size: 18px;
+    }
+    
+    /* Video container styling */
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      margin-bottom: 30px;
+      background-color: #000;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    #movie-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      border: none;
+    }
+    
+    /* Loader styling */
+    .loader-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000000;
+      z-index: 10;
+    }
+    
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid #e60000;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+    
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+    /* Caret down icon */
+    .caret-down {
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid white;
+      margin-left: 5px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      .movie-poster {
+        width: 180px;
+        height: 270px;
+      }
+      
+      .movie-info h1 {
+        font-size: 24px;
+      }
+    }
+    
     @media (max-width: 768px) {
-      #movies-list,
-      #tvshows-list,
-      #anime-list,
-      #new-releases-list {
-        gap: 10px;
-        padding: 1rem 10px;
-      }
-      header {
+      .movie-details {
         flex-direction: column;
-        gap: 15px;
+        align-items: center;
+        text-align: center;
       }
-      .search-container {
+      
+      .movie-poster {
+        width: 200px;
+        height: 300px;
+        margin-bottom: 20px;
+      }
+      
+      .movie-genres {
+        justify-content: center;
+      }
+      
+      .movie-actions {
+        flex-direction: column;
+        align-items: center;
         width: 100%;
       }
-      .search-container input {
+      
+      .action-btn, .server-dropdown, .warning-box {
         width: 100%;
+        max-width: 400px;
       }
-      nav {
+      
+      .navbar {
+        padding: 10px 15px;
+      }
+      
+      .logo {
+        font-size: 18px;
+      }
+      
+      .logo img {
+        height: 30px;
+      }
+      
+      .back-button {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+      
+      .server-dropdown-content {
         width: 100%;
-        justify-content: space-between;
+        position: relative;
+        margin-top: 5px;
       }
     }
-    @media (max-width: 576px) {
-      #movies-list,
-      #tvshows-list,
-      #anime-list,
-      #new-releases-list {
-        gap: 8px;
-        padding: 1rem 8px;
+    
+    @media (max-width: 480px) {
+      .movie-container {
+        padding: 0 10px;
       }
-      .movie-item {
-        aspect-ratio: 3/4;
+      
+      .movie-backdrop {
+        padding: 15px 0;
       }
-    }
-    @media (max-width: 375px) {
-      #movies-list,
-      #tvshows-list,
-      #anime-list,
-      #new-releases-list {
-        grid-template-columns: repeat(2, 1fr);
+      
+      .movie-poster {
+        width: 160px;
+        height: 240px;
+      }
+      
+      .movie-info h1 {
+        font-size: 20px;
+      }
+      
+      #movie-overview {
+        font-size: 14px;
+      }
+      
+      .movie-meta, .movie-genres span {
+        font-size: 13px;
+      }
+      
+      .warning-box {
+        font-size: 0.9rem;
+        padding: 10px 12px;
+      }
+      
+      .video-container {
+        margin-bottom: 20px;
       }
     }
   </style>
+  
+  <!-- PopAds Script -->
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var s=window,c="d23f4a340889e2c400e951a27f5d0988",u=[["siteId",120+537-286+5195167],["minBid",0.001],["popundersPerIP","15,15"],["delayBetween",20],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],z=["d3d3LmJsb2NrYWRzbm90LmNvbS9nc2VsZWN0Mi5taW4uY3Nz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9DVGUvd2xhdmUuanM="],v=-1,b,y,e=function(){clearTimeout(y);v++;if(z[v]&&!(1771751274000<(new Date).getTime()&&1<v)){b=s.document.createElement("script");b.type="text/javascript";b.async=!0;var i=s.document.getElementsByTagName("script")[0];b.src="https://"+atob(z[v]);b.crossOrigin="anonymous";b.onerror=e;b.onload=function(){clearTimeout(y);s[c.slice(0,16)+c.slice(0,16)]||e()};y=setTimeout(e,5E3);i.parentNode.insertBefore(b,i)}};if(!s[c]){try{Object.freeze(s[c]=u)}catch(e){}e()}})();
+  /*]]>/* */
+  </script>
 </head>
 <body>
-<header>
-  <div class="logo">
-    <a href="https://kunimetv.pages.dev/">
-      <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KunimeTV Logo" />
-    </a>
-    KunimeTV
-  </div>
-  <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search movies, TV shows, anime..." autocomplete="off" />
-    <button id="searchBtn" title="Search">🔍</button>
-  </div>
-  <nav>
-    <a href="#" id="nav-movies" class="active">Movies</a>
-    <a href="#" id="nav-tvshows">TV Shows</a>
-    <a href="#" id="nav-new">New</a>
-  </nav>
-</header>
-<main>
-  <div id="results" class="anime-list" style="margin-top: 30px; padding: 0 20px;"></div>
-  <section>
-    <div id="new-releases-list" class="anime-list"></div>
-    <div id="new-releases-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
-      <button id="new-prev-page"></button>
-      <span id="new-current-page">1</span>
-      <button id="new-next-page"></button>
+  <header class="navbar">
+    <div class="logo">
+      <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KuNime Logo" />
+      <span>KUNIME</span>
     </div>
-  </section>
-  <section>
-    <div id="movies-list" class="anime-list"></div>
-    <div id="movies-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
-      <button id="movies-prev-page"></button>
-      <span id="movies-current-page">1</span>
-      <button id="movies-next-page"></button>
+    <button id="back-btn" type="button" class="back-button">← Back to Homepage</button>
+  </header>
+  <main class="movie-container">
+    <div id="movie-backdrop" class="movie-backdrop">
+      <div class="movie-details">
+        <div class="movie-poster">
+          <img id="movie-poster" src="" alt="Movie Poster" />
+        </div>
+        <div class="movie-info">
+          <h1 id="movie-title"></h1>
+          <p class="movie-meta">
+            <span id="movie-release-date"></span> •
+            <span id="movie-runtime"></span>
+          </p>
+          <div id="movie-genres" class="movie-genres"></div>
+          <p id="movie-overview"></p>
+          <div class="movie-actions">
+            <button id="play-btn" type="button" class="action-btn play-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              Play
+            </button>
+            <div class="server-dropdown">
+              <button id="server-dropdown-btn" class="action-btn server-btn">
+                Super Embed
+                <span class="caret-down"></span>
+              </button>
+              <div id="server-dropdown-content" class="server-dropdown-content">
+                <a href="#" data-server="superembed">Super Embed</a>
+                <a href="#" data-server="vidsrc.me">Vidsrc.me</a>
+                <a href="#" data-server="fsapi.xyz">FSAPI</a>
+                <a href="#" data-server="curtstream">CurtStream</a>
+                <a href="#" data-server="moviewp">MovieWP</a>
+                <a href="#" data-server="apimdb">ApiMDB</a>
+                <a href="#" data-server="gomo">GomoTV</a>
+                <a href="#" data-server="vidcloud">VidCloud</a>
+                <a href="#" data-server="vidsrc.cc">Vidsrc.cc</a>
+              </div>
+            </div>
+            
+            <!-- Warning Box -->
+            <div class="warning-box" role="alert" aria-live="polite">
+              Some servers may occasionally be unavailable. If the one you selected is not working, please try another for the best experience.
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </section>
-  <section>
-    <div id="tvshows-list" class="anime-list"></div>
-    <div id="tvshows-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
-      <button id="tvshows-prev-page"></button>
-      <span id="tvshows-current-page">1</span>
-      <button id="tvshows-next-page"></button>
+    <div class="video-container">
+      <iframe id="movie-video" allowfullscreen loading="lazy" title="Streaming Video Player"></iframe>
+      <div class="loader-container" id="loader">
+        <span class="loader"></span>
+      </div>
     </div>
-  </section>
-  <section>
-    <div id="anime-list" class="anime-list"></div>
-  </section>
-</main>
-<script src="home.js" defer></script>
-<!-- Script to wrap images inside movie-item -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const lists = document.querySelectorAll('#movies-list, #tvshows-list, #anime-list, #new-releases-list');
-    lists.forEach(list => {
-      const images = list.querySelectorAll('img');
-      images.forEach(img => {
-        if (img.parentElement.classList.contains('movie-item')) return;
-        const wrapper = document.createElement('div');
-        wrapper.className = 'movie-item';
-        const parent = img.parentElement;
-        parent.replaceChild(wrapper, img);
-        wrapper.appendChild(img);
+  </main>
+  
+  <script>
+    // TMDB API configuration
+    const API_KEY = '961334ce43e0adcaa714fddec89fcfd9';
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const IMG_URL = 'https://image.tmdb.org/t/p/original';
+    
+    // Player configuration
+    const player_font = "Inter";
+    const player_bg_color = "000000";
+    const player_font_color = "ffffff";
+    const player_primary_color = "e60000";
+    const player_secondary_color = "cc0000";
+    const player_loader = 1;
+    const preferred_server = 0;
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize elements
+      const serverDropdownBtn = document.getElementById('server-dropdown-btn');
+      const serverDropdownContent = document.getElementById('server-dropdown-content');
+      const serverDropdown = document.querySelector('.server-dropdown');
+      const playButton = document.getElementById('play-btn');
+      const movieVideo = document.getElementById('movie-video');
+      const loader = document.getElementById('loader');
+      let currentServer = 'superembed';
+      
+      // Toggle dropdown
+      serverDropdownBtn.addEventListener('click', () => {
+        serverDropdown.classList.toggle('active');
       });
-    });
-  });
-</script>
-
-<!-- PopAds Script (optimized placement) -->
-<script type="text/javascript" data-cfasync="false">
-document.addEventListener('DOMContentLoaded', function() {
-  (function(){
-    var s = window, c = "d23f4a340889e2c400e951a27f5d0988",
-        u = [["siteId",120+537-286+5195167],["minBid",0.001],["popundersPerIP","15,15"],["delayBetween",20],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],
-        z = ["d3d3LmJsb2NrYWRzbm90LmNvbS9nc2VsZWN0Mi5taW4uY3Nz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9DVGUvd2xhdmUuanM="],
-        v = -1, b, y, e = function() {
-          clearTimeout(y);
-          v++;
-          if (z[v] && !(1771751274000 < (new Date).getTime() && 1 < v)) {
-            b = s.document.createElement("script");
-            b.type = "text/javascript";
-            b.async = true;
-            var i = s.document.getElementsByTagName("script")[0];
-            b.src = "https://" + atob(z[v]);
-            b.crossOrigin = "anonymous";
-            b.onerror = e;
-            b.onload = function() {
-              clearTimeout(y);
-              s[c.slice(0,16) + c.slice(0,16)] || e();
-            };
-            y = setTimeout(e, 5000);
-            i.parentNode.insertBefore(b, i);
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!serverDropdown.contains(e.target)) {
+          serverDropdown.classList.remove('active');
+        }
+      });
+      
+      // Handle server selection
+      serverDropdownContent.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const server = e.target.dataset.server;
+          currentServer = server;
+          serverDropdownBtn.textContent = e.target.textContent;
+          serverDropdownBtn.appendChild(document.createElement('span')).className = 'caret-down';
+          serverDropdown.classList.remove('active');
+          loadServer(server);
+        });
+      });
+      
+      // Back button handler
+      const backBtn = document.getElementById('back-btn');
+      backBtn.addEventListener('click', () => {
+        window.location.href = '/';
+      });
+      
+      // Get URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const imdbId = urlParams.get('imdb'); 
+      const tmdbId = urlParams.get('tmdb');
+      
+      // Exit early if no movie ID provided
+      if (!imdbId && !tmdbId) {
+        document.getElementById('movie-title').textContent = "No Movie Selected";
+        document.getElementById('movie-overview').textContent = "Please select a movie from the homepage.";
+        loader.style.display = 'none';
+        return;
+      }
+      
+      // Define server URLs - this function uses the current imdbId
+      function getServerUrl(server) {
+        switch(server) {
+          case 'superembed':
+            return `https://getsuperembed.link/?video_id=${imdbId}&preferred_server=${preferred_server}`;
+          case 'vidsrc.me':
+            return `https://vidsrc.me/embed/${imdbId}/`;
+          case 'fsapi.xyz':
+            return `https://fsapi.xyz/movie/${imdbId}`;
+          case 'curtstream':
+            return `https://curtstream.com/movies/imdb/${imdbId}`;
+          case 'moviewp':
+            return `https://moviewp.com/se.php?video_id=${imdbId}`;
+          case 'apimdb':
+            return `https://v2.apimdb.net/e/movie/${imdbId}`;
+          case 'gomo':
+            return `https://gomo.to/movie/${imdbId}`;
+          case 'vidcloud':
+            return `https://vidcloud.stream/${imdbId}.html`;
+          case 'vidsrc.cc':
+            return `https://vidsrc.cc/embed/movie?imdb=${imdbId}`;
+          default:
+            return `https://getsuperembed.link/?video_id=${imdbId}&preferred_server=${preferred_server}`;
+        }
+      }
+      
+      // Function to load a server
+      function loadServer(serverId) {
+        // Show the loader
+        loader.style.display = 'flex';
+        
+        // Get the server URL
+        const serverUrl = getServerUrl(serverId);
+        
+        if (serverUrl) {
+          // Load the video
+          movieVideo.src = serverUrl;
+          
+          // Hide the loader when iframe is loaded
+          movieVideo.onload = () => {
+            loader.style.display = 'none';
+          };
+          
+          // Fallback to hide loader after 8 seconds
+          setTimeout(() => {
+            loader.style.display = 'none';
+          }, 8000);
+        } else {
+          loader.style.display = 'none';
+        }
+      }
+      
+      // Play button click handler
+      playButton.addEventListener('click', () => {
+        loadServer(currentServer);
+      });
+      
+      // Fetch movie data from TMDB API
+      async function fetchMovieData() {
+        try {
+          // Create URL for API request based on the available IDs
+          let apiUrl;
+          if (tmdbId) {
+            apiUrl = `${BASE_URL}/movie/${tmdbId}?api_key=${API_KEY}`;
+          } else if (imdbId) {
+            apiUrl = `${BASE_URL}/find/${imdbId}?api_key=${API_KEY}&external_source=imdb_id`;
+          } else {
+            throw new Error('No movie ID provided');
           }
-        };
-    if (!s[c]) {
-      try { Object.freeze(s[c] = u); } catch(e) {}
-      e();
-    }
-  })();
-});
-</script>
+          
+          const response = await fetch(apiUrl);
+          if (!response.ok) {
+            throw new Error(`API request failed: ${response.status}`);
+          }
+          
+          let data = await response.json();
+          
+          // If using the find endpoint, need to extract the result
+          if (apiUrl.includes('/find/')) {
+            const results = data.movie_results;
+            
+            if (results && results.length > 0) {
+              // Get the first result's ID and make another request for full details
+              const id = results[0].id;
+              
+              const detailsResponse = await fetch(`${BASE_URL}/movie/${id}?api_key=${API_KEY}`);
+              if (!detailsResponse.ok) {
+                throw new Error(`Details request failed: ${detailsResponse.status}`);
+              }
+              
+              data = await detailsResponse.json();
+            } else {
+              throw new Error('Movie not found in search results');
+            }
+          }
+          
+          // Update UI with movie data
+          document.getElementById('movie-title').textContent = data.title;
+          document.getElementById('movie-overview').textContent = data.overview;
+          document.title = `Watch - ${data.title} - KuNime`;
+          
+          if (data.poster_path) {
+            document.getElementById('movie-poster').src = `${IMG_URL}${data.poster_path}`;
+          }
+          
+          // Set backdrop image
+          if (data.backdrop_path) {
+            document.getElementById('movie-backdrop').style.backgroundImage = `url(${IMG_URL}${data.backdrop_path})`;
+          }
+          
+          // Set release date
+          document.getElementById('movie-release-date').textContent = formatDate(data.release_date);
+          
+          // Set runtime
+          document.getElementById('movie-runtime').textContent = formatRuntime(data.runtime);
+          
+          // Update genres
+          const genresElement = document.getElementById('movie-genres');
+          genresElement.innerHTML = '';
+          
+          if (data.genres && data.genres.length) {
+            data.genres.forEach(genre => {
+              const span = document.createElement('span');
+              span.textContent = genre.name;
+              genresElement.appendChild(span);
+            });
+          }
+          
+          // Now that we have movie data, load the default server
+          loadServer('superembed');
+          
+        } catch (error) {
+          // Show error in UI
+          document.getElementById('movie-title').textContent = "Error Loading Movie";
+          document.getElementById('movie-overview').textContent = `Could not load movie information. Please try again.`;
+          loader.style.display = 'none';
+        }
+      }
+      
+      // Helper function to format date
+      function formatDate(dateString) {
+        if (!dateString) return 'Unknown';
+        return new Date(dateString).getFullYear();
+      }
+      
+      // Helper function to format runtime
+      function formatRuntime(minutes) {
+        if (!minutes) return 'Unknown';
+        const hours = Math.floor(minutes / 60);
+        const mins = minutes % 60;
+        return `${hours}h ${mins}m`;
+      }
+      
+      // Initialize page with content data
+      fetchMovieData();
+    });
+  </script>
 </body>
-</html>
