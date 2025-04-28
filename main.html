@@ -71,17 +71,17 @@
     #anime-list,
     #new-releases-list {
       display: grid !important;
-      grid-template-columns: repeat(3, 1fr); /* 3 thumbnails per row */
+      grid-template-columns: repeat(3, 1fr);
       gap: 15px;
       padding: 1rem 15px;
       width: 100%;
-      max-width: 1200px; /* Limit maximum width on very large screens */
+      max-width: 1200px;
       margin: 0 auto;
     }
     
-    /* Movie item container with consistent aspect ratio */
+    /* Movie item container */
     .movie-item {
-      aspect-ratio: 2/3; /* Portrait aspect ratio good for movie posters */
+      aspect-ratio: 2/3;
       position: relative;
       border-radius: 8px;
       overflow: hidden;
@@ -89,7 +89,7 @@
       background-color: #222;
     }
     
-    /* Make all images fill their containers */
+    /* Make images fill their containers */
     #movies-list img,
     #tvshows-list img,
     #anime-list img,
@@ -109,14 +109,13 @@
       transform: scale(1.05);
     }
     
-    /* Media queries for different device sizes */
-    /* Tablet */
+    /* Media queries */
     @media (max-width: 768px) {
       #movies-list,
       #tvshows-list,
       #anime-list,
       #new-releases-list {
-        gap: 10px; /* Smaller gap on tablets */
+        gap: 10px;
         padding: 1rem 10px;
       }
       
@@ -139,117 +138,141 @@
       }
     }
     
-    /* Mobile - still 3 per row but smaller */
     @media (max-width: 576px) {
       #movies-list,
       #tvshows-list,
       #anime-list,
       #new-releases-list {
-        gap: 8px; /* Even smaller gap on mobile */
+        gap: 8px;
         padding: 1rem 8px;
       }
       
       .movie-item {
-        aspect-ratio: 3/4; /* Slightly different aspect ratio on mobile */
+        aspect-ratio: 3/4;
       }
     }
     
-    /* Very small mobile devices - 2 per row */
     @media (max-width: 375px) {
       #movies-list,
       #tvshows-list,
       #anime-list,
       #new-releases-list {
-        grid-template-columns: repeat(2, 1fr); /* 2 thumbnails per row on very small devices */
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
-  <script type="text/javascript" data-cfasync="false">
-/*<![CDATA[/* */
-(function(){var s=window,c="d23f4a340889e2c400e951a27f5d0988",u=[["siteId",120+537-286+5195167],["minBid",0.001],["popundersPerIP","15,15"],["delayBetween",20],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],z=["d3d3LmJsb2NrYWRzbm90LmNvbS9nc2VsZWN0Mi5taW4uY3Nz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9DVGUvd2xhdmUuanM="],v=-1,b,y,e=function(){clearTimeout(y);v++;if(z[v]&&!(1771751274000<(new Date).getTime()&&1<v)){b=s.document.createElement("script");b.type="text/javascript";b.async=!0;var i=s.document.getElementsByTagName("script")[0];b.src="https://"+atob(z[v]);b.crossOrigin="anonymous";b.onerror=e;b.onload=function(){clearTimeout(y);s[c.slice(0,16)+c.slice(0,16)]||e()};y=setTimeout(e,5E3);i.parentNode.insertBefore(b,i)}};if(!s[c]){try{Object.freeze(s[c]=u)}catch(e){}e()}})();
-/*]]>/* */
-</script>
-
 </head>
+
 <body>
-  <header>
-    <div class="logo">
-<a href=https://kunimetv.pages.dev/>      <img
-        src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg"
-        alt="KunimeTV Logo"
-      /> </a>
-      KunimeTV
+
+<header>
+  <div class="logo">
+    <a href="https://kunimetv.pages.dev/">
+      <img src="https://static.vecteezy.com/system/resources/previews/016/699/663/original/graffiti-letter-k-premium-illustration-vector.jpg" alt="KunimeTV Logo" />
+    </a>
+    KunimeTV
+  </div>
+  
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search movies, TV shows, anime..." autocomplete="off" />
+    <button id="searchBtn" title="Search">🔍</button>
+  </div>
+  
+  <nav>
+    <a href="#" id="nav-movies" class="active">Movies</a>
+    <a href="#" id="nav-tvshows">TV Shows</a>
+    <a href="#" id="nav-new">New</a>
+  </nav>
+</header>
+
+<main>
+  <div id="results" class="anime-list" style="margin-top: 30px; padding: 0 20px;"></div>
+  
+  <section>
+    <div id="new-releases-list" class="anime-list"></div>
+    <div id="new-releases-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
+      <button id="new-prev-page"></button>
+      <span id="new-current-page">1</span>
+      <button id="new-next-page"></button>
     </div>
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Search movies, TV shows, anime..." autocomplete="off" />
-      <button id="searchBtn" title="Search">🔍</button>
+  </section>
+  
+  <section>
+    <div id="movies-list" class="anime-list"></div>
+    <div id="movies-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
+      <button id="movies-prev-page"></button>
+      <span id="movies-current-page">1</span>
+      <button id="movies-next-page"></button>
     </div>
-    <nav>
-      <a href="#" id="nav-movies" class="active">Movies</a>
-      <a href="#" id="nav-tvshows">TV Shows</a>
-      <a href="#" id="nav-new">New</a>
-    </nav>
-  </header>
-  <main>
-    <div id="results" class="anime-list" style="margin-top: 30px; padding: 0 20px;"></div>
-    <section>
-      <div id="new-releases-list" class="anime-list"></div>
-      <div id="new-releases-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
-        <button id="new-prev-page"></button>
-        <span id="new-current-page">1</span>
-        <button id="new-next-page"></button>
-      </div>
-    </section>
-    <section>
-      <div id="movies-list" class="anime-list"></div>
-      <div id="movies-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
-        <button id="movies-prev-page"></button>
-        <span id="movies-current-page">1</span>
-        <button id="movies-next-page"></button>
-      </div>
-    </section>
-    <section>
-      <div id="tvshows-list" class="anime-list"></div>
-      <div id="tvshows-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
-        <button id="tvshows-prev-page"></button>
-        <span id="tvshows-current-page">1</span>
-        <button id="tvshows-next-page"></button>
-      </div>
-    </section>
-    <section>
-      <div id="anime-list" class="anime-list"></div>
-    </section>
-  </main>
-  <script src="home.js" defer></script>
-  <!-- Script to ensure all images are consistently wrapped -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Find all content lists
-      const lists = document.querySelectorAll('#movies-list, #tvshows-list, #anime-list, #new-releases-list');
-      
-      lists.forEach(list => {
-        // Find images in each list
-        const images = list.querySelectorAll('img');
-        
-        images.forEach(img => {
-          // Skip if already wrapped
-          if (img.parentElement.classList.contains('movie-item')) return;
-          
-          // Create wrapper
-          const wrapper = document.createElement('div');
-          wrapper.className = 'movie-item';
-          
-          // Get parent
-          const parent = img.parentElement;
-          
-          // Replace img with wrapper
-          parent.replaceChild(wrapper, img);
-          
-          // Add img to wrapper
-          wrapper.appendChild(img);
-        });
+  </section>
+  
+  <section>
+    <div id="tvshows-list" class="anime-list"></div>
+    <div id="tvshows-pagination" class="pagination-controls" style="text-align: center; margin-bottom: 30px;">
+      <button id="tvshows-prev-page"></button>
+      <span id="tvshows-current-page">1</span>
+      <button id="tvshows-next-page"></button>
+    </div>
+  </section>
+  
+  <section>
+    <div id="anime-list" class="anime-list"></div>
+  </section>
+</main>
+
+<script src="home.js" defer></script>
+
+<!-- Script to wrap images inside movie-item -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const lists = document.querySelectorAll('#movies-list, #tvshows-list, #anime-list, #new-releases-list');
+    lists.forEach(list => {
+      const images = list.querySelectorAll('img');
+      images.forEach(img => {
+        if (img.parentElement.classList.contains('movie-item')) return;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'movie-item';
+        const parent = img.parentElement;
+        parent.replaceChild(wrapper, img);
+        wrapper.appendChild(img);
       });
     });
-  </script>
+  });
+</script>
+
+<!-- PopAds Script (optimized placement) -->
+<script type="text/javascript" data-cfasync="false">
+document.addEventListener('DOMContentLoaded', function() {
+  (function(){
+    var s = window, c = "d23f4a340889e2c400e951a27f5d0988", 
+        u = [["siteId",120+537-286+5195167],["minBid",0.001],["popundersPerIP","15,15"],["delayBetween",20],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],
+        z = ["d3d3LmJsb2NrYWRzbm90LmNvbS9nc2VsZWN0Mi5taW4uY3Nz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9DVGUvd2xhdmUuanM="],
+        v = -1, b, y, e = function() {
+          clearTimeout(y); 
+          v++;
+          if (z[v] && !(1771751274000 < (new Date).getTime() && 1 < v)) {
+            b = s.document.createElement("script");
+            b.type = "text/javascript"; 
+            b.async = true;
+            var i = s.document.getElementsByTagName("script")[0];
+            b.src = "https://" + atob(z[v]);
+            b.crossOrigin = "anonymous";
+            b.onerror = e;
+            b.onload = function() {
+              clearTimeout(y);
+              s[c.slice(0,16) + c.slice(0,16)] || e();
+            };
+            y = setTimeout(e, 5000);
+            i.parentNode.insertBefore(b, i);
+          }
+        };
+    if (!s[c]) {
+      try { Object.freeze(s[c] = u); } catch(e) {}
+      e();
+    }
+  })();
+});
+</script>
+
 </body>
 </html>
