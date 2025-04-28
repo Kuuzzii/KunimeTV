@@ -401,7 +401,96 @@
     body.light-mode .faq-answer {
       color: #444;
     }
-  </style>
+    
+  @media (max-width: 768px) {
+    header {
+      padding: 16px 20px;
+    }
+    .logo {
+      height: 32px;
+      margin-right: 8px;
+    }
+    .website-name {
+      font-size: 22px;
+    }
+    .toggle-switch {
+      width: 40px;
+      height: 20px;
+    }
+    .slider:before {
+      height: 16px;
+      width: 16px;
+      left: 2px;
+      bottom: 2px;
+    }
+    input:checked + .slider:before {
+      transform: translateX(18px);
+    }
+    main {
+      padding: 0 16px 40px;
+    }
+    h1 {
+      font-size: 2.2rem;
+    }
+    .facebook-link {
+      font-size: 1rem;
+    }
+    .info-text {
+      font-size: 0.95rem;
+    }
+    .buttons-container {
+      flex-direction: column;
+      gap: 12px;
+    }
+    button {
+      font-size: 1rem;
+      padding: 14px 20px;
+      max-width: none;
+      width: 100%;
+    }
+    #trending-section {
+      margin: 30px auto 60px;
+      padding: 0 10px;
+    }
+    #trending-section h2 {
+      font-size: 1.4rem;
+    }
+    .trending-arrow {
+      width: 36px;
+      height: 60px;
+      font-size: 28px;
+    }
+    .movie-card {
+      width: 120px;
+    }
+    .movie-card img {
+      height: 180px;
+    }
+    .movie-rank {
+      font-size: 36px;
+    }
+    #faq-section {
+      padding: 0 10px;
+      margin-bottom: 60px;
+    }
+    #faq-section h2 {
+      font-size: 1.6rem;
+    }
+    .faq-question {
+      font-size: 1rem;
+      padding: 14px 12px;
+    }
+    .faq-answer {
+      font-size: 0.95rem;
+      padding: 0 12px;
+    }
+    .faq-answer[aria-hidden="false"] {
+      padding-top: 10px;
+      padding-bottom: 14px;
+    }
+  }
+</style>
+
 </head>
 <body>
   <header>
