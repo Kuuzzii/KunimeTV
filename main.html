@@ -64,43 +64,84 @@
       font-size: 24px;
       color: inherit;
     }
+    
+    /* MODIFIED: Changed grid layout to show 3 items per row by default */
     #movies-list,
     #tvshows-list,
     #anime-list,
     #new-releases-list {
       display: grid !important;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr); /* Changed from 4 to 3 columns */
       gap: 20px;
       padding: 1rem 20px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
+    
+    /* Added wrapper for content cards */
+    .content-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+    }
+    
+    .content-card:hover {
+      transform: scale(1.05);
+    }
+    
     #movies-list img,
     #tvshows-list img,
     #anime-list img,
     #new-releases-list img {
       width: 100% !important;
-      height: auto !important;
-      border-radius: 8px;
+      height: 180px !important; /* Fixed height for consistency */
+      object-fit: cover;
+      border-radius: 8px 8px 0 0;
       transition: transform 0.2s ease;
       cursor: pointer;
+      display: block;
     }
-    #movies-list img:hover,
-    #tvshows-list img:hover,
-    #anime-list img:hover,
-    #new-releases-list img:hover {
-      transform: scale(1.05);
+    
+    /* Added info overlay */
+    .content-info {
+      padding: 10px;
+      background-color: #222;
+      color: white;
+    }
+    
+    .content-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+    
+    .content-year {
+      font-size: 14px;
+      color: #aaa;
     }
     
     /* ADDED: Media queries for responsive design */
-    @media (max-width: 1024px) {
+    @media (min-width: 1200px) {
       #movies-list,
       #tvshows-list,
       #anime-list,
       #new-releases-list {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on large screens */
       }
     }
     
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
+      #movies-list,
+      #tvshows-list,
+      #anime-list,
+      #new-releases-list {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+      }
+    }
+    
+    @media (max-width: 576px) {
       header {
         flex-direction: column;
         gap: 15px;
@@ -123,29 +164,14 @@
       #tvshows-list,
       #anime-list,
       #new-releases-list {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    
-    @media (max-width: 480px) {
-      #movies-list,
-      #tvshows-list,
-      #anime-list,
-      #new-releases-list {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(1, 1fr); /* 1 column on smallest screens */
       }
       
-      .logo {
-        font-size: 20px;
-      }
-      
-      .logo img {
-        height: 35px;
-      }
-      
-      nav a {
-        padding: 6px 10px;
-        font-size: 14px;
+      #movies-list img,
+      #tvshows-list img,
+      #anime-list img,
+      #new-releases-list img {
+        height: 220px !important; /* Taller images on mobile */
       }
     }
   </style>
