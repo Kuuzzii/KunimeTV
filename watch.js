@@ -95,6 +95,8 @@ async function setupServers() {
       alert('IMDb ID not found for TV show. Some streams may not work.');
     }
     servers.push(
+      { name: 'Vidsrc', url: `https://vidsrc.me/embed/${movieId}` },
+      { name: 'Fsapi', url: `https://fsapi.xyz/movie/${movieId}` },
       { name: 'Fsapi TV', url: `https://fsapi.xyz/tv-imdb/${imdbId || movieId}-${season}-${episode}` },  // IMDb id preferred
       { name: 'Moviewp TV', url: `https://moviewp.com/se.php?video_id=${movieId}&tmdb=1&s=${season}&e=${episode}` }, // TMDb id
       { name: 'ApiMDB TV', url: `https://v2.apimdb.net/e/tmdb/tv/${movieId}/${season}/${episode}/` }, // TMDb id
