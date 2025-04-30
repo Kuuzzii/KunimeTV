@@ -281,35 +281,36 @@
 
       if (type === 'movie') {
         servers.push(
-          { name: 'Vidsrc', url: `https://vidsrc.me/embed/${movieId}` },
-          { name: 'Fsapi', url: `https://fsapi.xyz/movie/${movieId}` },
-          { name: 'Curtstream', url: `https://curtstream.com/movies/imdb/${movieId}` },
-          { name: 'Moviewp', url: `https://moviewp.com/se.php?video_id=${movieId}` },
-          { name: 'ApiMDB', url: `https://v2.apimdb.net/e/movie/${movieId}` },
-          { name: 'Gomo', url: `https://gomo.to/movie/${movieId}` },
-          { name: 'VidCloud', url: `https://vidcloud.stream/${movieId}.html` },
-          { name: 'Vidlink.pro', url: `https://vidlink.pro/movie/${movieId}` },
-          { name: 'Vidsrc.dev', url: `https://vidsrc.dev/embed/movie/${movieId}` },
-          { name: '111Movies', url: `https://111movies.com/movie/${movieId}` },
-          { name: 'Vidjoy.pro', url: `https://vidjoy.pro/embed/movie/${movieId}` },
-          { name: 'Vidsrc.io', url: `https://vidsrc.io/embed/movie/${movieId}` },
-          { name: 'Vidsrc.cc', url: `https://vidsrc.cc/v2/embed/movie/${movieId}` },
-          { name: 'Vidsrc.xyz', url: `https://vidsrc.xyz/embed/movie/${movieId}` },
-          { name: '2Embed.cc', url: `https://www.2embed.cc/embed/${movieId}` },
-          { name: 'Moviesapi.club', url: `https://moviesapi.club/movie/${movieId}` }
+          { name: 'Server 1', url: `https://fsapi.xyz/movie/${movieId}` },
+          { name: 'Server  2', url: `https://vidsrc.me/embed/${movieId}` },
+          { name: 'Server 3', url: `https://curtstream.com/movies/imdb/${movieId}` },
+          { name: 'Server 4', url: `https://moviewp.com/se.php?video_id=${movieId}` },
+          { name: 'Server 5', url: `https://v2.apimdb.net/e/movie/${movieId}` },
+          { name: 'Server 6', url: `https://gomo.to/movie/${movieId}` },
+          { name: 'Server 8', url: `https://vidcloud.stream/${movieId}.html` },
+          { name: 'Server 9', url: `https://vidlink.pro/movie/${movieId}` },
+          { name: 'Server 10', url: `https://vidsrc.dev/embed/movie/${movieId}` },
+          { name: 'Server 11', url: `https://111movies.com/movie/${movieId}` },
+          { name: 'Server 12', url: `https://vidjoy.pro/embed/movie/${movieId}` },
+          { name: 'Server 13', url: `https://vidsrc.io/embed/movie/${movieId}` },
+          { name: 'Server 14', url: `https://vidsrc.cc/v2/embed/movie/${movieId}` },
+          { name: 'Server 15', url: `https://vidsrc.xyz/embed/movie/${movieId}` },
+          { name: 'Server 16', url: `https://www.2embed.cc/embed/${movieId}` },
+          { name: 'Server 17', url: `https://moviesapi.club/movie/${movieId}` }
         );
       } else if (type === 'tv') {
         if (!imdbId) {
           alert('IMDb ID not found for TV show. Some streams may not work.');
         }
         servers.push(
-          { name: 'Vidsrc TV', url: `https://vidsrc.me/embed/tv/${movieId}/${season}/${episode}` },
-          { name: 'Fsapi TV', url: `https://fsapi.xyz/tv/${movieId}/${season}/${episode}` },
-          { name: 'Fsapi TV IMDb', url: `https://fsapi.xyz/tv-imdb/${imdbId || ''}-${season}-${episode}` },
-          { name: 'Moviewp TV', url: `https://moviewp.com/se.php?tmdb=${movieId}&s=${season}&e=${episode}` },
-          { name: 'ApiMDB TV', url: `https://v2.apimdb.net/e/tmdb/tv/${movieId}/${season}/${episode}/` },
-          { name: 'GDrivePlayer', url: `https://databasegdriveplayer.co/player.php?type=series&tmdb=${movieId}&season=${season}&episode=${episode}` },
-          { name: 'Curtstream TV', url: `https://curtstream.com/series/tmdb/${movieId}/season/${season}/episode/${episode}/` }
+          { name: 'Server 1', url: `https://vidsrc.me/embed/tv/${movieId}/${season}/${episode}` },
+          { name: 'Server  2', url: `https://vidsrc.me/embed/${movieId}` },
+          { name: 'Server 3', url: `https://fsapi.xyz/tv/${movieId}/${season}/${episode}` },
+          { name: 'Server 4', url: `https://fsapi.xyz/tv-imdb/${imdbId || ''}-${season}-${episode}` },
+          { name: 'Server 5', url: `https://moviewp.com/se.php?tmdb=${movieId}&s=${season}&e=${episode}` },
+          { name: 'Server 6', url: `https://v2.apimdb.net/e/tmdb/tv/${movieId}/${season}/${episode}/` },
+          { name: 'Server 7', url: `https://databasegdriveplayer.co/player.php?type=series&tmdb=${movieId}&season=${season}&episode=${episode}` },
+          { name: 'Server 8', url: `https://curtstream.com/series/tmdb/${movieId}/season/${season}/episode/${episode}/` }
         );
       }
 
