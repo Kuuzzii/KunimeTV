@@ -77,7 +77,7 @@ async function fetchDetails() {
   }
 }
 
-// Setup servers array with unique servers only (duplicates removed)
+// Setup servers array with unique servers (no duplicates), include your requested extra movie servers
 async function setupServers() {
   imdbId = type === 'tv' ? await getImdbId(movieId, 'tv') : movieId;
 
@@ -93,7 +93,7 @@ async function setupServers() {
       { name: 'Gomo', url: `https://gomo.to/movie/${movieId}` },
       { name: 'VidCloud', url: `https://vidcloud.stream/${movieId}.html` },
 
-      // Additional unique servers
+      // Your added movie servers
       { name: 'Vidlink.pro', url: `https://vidlink.pro/movie/${movieId}` },
       { name: 'Vidsrc.dev', url: `https://vidsrc.dev/embed/movie/${movieId}` },
       { name: '111Movies', url: `https://111movies.com/movie/${movieId}` },
@@ -118,6 +118,9 @@ async function setupServers() {
       { name: 'Curtstream TV', url: `https://curtstream.com/series/tmdb/${movieId}/season/${season}/episode/${episode}/` }
     );
   }
+
+  // Debug: log server names to console
+  console.log('Available servers:', servers.map((s) => s.name));
 
   // Populate serverSelect dropdown
   serverSelect.innerHTML = '';
