@@ -77,15 +77,13 @@ async function fetchDetails() {
   }
 }
 
-// Setup servers array with correct IMDb / TMDb IDs
+// Setup servers array with unique servers only (duplicates removed)
 async function setupServers() {
   imdbId = type === 'tv' ? await getImdbId(movieId, 'tv') : movieId;
 
-  // Clear servers array
   servers.length = 0;
 
   if (type === 'movie') {
-    // For movies, assume movieId is IMDb id
     servers.push(
       { name: 'Vidsrc', url: `https://vidsrc.me/embed/${movieId}` },
       { name: 'Fsapi', url: `https://fsapi.xyz/movie/${movieId}` },
@@ -93,21 +91,31 @@ async function setupServers() {
       { name: 'Moviewp', url: `https://moviewp.com/se.php?video_id=${movieId}` },
       { name: 'ApiMDB', url: `https://v2.apimdb.net/e/movie/${movieId}` },
       { name: 'Gomo', url: `https://gomo.to/movie/${movieId}` },
-      { name: 'VidCloud', url: `https://vidcloud.stream/${movieId}.html` }
+      { name: 'VidCloud', url: `https://vidcloud.stream/${movieId}.html` },
+
+      // Additional unique servers
+      { name: 'Vidlink.pro', url: `https://vidlink.pro/movie/${movieId}` },
+      { name: 'Vidsrc.dev', url: `https://vidsrc.dev/embed/movie/${movieId}` },
+      { name: '111Movies', url: `https://111movies.com/movie/${movieId}` },
+      { name: 'Vidjoy.pro', url: `https://vidjoy.pro/embed/movie/${movieId}` },
+      { name: 'Vidsrc.io', url: `https://vidsrc.io/embed/movie/${movieId}` },
+      { name: 'Vidsrc.cc', url: `https://vidsrc.cc/v2/embed/movie/${movieId}` },
+      { name: 'Vidsrc.xyz', url: `https://vidsrc.xyz/embed/movie/${movieId}` },
+      { name: '2Embed.cc', url: `https://www.2embed.cc/embed/${movieId}` },
+      { name: 'Moviesapi.club', url: `https://moviesapi.club/movie/${movieId}` }
     );
   } else if (type === 'tv') {
     if (!imdbId) {
       alert('IMDb ID not found for TV show. Some streams may not work.');
     }
-
     servers.push(
-      { name: 'Vidsrc TV', url: `https://vidsrc.me/embed/tv/${movieId}/${season}/${episode}` },      // TMDb id
-      { name: 'Fsapi TV', url: `https://fsapi.xyz/tv/${movieId}/${season}/${episode}` },               // TMDb id
-      { name: 'Fsapi TV IMDb', url: `https://fsapi.xyz/tv-imdb/${imdbId || ''}-${season}-${episode}` }, // IMDb id preferred
-      { name: 'Moviewp TV', url: `https://moviewp.com/se.php?tmdb=${movieId}&s=${season}&e=${episode}` },  // TMDb id
-      { name: 'ApiMDB TV', url: `https://v2.apimdb.net/e/tmdb/tv/${movieId}/${season}/${episode}/` },      // TMDb id
-      { name: 'GDrivePlayer', url: `https://databasegdriveplayer.co/player.php?type=series&tmdb=${movieId}&season=${season}&episode=${episode}` }, // TMDb id
-      { name: 'Curtstream TV', url: `https://curtstream.com/series/tmdb/${movieId}/season/${season}/episode/${episode}/` } // TMDb id
+      { name: 'Vidsrc TV', url: `https://vidsrc.me/embed/tv/${movieId}/${season}/${episode}` },
+      { name: 'Fsapi TV', url: `https://fsapi.xyz/tv/${movieId}/${season}/${episode}` },
+      { name: 'Fsapi TV IMDb', url: `https://fsapi.xyz/tv-imdb/${imdbId || ''}-${season}-${episode}` },
+      { name: 'Moviewp TV', url: `https://moviewp.com/se.php?tmdb=${movieId}&s=${season}&e=${episode}` },
+      { name: 'ApiMDB TV', url: `https://v2.apimdb.net/e/tmdb/tv/${movieId}/${season}/${episode}/` },
+      { name: 'GDrivePlayer', url: `https://databasegdriveplayer.co/player.php?type=series&tmdb=${movieId}&season=${season}&episode=${episode}` },
+      { name: 'Curtstream TV', url: `https://curtstream.com/series/tmdb/${movieId}/season/${season}/episode/${episode}/` }
     );
   }
 
@@ -167,7 +175,7 @@ backBtn.addEventListener('click', () => {
   window.history.back();
 });
 
-// Initial check and load
+// Initial load
 if (!movieId || !type) {
   alert('Invalid movie or TV show ID');
   playBtn.disabled = true;
