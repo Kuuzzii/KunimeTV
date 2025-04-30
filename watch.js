@@ -24,18 +24,15 @@ let currentServerIndex = null;
 const servers = [];
 let imdbId = null;
 
-// Fetch IMDb id for TV shows or return movieId as IMDb for movies
+// Fetch IMDb ID helper function
 async function getImdbId(tmdbId, mediaType) {
   if (!tmdbId || !mediaType) return null;
-
   try {
     const url = `${BASE_URL}/${mediaType}/${tmdbId}?api_key=${API_KEY}&append_to_response=external_ids`;
     const res = await fetch(url);
     if (!res.ok) throw new Error('Failed to fetch external IDs');
     const data = await res.json();
-    if (data.external_ids && data.external_ids.imdb_id) {
-      return data.external_ids.imdb_id;
-    }
+    if (data.external_ids && data.external_ids.imdb_id) return data.external_ids.imdb_id;
     return null;
   } catch (err) {
     console.error('Error getting IMDb ID:', err);
@@ -43,6 +40,7 @@ async function getImdbId(tmdbId, mediaType) {
   }
 }
 
+// Fetch movie/show details
 async function fetchDetails() {
   try {
     const res = await fetch(`${BASE_URL}/${type}/${movieId}?api_key=${API_KEY}`);
@@ -54,13 +52,9 @@ async function fetchDetails() {
     titleEl.textContent = data.title || data.name || '';
     overviewEl.textContent = data.overview || 'No description available.';
     releaseDateEl.textContent = new Date(data.release_date || data.first_air_date || '').toLocaleDateString();
-
-    if (type === 'movie') {
-      runtimeEl.textContent = data.runtime ? `${data.runtime} min` : '';
-    } else {
-      runtimeEl.textContent =
-        data.episode_run_time && data.episode_run_time.length > 0 ? `${data.episode_run_time[0]} min per episode` : '';
-    }
+    runtimeEl.textContent = type === 'movie'
+      ? (data.runtime ? `${data.runtime} min` : '')
+      : (data.episode_run_time && data.episode_run_time.length ? `${data.episode_run_time[0]} min per episode` : '');
 
     genresEl.innerHTML = '';
     if (data.genres) {
@@ -77,10 +71,9 @@ async function fetchDetails() {
   }
 }
 
-// Setup servers array with unique servers (no duplicates), include your requested extra movie servers
+// Setup servers with your full list
 async function setupServers() {
   imdbId = type === 'tv' ? await getImdbId(movieId, 'tv') : movieId;
-
   servers.length = 0;
 
   if (type === 'movie') {
@@ -103,10 +96,8 @@ async function setupServers() {
       { name: 'Server 16', url: `https://moviesapi.club/movie/${movieId}` }
     );
   } else if (type === 'tv') {
-    if (!imdbId) {
-      alert('IMDb ID not found for TV show. Some streams may not work.');
-    }
-    servers.push(    
+    if (!imdbId) alert('IMDb ID not found for TV show. Some streams may not work.');
+    servers.push(
       { name: 'Server 1', url: `https://vidsrc.me/embed/tv/${movieId}/${season}/${episode}` },
       { name: 'Server 2', url: `https://vidsrc.me/embed/${movieId}` },
       { name: 'Server 3', url: `https://fsapi.xyz/tv/${movieId}/${season}/${episode}` },
@@ -118,11 +109,9 @@ async function setupServers() {
     );
   }
 
-  // Debug: log server names to console
-  console.log('Available servers:', servers.map((s) => s.name));
-
-  // Populate serverSelect dropdown
+  console.log('Available servers:', servers.map(s => s.name));
   serverSelect.innerHTML = '';
+
   servers.forEach((srv, idx) => {
     const option = document.createElement('option');
     option.value = idx;
@@ -159,7 +148,6 @@ function updateVideoSrc() {
   videoIframe.src = servers[currentServerIndex].url;
 }
 
-// Event listeners
 serverSelect.addEventListener('change', (e) => {
   currentServerIndex = parseInt(e.target.value, 10);
   updateVideoSrc();
@@ -173,11 +161,8 @@ playBtn.addEventListener('click', () => {
   document.querySelector('.video-container').scrollIntoView({ behavior: 'smooth' });
 });
 
-backBtn.addEventListener('click', () => {
-  window.history.back();
-});
+backBtn.addEventListener('click', () => window.history.back());
 
-// Initial load
 if (!movieId || !type) {
   alert('Invalid movie or TV show ID');
   playBtn.disabled = true;
