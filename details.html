@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Details</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">PurpleTin 🌷</div>
+        </div>
+        <nav>
+            <div class="search-container">
+                <form id="search-form">
+                    <input type="text" id="search-input" placeholder="Search for movies...">
+                    <button type="submit" id="search-button">Search</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="movie-detail">
+            <img id="moviePoster" src="" alt="Movie Poster">
+            <a href="#" id="downloadLink" class="button"></a>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const moviePoster = params.get('poster');
+            const downloadLink = params.get('download');
+            const quality = params.get('quality');
+
+            document.getElementById('moviePoster').src = moviePoster;
+            document.getElementById('downloadLink').href = downloadLink;
+            document.getElementById('downloadLink').textContent = quality;
+        });
+    </script>
+</body>
+</html>
