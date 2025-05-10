@@ -3,81 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Additional Movie Portal</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            color: #fff;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .movie-portal {
-            width: 300px;
-            margin: 20px;
-            text-align: center;
-            border: 2px solid #5e00a6;
-            border-radius: 10px;
-            padding: 10px;
-        }
-
-        .movie-image {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-
-        .download-button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #5e00a6;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .download-button:hover {
-            background-color: #9400d3;
-        }
-    </style>
+    <title>Movie Details</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Movie Portal 1 -->
-    <div class="movie-portal">
-        <img src="placeholder1.jpg" alt="Movie 1 Poster" class="movie-image">
-        <a href="https://placeholder1.com" class="download-button">Download Movie 1</a>
+    <div id="movieDetails" class="movie-portal" style="display:none;">
+        <img src="" alt="Movie Poster" class="movie-image">
+        <a href="" class="download-button">Download Movie</a>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hash = window.location.hash.substring(1);
+            const movieDetails = document.getElementById('movieDetails');
+            const movies = {
+                'theoldway': {
+                    title: 'The Old Way 2025',
+                    image: 'path_to_image_of_the_old_way.jpg',
+                    link: 'https://pastepeso.com/TheOldWay'
+                },
+                'themonkey': {
+                    title: 'The Monkey 2025',
+                    image: 'path_to_image_of_the_monkey.jpg',
+                    link: 'https://pastepeso.com/TheMonkey'
+                },
+                'silentzone': {
+                    title: 'Silent Zone 2025',
+                    image: 'path_to_image_of_silent_zone.jpg',
+                    link: 'https://pastepeso.com/SilentZone'
+                },
+                'exterritorial': {
+                    title: 'Exterritorial 2025',
+                    image: 'path_to_image_of_exterritorial.jpg',
+                    link: 'https://pastepeso.com/Exterritorial'
+                },
+                'thegarfield': {
+                    title: 'The Garfield Movie 2024',
+                    image: 'path_to_image_of_the_garfield.jpg',
+                    link: 'https://pastepeso.com/TheGarfield'
+                },
+                'savingbkn': {
+                    title: 'Saving Bikini Bottom The Sandy Cheeks Movie 2024',
+                    image: 'path_to_image_of_saving_bkn.jpg',
+                    link: 'https://pastepeso.com/SavingBKN'
+                },
+                'sampungutoskayjosh': {
+                    title: 'Sampung Utos Kay Josh 2025',
+                    image: 'path_to_image_of_sampung_utos.jpg',
+                    link: 'https://pastepeso.com/lMe53DgC'
+                },
+                'angbabaengwalangpakiramdam': {
+                    title: 'Ang Babaeng Walang Pakiramdam 2021',
+                    image: 'path_to_image_of_ang_babaeng.jpg',
+                    link: 'https://pastepeso.com/FvNH0qZqR'
+                },
+                'howtocheatdeath': {
+                    title: 'How To Cheat Death Season 1',
+                    image: 'path_to_image_of_how_to_cheat_death.jpg',
+                    link: 'https://pastepeso.com/HowToCheatDeath'
+                },
+                'thewalkingdeads1': {
+                    title: 'The Walking Dead : Dead City Season 1',
+                    image: 'path_to_image_of_the_walking_dead.jpg',
+                    link: 'https://pastepeso.com/TheWalkingDeadS1'
+                },
+                // Add more movies
+            };
 
-    <!-- Movie Portal 2 -->
-    <div class="movie-portal">
-        <img src="placeholder2.jpg" alt="Movie 2 Poster" class="movie-image">
-        <a href="https://placeholder2.com" class="download-button">Download Movie 2</a>
-    </div>
-
-    <!-- Movie Portal 3 -->
-    <div class="movie-portal">
-        <img src="placeholder3.jpg" alt="Movie 3 Poster" class="movie-image">
-        <a href="https://placeholder3.com" class="download-button">Download Movie 3</a>
-    </div>
-
-    <!-- Movie Portal 4 -->
-    <div class="movie-portal">
-        <img src="placeholder4.jpg" alt="Movie 4 Poster" class="movie-image">
-        <a href="https://placeholder4.com" class="download-button">Download Movie 4</a>
-    </div>
-
-    <!-- Movie Portal 5 -->
-    <div class="movie-portal">
-        <img src="placeholder5.jpg" alt="Movie 5 Poster" class="movie-image">
-        <a href="https://placeholder5.com" class="download-button">Download Movie 5</a>
-    </div>
+            if (movies[hash]) {
+                movieDetails.style.display = 'block';
+                movieDetails.querySelector('img').src = movies[hash].image;
+                movieDetails.querySelector('img').alt = movies[hash].title;
+                movieDetails.querySelector('.download-button').href = movies[hash].link;
+                movieDetails.querySelector('.download-button').textContent = `Download ${movies[hash].title}`;
+            } else {
+                movieDetails.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
