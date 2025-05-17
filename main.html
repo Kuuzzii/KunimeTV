@@ -133,7 +133,12 @@
 
             // Fetch movie data from TMDb
             fetch('https://api.themoviedb.org/3/discover/movie?api_key=b139bc417606842811f1526ae92572bc&language=en-US&page=1')
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     const movieContainer = document.getElementById('movie-container');
                     data.results.forEach(movie => {
@@ -152,7 +157,10 @@
                         movieContainer.appendChild(movieElement);
                     });
                 })
-                .catch(error => console.error('Error fetching movie data:', error));
+                .catch(error => {
+                    console.error('Error fetching movie data:', error);
+                    document.getElementById('movie-container').innerHTML = '<p>Failed to load movies.</p>';
+                });
         });
     </script>
 </body>
