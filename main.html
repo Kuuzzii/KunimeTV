@@ -134,12 +134,14 @@
             // Fetch movie data from TMDb
             fetch('https://api.themoviedb.org/3/discover/movie?api_key=b139bc417606842811f1526ae92572bc&language=en-US&page=1')
                 .then(response => {
+                    console.log('Response status:', response.status);
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
                     return response.json();
                 })
                 .then(data => {
+                    console.log('Data received:', data);
                     const movieContainer = document.getElementById('movie-container');
                     data.results.forEach(movie => {
                         const movieElement = document.createElement('div');
