@@ -1,163 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PurpleTin - Download Movies</title>
-    <link rel="icon" href="favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="style.css" />
-    <script type="text/javascript" data-cfasync="false">
-/*<![CDATA[/* */
-(function(){var t=window,w="d23f4a340889e2c400e951a27f5d0988",m=[["siteId",476*336+310+5035292],["minBid",0.03],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9oc2tlbGV0b24ubWluLmNzcw==","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9lL25mZWF0dXJlLm1pbi5qcw=="],e=-1,v,x,y=function(){clearTimeout(x);e++;if(q[e]&&!(1772774946000<(new Date).getTime()&&1<e)){v=t.document.createElement("script");v.type="text/javascript";v.async=!0;var c=t.document.getElementsByTagName("script")[0];v.src="https://"+atob(q[e]);v.crossOrigin="anonymous";v.onerror=y;v.onload=function(){clearTimeout(x);t[w.slice(0,16)+w.slice(0,16)]||y()};x=setTimeout(y,5E3);c.parentNode.insertBefore(v,c)}};if(!t[w]){try{Object.freeze(t[w]=m)}catch(e){}y()}})();
-/*]]>/* */
-</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KunimeTV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: red;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: black;
+            padding: 10px 20px;
+        }
+        .navbar-left, .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+        .logo-placeholder {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            margin-right: 10px;
+        }
+        .navbar a {
+            color: red;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .center-logo {
+            text-align: center;
+            padding: 50px 0;
+        }
+        .logo-placeholder-center {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            margin: 0 auto 20px;
+        }
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .search-bar input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border: none;
+            border-radius: 5px;
+        }
+        .search-bar button {
+            padding: 10px;
+            background-color: red;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .social-links a {
+            margin: 0 10px;
+            color: red;
+            text-decoration: none;
+        }
+        .view-full-site {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: red;
+            color: black;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .info-section {
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="logo-container">
-            <div class="logo">PurpleTin ??</div>
+    <div class="navbar">
+        <div class="navbar-left">
+            <div class="logo-placeholder"></div>
         </div>
-        <nav>
-            <div class="search-container">
-                <form id="search-form">
-                    <input type="text" id="search-input" placeholder="Search for movies...">
-                    <button type="submit" id="search-button">Search</button>
-                </form>
-            </div>
-        </nav>
-    </header>
-
+        <div class="navbar-right">
+            <a href="#">Home</a>
+            <a href="#">Movies</a>
+            <a href="#">TV Shows</a>
+        </div>
+    </div>
+    <div class="center-logo">
+        <div class="logo-placeholder-center"></div>
+        <h1>KunimeTV</h1>
+    </div>
+    <div class="search-bar">
+        <input type="text" placeholder="Enter keywords...">
+        <button>Search</button>
+    </div>
     <div class="social-links">
-        <a href="https://www.facebook.com/profile.php?id=61576204132983" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png" alt="Facebook" width="20" height="20">
-            <span>Visit Us Here</span>
-        </a>
-        <a href="https://www.threads.com/@purpleetinn" target="_blank">
-            <img src="https://freelogopng.com/images/all_img/1688663226threads-logo-png.png" alt="Threads" width="20" height="20">
-            <span>Visit Us Here</span>
-        </a>
-        <a href="https://www.instagram.com/purpleetinn/" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/1024px-Instagram_logo_2016.svg.png" alt="Instagram" width="20" height="20">
-            <span>Visit Us Here</span>
-        </a>
+        <a href="#">FB</a>
+        <a href="#">IG</a>
+        <a href="#">Threads</a>
     </div>
-
-    <div class="category-container">
-        <div class="nav-center">
-            <a href="#movies">Movies</a>
-            <a href="#cartoons">Cartoons</a>
-            <a href="#tagalog">Tagalog Movies</a>
-            <a href="#tvseries">TV Series</a>
-        </div>
+    <a href="#" class="view-full-site">View Full Site</a>
+    <div class="info-section">
+        <p><strong>What is KunimeTV?</strong> <br> [Answer placeholder]</p>
+        <p><strong>Is KunimeTV better for streaming movies and shows?</strong> <br> [Answer placeholder]</p>
+        <p><strong>Is it illegal to use KunimeTV?</strong> <br> [Answer placeholder]</p>
+        <p><strong>Is KunimeTV safe?</strong> <br> [Answer placeholder]</p>
     </div>
-
-    <section id="movies" class="movie-list">
-        <ul id="movieContainer-movies">
-            <li><a href="additional-portal.html#theoldway">The Old Way 2025</a></li>
-            <li><a href="additional-portal.html#themonkey">The Monkey 2025</a></li>
-            <li><a href="additional-portal.html#silentzone">Silent Zone 2025</a></li>
-            <li><a href="additional-portal.html#exterritorial">Exterritorial 2025</a></li>
-             <li><a href="additional-portal.html#deathofaunicorn">Death Of A Unicorn</a></li>
-             <li><a href="additional-portal.html#aworkingman">A Working Man</a></li>
-             <li><a href="additional-portal.html#aminecraftmovie">A Minecraft Movie</a></li>
-             <li><a href="additional-portal.html#thor">Thor</a></li>
-             <li><a href="additional-portal.html#thorragnarok">Thor Ragnarok</a></li>
-             <li><a href="additional-portal.html#thorloveandthunder">Thor Love and Thunder</a></li>
-             <li><a href="additional-portal.html#thordarkworld">Thor The Dark World</a></li>
-            
-            <!-- Add more movies -->
-        </ul>
-    </section>
-
-    <section id="cartoons" class="movie-list" style="display:none;">
-        <ul id="movieContainer-cartoons">
-            <li><a href="additional-portal.html#thegarfield">The Garfield Movie 2024</a></li>
-            <li><a href="additional-portal.html#savingbkn">Saving Bikini Bottom The Sandy Cheeks Movie 2024</a></li>
-            <li><a href="additional-portal.html#kungfupanda4">Kung Fu Panda 4 2024<</a></li>
-            <li><a href="additional-portal.html#moana">>Moana 2016</a></li>
-            <li><a href="additional-portal.html#moana2">Moana 2 2024</a></li>
-            <li><a href="additional-portal.html#trollsbandtogether">Trolls Band Together 2023</a></li>
-            <li><a href="additional-portal.html#trollsholidayinharmony">Trolls Holiday in Harmony 2021</a></li>
-            <li><a href="additional-portal.html#trollsworldtour">Trolls World Tour 2021</a></li>
-            <li><a href="additional-portal.html#trolls">Trolls 2016</a></li>
-            <li><a href="additional-portal.html#insideout">Inside Out 2015</a></li>
-            <li><a href="additional-portal.html#insideout2">Inside Out 2 2024</a></li>
-            <li><a href="additional-portal.html#coco">Coco 2017</a></li>
-            <li><a href="additional-portal.html#despicableme">Despicable Me</a></li>
-            <li><a href="additional-portal.html#despicableme2">Despicable Me 2</a></li>
-            <li><a href="additional-portal.html#despicableme3">Despicable Me 3</a></li>
-            <li><a href="additional-portal.html#despicableme4">Despicable Me 4</a></li>
-            <li><a href="additional-portal.html#frozen">Frozen</a></li>
-            <li><a href="additional-portal.html#frozen2">Frozen 2</a></li>
-            <li><a href="additional-portal.html#frozenfever">Frozen Fever</a></li>
-            <li><a href="additional-portal.html#olafadventure">Olaf's Frozen Adventure</a></li>
-            <!-- Add more cartoons -->
-        </ul>
-    </section>
-
-    <section id="tagalog" class="movie-list" style="display:none;">
-        <ul id="movieContainer-tagalog">
-            <li><a href="additional-portal.html#sampungutoskayjosh">Sampung Utos Kay Josh 2025</a></li>
-            <li><a href="additional-portal.html#angbabaengwalangpakiramdam">Ang Babaeng Walang Pakiramdam 2021</a></li>
-            <!-- Add more Tagalog movies -->
-        </ul>
-    </section>
-
-    <section id="tvseries" class="movie-list" style="display:none;">
-        <ul id="movieContainer-tvseries">
-            <li><a href="additional-portal.html#howtocheatdeath">How To Cheat Death Season 1</a></li>
-            <li><a href="additional-portal.html#thewalkingdeads1">The Walking Dead : Dead City Season 1</a></li>
-            <!-- Add more TV series -->
-        </ul>
-    </section>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('search-input');
-            const navLinks = document.querySelectorAll('.nav-center a');
-            const sections = document.querySelectorAll('.movie-list');
-            let currentCategory = 'movies';
-
-            function getMovieContainer(category) {
-                return document.getElementById(`movieContainer-${category}`);
-            }
-
-            function filterMovies(query, category) {
-                const movieContainer = getMovieContainer(category);
-                const movies = movieContainer.getElementsByTagName('li');
-
-                for (let i = 0; i < movies.length; i++) {
-                    const movieTitle = movies[i].textContent.toLowerCase();
-                    if (movieTitle.includes(query)) {
-                        movies[i].style.display = '';
-                    } else {
-                        movies[i].style.display = 'none';
-                    }
-                }
-            }
-
-            searchInput.addEventListener('input', function() {
-                const query = this.value.toLowerCase();
-                filterMovies(query, currentCategory);
-            });
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const category = this.getAttribute('href').substring(1);
-
-                    sections.forEach(section => {
-                        section.style.display = 'none';
-                    });
-
-                    document.getElementById(category).style.display = 'block';
-                    currentCategory = category;
-
-                    searchInput.value = '';
-                    filterMovies('', currentCategory);
-                });
-            });
-        });
-    </script>
 </body>
 </html>
