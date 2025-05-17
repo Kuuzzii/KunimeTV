@@ -16,9 +16,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 20px; /* Increased padding for height */
+    padding: 20px 20px;
     background-color: #333;
-    transition: padding 0.3s; /* Smooth transition for height change */
+    transition: padding 0.3s;
 }
 
 .navbar .logo img {
@@ -77,14 +77,23 @@ body {
 /* FAQ Section */
 .faq {
     padding: 20px;
+    background-color: #111;
+    border-radius: 10px;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .faq h2 {
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .faq-item {
     margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #222;
+    transition: background-color 0.3s;
 }
 
 .faq-item h3 {
@@ -95,7 +104,11 @@ body {
     font-size: 14px;
 }
 
+.faq-item:hover {
+    background-color: #333;
+}
+
 /* Additional CSS for height change on button click */
 .navbar.expanded {
-    padding: 40px 20px; /* Increased padding for expanded state */
+    padding: 40px 20px;
 }
