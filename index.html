@@ -1,125 +1,84 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KunimeTV</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: black;
-            color: red;
-            margin: 0;
-            padding: 0;
-        }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: black;
-            padding: 10px 20px;
-        }
-        .navbar-left, .navbar-right {
-            display: flex;
-            align-items: center;
-        }
-        .logo-placeholder {
-            width: 50px;
-            height: 50px;
-            background-color: red;
-            margin-right: 10px;
-        }
-        .navbar a {
-            color: red;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        .center-logo {
-            text-align: center;
-            padding: 50px 0;
-        }
-        .logo-placeholder-center {
-            width: 100px;
-            height: 100px;
-            background-color: red;
-            margin: 0 auto 20px;
-        }
-        .search-bar {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .search-bar input[type="text"] {
-            padding: 10px;
-            width: 300px;
-            border: none;
-            border-radius: 5px;
-        }
-        .search-bar button {
-            padding: 10px;
-            background-color: red;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .social-links {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .social-links a {
-            margin: 0 10px;
-            color: red;
-            text-decoration: none;
-        }
-        .view-full-site {
-            display: block;
-            width: 200px;
-            margin: 20px auto;
-            padding: 10px;
-            background-color: red;
-            color: black;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .info-section {
-            padding: 20px;
-            text-align: center;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Website</title>
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="preload" href="css/home.css" as="style">
+  <link rel="preload" href="js/home.js" as="script">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script defer src="js/home.js"></script>
 </head>
+
 <body>
-    <div class="navbar">
-        <div class="navbar-left">
-            <div class="logo-placeholder"></div>
-        </div>
-        <div class="navbar-right">
-            <a href="#home">Home</a>
-            <a href="#movies">Movies</a>
-            <a href="#tvshows">TV Shows</a>
-        </div>
+  <div class="navbar">
+    <img src="logo.png" alt="LOGO HERE" />
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <input type="text" class="search-bar" placeholder="Search..." onfocus="openSearchModal()" />
     </div>
-    <div class="center-logo">
-        <div class="logo-placeholder-center"></div>
-        <h1>KunimeTV</h1>
+  </div>
+
+  <div class="banner" id="banner">
+    <h1 id="banner-title"></h1>
+  </div>
+
+  <div class="row">
+    <h2>Trending Movies</h2>
+    <div class="list" id="movies-list"></div>
+  </div>
+
+  <div class="row">
+    <h2>Trending TV Shows</h2>
+    <div class="list" id="tvshows-list"></div>
+  </div>
+
+  <div class="row">
+    <h2>Trending Anime</h2>
+    <div class="list" id="anime-list"></div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()" style="color: red;">&times;</span>
+      <div class="modal-body">
+  <img id="modal-image" src="" alt="" />
+  <div class="modal-text">
+    <h2 id="modal-title"></h2>
+    <div class="stars" id="modal-rating"></div>
+    <p id="modal-description"></p>
+  </div>
+</div>
+      
+      <div class="server-selector">
+        <label for="server">Change Server:</label>
+        <select id="server" onchange="changeServer()">
+          <option value="vidsrc.cc">Vidsrc.cc</option>
+          <option value="vidsrc.me">Vidsrc.me</option>
+          <option value="player.videasy.net">Player.Videasy.net</option>
+        </select>
+      </div>
+      <iframe id="modal-video" width="100%" height="315" frameborder="0" allowfullscreen></iframe>
     </div>
-    <div class="search-bar">
-        <input type="text" placeholder="Enter keywords...">
-        <button>Search</button>
+  </div>
+
+  <div class="search-modal" id="search-modal">
+    <span class="close" onclick="closeSearchModal()" style="color: red;">&times;</span>
+    <input type="text" id="search-input" placeholder="Search for a movie or show..." oninput="searchTMDB()" />
+    <div class="results" id="search-results"></div>
+  </div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2025 My Website. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Disclaimer</a>
+      <a href="#">About Us</a>
+      <a href="#">Contact Us</a>
     </div>
-    <div class="social-links">
-        <a href="#">FB</a>
-        <a href="#">IG</a>
-        <a href="#">Threads</a>
-    </div>
-    <a href="main.html" class="view-full-site">View Full Site</a>
-    <div class="info-section">
-        <p><strong>What is KunimeTV?</strong> <br> [Answer placeholder]</p>
-        <p><strong>Is KunimeTV better for streaming movies and shows?</strong> <br> [Answer placeholder]</p>
-        <p><strong>Is it illegal to use KunimeTV?</strong> <br> [Answer placeholder]</p>
-        <p><strong>Is KunimeTV safe?</strong> <br> [Answer placeholder]</p>
-    </div>
+  </div>
+</footer>
+
+  
 </body>
-</html>
