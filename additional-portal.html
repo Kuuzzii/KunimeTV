@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Details</title>
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding-top: 80px; /* Space for header */
+            box-sizing: border-box;
+        }
+        header {
+            background-color: #4b0082;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px; /* Increased padding */
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            font-size: 1.2em; /* Increased font size */
+        }
+        header .logo {
+            font-weight: bold;
+            color: #c089ff;
+        }
+        header nav {
+            display: flex;
+            align-items: center;
+        }
+        header nav button {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.5em; /* Increased font size for the button */
+            padding: 10px 20px; /* Increased padding for the button */
+        }
+        .movie-portal {
+            width: 90%;
+            max-width: 600px; /* Increased max-width */
+            text-align: center;
+            border: 2px solid #5e00a6;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 100px; /* Adjust for header height */
+        }
+        .movie-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .download-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #5e00a6;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            border: 2px solid #5e00a6; /* Added border */
+        }
+        .download-button:hover {
+            background-color: #9400d3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">PurpleTin?</div>
+        <nav>
+            <button onclick="window.location.href='/'">Back To Homepage</button>
+        </nav>
+    </header>
+    <div id="movieDetails" class="movie-portal" style="display:none;">
+        <img src="" alt="Movie Poster" class="movie-image">
+        <a href="" class="download-button">Download</a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hash = window.location.hash.substring(1);
+            const movieDetails = document.getElementById('movieDetails');
+            const movies = {
+                'theoldway': {
+                    title: 'The Old Way 2025',
+                    image: 'https://th.bing.com/th/id/OIP.ukryF_q4IYOK5X-Mbf-msQHaK-?o=7&cb=iwp2rm=3&rs=1&pid=ImgDetMain',
+                    link: 'download.html?movie=theoldway'
+                },
+                'themonkey': {
+                    title: 'The Monkey 2025',
+                    image: 'https://m.media-amazon.com/images/M/MV5BMDIxYzI0OGQtZTZmZS00ZDU5LWI0Y2YtNzc5ZTk2NzMwMDM0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
+                    link: 'download.html?movie=themonkey'
+                },
+                // Add more movies here
+            };
+
+            if (movies[hash]) {
+                movieDetails.style.display = 'block';
+                movieDetails.querySelector('img').src = movies[hash].image;
+                movieDetails.querySelector('img').alt = movies[hash].title;
+                movieDetails.querySelector('.download-button').href = movies[hash].link;
+                movieDetails.querySelector('.download-button').textContent = `Download ${movies[hash].title}`;
+            } else {
+                movieDetails.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
