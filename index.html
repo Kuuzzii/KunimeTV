@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KunimeTV - Download Horror Movies</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">KunimeTV</div>
+        <nav>
+            <div class="search-container">
+                <form id="search-form">
+                    <input type="text" id="search-input" placeholder="Search for Horror..">
+                    <button type="submit" id="search-button">Search</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <div class="social-links">
+        <a href="https://www.facebook.com" target="_blank">Visit Us Here ^^</a>
+        <a href="https://www.instagram.com" target="_blank">Visit Us Here ^^</a>
+        <a href="https://www.twitter.com" target="_blank">Visit Us Here ^^</a>
+    </div>
+
+    <div class="category-container">
+        <div class="nav-center">
+            <a href="https://purpletin.pages.dev">Movies</a>
+            <a href="https://purplevmx.pages.dev">Vivamax</a>
+            <a href="https://placeholder.com/tagalog">Tagalog Movies</a>
+            <a href="https://purpletv.pages.dev">Animations</a>
+        </div>
+    </div>
+
+    <section id="movies" class="movie-list">
+        <ul id="movieContainer-movies">
+            <li><a href="additional-portal.html#theoldway">The Old Way 2025</a></li>
+            <!-- Add more movies -->
+        </ul>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const movieContainer = document.getElementById('movieContainer-tvseries');
+            const movies = movieContainer.getElementsByTagName('li');
+
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                Array.from(movies).forEach(movie => {
+                    const movieText = movie.textContent.toLowerCase();
+                    if (movieText.includes(query)) {
+                        movie.style.display = '';
+                    } else {
+                        movie.style.display = 'none';
+                    }
+                });
+            });
+
+            document.getElementById('search-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>
