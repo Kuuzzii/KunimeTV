@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .container {
+            text-align: center;
+            border: 2px solid #5e00a6;
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+        }
+        .movie-image {
+            width: 80%; /* Adjusted size */
+            height: auto;
+            border-radius: 10px;
+        }
+        .download-btn {
+            display: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #5e00a6;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        .download-btn:hover {
+            background-color: #9400d3;
+        }
+        .timer {
+            font-size: 24px;
+            color: #ffd700; /* Gold color for timer */
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="moviePoster" src="" alt="Movie Poster" class="movie-image">
+        <div class="timer" id="timer">10</div>
+        <a href="#" id="downloadLink" class="download-btn" download>Download</a>
+    </div>
+
+    <script>
+        let timeLeft = 10;
+        const timerElement = document.getElementById('timer');
+        const downloadLink = document.getElementById('downloadLink');
+        const moviePosterElement = document.getElementById('moviePoster');
+
+        const movies = {
+            'themonkey': {
+                title: "The Monkey 2025",
+                image: "https://m.media-amazon.com/images/M/MV5BMDIxYzI0OGQtZTZmZS00ZDU5LWI0Y2YtNzc5ZTk2NzMwMDM0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+                link: "https://vgorigin.hakunaymatata.com/resource/a3d366feee82f0a6f2448e21abfb3f7d.mp4?Expires=1749119395&KeyName=wefeed&Signature=VMuZeuYrU6X91IOtTiyanNrY7zWcq6tLcgT5z6nqnUf-4xqQS97YaDEKceICQf_Emx2B0870pMws1FKbNiFWBw"
+
+            },
+            'theoldway': {
+                title: "The Old Way",
+                image: "https://cdn.kinocheck.com/i/p9f41hoxht.jpg",
+                link: "https://macdn.hakunaymatata.com/resource/af7917de257f19eea22bf6a6810e5b67.mp4?Expires=1749122316&Signature=Q9aHS31YChElr5UpOnJpQTLu-sM3tWcmE7mWNC8pomj1sRa7xTF0Pf7BqrtaKtvKTOPSh3b~m-bwE-71srxgGR-UVcvU5hns1Nd9a2R2oFhPWLDC9kZN1tOFSzLLuJNKb4k8Lg06Zuntqr2oNtdK34KkRAPlim5MeCnzKk2nWlZ2T0Ow~Je8KQJB93CryB~tocQhJbGenx5GnLnnyUVPesl-LpSmLe5LjrzgFUqoX1x7uQhC6VL7oo~9IcbwNrs2ZyeHwz~jKcrq1UCO3NH8H5qWzUpn-uICp-arNEbK0iCzBuLtMHBR~h65GgDQi5K7cKaAe0cx3OYnLVhOywjp7Q__&Key-Pair-Id=KMHN1LQ1HEUPL"
+            
+            }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieId = urlParams.get('movie');
+
+        if (movies[movieId]) {
+            moviePosterElement.src = movies[movieId].image;
+            moviePosterElement.alt = movies[movieId].title;
+        }
+
+        const countdown = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                downloadLink.style.display = 'inline-block';
+                if (movies[movieId]) {
+                    downloadLink.href = movies[movieId].link;
+                    downloadLink.textContent = `Download ${movies[movieId].title}`;
+                }
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
